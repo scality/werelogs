@@ -1,0 +1,35 @@
+{
+  "name": "werelogs",
+  "version": "0.0.1",
+  "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/unit/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scality/werelogs.git"
+  },
+  "keywords": [
+    "log",
+    "logs",
+    "logging",
+    "micro-service",
+    "library",
+    "JSON"
+  ],
+  "author": "David Pineau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scality/werelogs/issues"
+  },
+  "homepage": "https://github.com/scality/werelogs#readme",
+  "dependencies": {
+    "babel-core": "^6.1.21",
+    "babel-preset-es2015": "^6.1.18",
+    "bunyan": "^1.5.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.4"
+  }
+}
