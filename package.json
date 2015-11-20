@@ -4,7 +4,7 @@
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/unit/"
+    "test": "./node_modules/.bin/_mocha --compilers js:babel-core/register test/unit/"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
   "homepage": "https://github.com/scality/werelogs#readme",
   "dependencies": {
     "babel-core": "^6.1.21",
-    "babel-preset-es2015": "^6.1.18",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.2.0",
     "bunyan": "^1.5.1"
   },
   "devDependencies": {
