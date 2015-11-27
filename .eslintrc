@@ -1,0 +1,13 @@
+{ 
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "rules": {
+        "indent": [2,4],
+        "no-multi-spaces": [2, { exceptions: { "SwitchCase": true, "CallExpression": true } } ],
+        "strict": 0
+    }
+}
