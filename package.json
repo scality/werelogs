@@ -4,7 +4,9 @@
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/_mocha --compilers js:babel-core/register test/unit/"
+    "lint": "eslint $(git ls-files '*.js')",
+    "lint_md": "mdlint $(git ls-files '*.md')",
+    "test": "mocha --require es6-compat.js test/unit/"
   },
   "repository": {
     "type": "git",
