@@ -1,0 +1,44 @@
+{
+  "name": "werelogs",
+  "version": "0.0.1",
+  "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint $(git ls-files '*.js')",
+    "lint_md": "mdlint $(git ls-files '*.md')",
+    "test": "mocha --require es6-compat.js test/unit/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scality/werelogs.git"
+  },
+  "keywords": [
+    "log",
+    "logs",
+    "logging",
+    "micro-service",
+    "library",
+    "JSON"
+  ],
+  "author": "David Pineau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scality/werelogs/issues"
+  },
+  "homepage": "https://github.com/scality/werelogs#readme",
+  "dependencies": {
+    "babel-core": "^6.1.21",
+    "babel-plugin-transform-es2015-destructuring": "^6.1.18",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.2.0",
+    "babel-plugin-transform-es2015-parameters": "^6.1.18",
+    "bunyan": "^1.5.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^4.1.6",
+    "eslint": "^1.10.1",
+    "eslint-config-airbnb": "^1.0.2",
+    "eslint-plugin-react": "^3.10.0",
+    "mdlint": "^0.1.0",
+    "mocha": "^2.3.4"
+  }
+}
