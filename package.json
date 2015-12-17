@@ -4,9 +4,13 @@
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
   "main": "index.js",
   "scripts": {
+    "compile": "babel -d target/lib/ lib/ && babel -d target/tests/ tests/",
     "lint": "eslint $(git ls-files '*.js')",
     "lint_md": "mdlint $(git ls-files '*.md')",
-    "test": "mocha --require es6-compat.js test/unit/"
+    "postinstall": "npm run compile",
+    "prepublish": "npm run compile",
+    "pretest": "npm run compile",
+    "test": "mocha target/tests/unit/"
   },
   "repository": {
     "type": "git",
@@ -31,6 +35,7 @@
     "babel-plugin-transform-es2015-destructuring": "^6.1.18",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.2.0",
     "babel-plugin-transform-es2015-parameters": "^6.1.18",
+    "babel-cli": "^6.1.21",
     "bunyan": "^1.5.1"
   },
   "devDependencies": {
