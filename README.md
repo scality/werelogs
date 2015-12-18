@@ -65,4 +65,5 @@ whether they're open or closed.
 
 ## Contributing
 
-TBD
+The contributing rules for this project are defined in the associated
+CONTRIBUTING.md file.
