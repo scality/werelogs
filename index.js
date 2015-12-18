@@ -1,1 +1,5 @@
-export { Logger as default } from './lib/Logger.js';
+require('./es6-compat.js');
+
+module.exports = {
+    default: require('./lib/Logger.js').default,
+};

@@ -17,33 +17,33 @@ class DummyLogger {
         };
     }
 
-    trace(obj) {
-        this.ops.push(['trace', obj]);
+    trace(obj, msg) {
+        this.ops.push(['trace', [obj, msg]]);
         this.counts.trace += 1;
     }
 
-    debug(obj) {
-        this.ops.push(['debug', obj]);
+    debug(obj, msg) {
+        this.ops.push(['debug', [obj, msg]]);
         this.counts.debug += 1;
     }
 
-    info(obj) {
-        this.ops.push(['info', obj]);
+    info(obj, msg) {
+        this.ops.push(['info', [obj, msg]]);
         this.counts.info += 1;
     }
 
-    warn(obj) {
-        this.ops.push(['warn', obj]);
+    warn(obj, msg) {
+        this.ops.push(['warn', [obj, msg]]);
         this.counts.warn += 1;
     }
 
-    error(obj) {
-        this.ops.push(['error', obj]);
+    error(obj, msg) {
+        this.ops.push(['error', [obj, msg]]);
         this.counts.error += 1;
     }
 
-    fatal(obj) {
-        this.ops.push(['fatal', obj]);
+    fatal(obj, msg) {
+        this.ops.push(['fatal', [obj, msg]]);
         this.counts.fatal += 1;
     }
 }
@@ -116,7 +116,7 @@ function runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts, don
 
     expectedHistory.every((val, index) => {
         assert.strictEqual(dummyLogger.ops[index][0], val[0], 'Expected log entry levels to match.');
-        assert.strictEqual(dummyLogger.ops[index][1].msg, val[1], 'Expected log entry values to match.');
+        assert.strictEqual(dummyLogger.ops[index][1][1], val[1], 'Expected log entry values to match.');
         return true;
     });
     assert.deepEqual(dummyLogger.counts, expectedCounts);
