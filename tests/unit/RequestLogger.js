@@ -176,6 +176,56 @@ describe('RequestLogger', () => {
                 done();
             });
         });
+
+        describe('getUids() method', () => {
+            it('retrieves a list of string UID', (done) => {
+                const dummyLogger = new DummyLogger();
+                const reqLogger = new RequestLogger(dummyLogger, 'info', 'error');
+                const uidlist = reqLogger.getUids();
+                assert.strictEqual(Array.isArray(uidlist), true, 'Expected UID List to be an Array');
+                assert.strictEqual(typeof uidlist[0], 'string', 'Expected UID items to be strings');
+                done();
+            });
+
+            describe('Length of the UIDs array', () => {
+                it('default constructor yields a one-item UID list', (done) => {
+                    const dummyLogger = new DummyLogger();
+                    const reqLogger = new RequestLogger(dummyLogger, 'info', 'error');
+                    const uidlist = reqLogger.getUids();
+                    assert.strictEqual(uidlist.length, 1, 'Expected only one item in UID Array');
+                    done();
+                });
+
+                it('manually-set UID constructor yields a one-item UID list', (done) => {
+                    const dummyLogger = new DummyLogger();
+                    const myUid = 'ThisIsMyUid';
+                    const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', myUid);
+                    const uidlist = reqLogger.getUids();
+                    assert.strictEqual(uidlist.length, 1, 'Expected only one item in UID Array');
+                    assert.strictEqual(uidlist[0], myUid, 'Expected UID to match what was used to set it.');
+                    done();
+                });
+
+                it('manually-set parent UID List constructor yields a n+1 item UID list', (done) => {
+                    const dummyLogger = new DummyLogger();
+                    const myParentUidList = [ 'ThisIsMyOriginUid', 'ThisIsMySecondGenUid', 'ThisIsMyThirdGenUid' ];
+                    const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', myParentUidList);
+                    const uidlist = reqLogger.getUids();
+                    assert.strictEqual(uidlist.length, myParentUidList.length + 1, 'Expected n+1 item in UID Array compared to set UID List array');
+                    assert.deepStrictEqual(uidlist.slice(0, -1), myParentUidList, 'Expected UID list[:-1] to match what was used to set it.');
+                    done();
+                });
+            });
+
+            it('internal data cannot be set through returned UID List', (done) => {
+                const dummyLogger = new DummyLogger();
+                const reqLogger = new RequestLogger(dummyLogger, 'info', 'error');
+                const uidlist = reqLogger.getUids();
+                uidlist.push('Test');
+                assert.notStrictEqual(uidlist.length, reqLogger.getUids().length, 'Expected different number of items in internals and local variable.');
+                done();
+            });
+        });
     });
 
     describe('Logging level dump filtering', () => {
