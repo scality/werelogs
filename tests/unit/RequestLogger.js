@@ -166,6 +166,16 @@ describe('RequestLogger', () => {
                 done();
             });
 
+            it('throws when UID string provided contains a colon', (done) => {
+                assert.throws(
+                    () => {
+                        return new RequestLogger(undefined, 'debug', 'fatal', 'pouet:tata');
+                    },
+                    Error,
+                    'UID string "pouet:tata" should be rejected by the RequestLogger constructor.');
+                done();
+            });
+
             it('expands the UID array when one is provided', (done) => {
                 const dummyLogger = new DummyLogger();
                 const uids = ['oneuid', 'twouid', 'threeuids'];
@@ -173,6 +183,16 @@ describe('RequestLogger', () => {
                 assert.strictEqual(Array.isArray(reqLogger.uids), true, 'Expected uid list to be an Array.');
                 assert.strictEqual(reqLogger.uids.length, 4, 'Expected uid list to contain four elements.');
                 assert.strictEqual(uids.indexOf(reqLogger.uids[3]), -1, 'Expected the last uid of the list to be the new one.');
+                done();
+            });
+
+            it('throws when UID string Array provided contains an UID that contains a colon', (done) => {
+                assert.throws(
+                    () => {
+                        return new RequestLogger(undefined, 'debug', 'fatal', ['OneUID', 'SecondUID', 'Test:DashUID']);
+                    },
+                    Error,
+                    'UID string "Test:DashUID" should be rejected by the RequestLogger constructor.');
                 done();
             });
         });
@@ -223,6 +243,17 @@ describe('RequestLogger', () => {
                 const uidlist = reqLogger.getUids();
                 uidlist.push('Test');
                 assert.notStrictEqual(uidlist.length, reqLogger.getUids().length, 'Expected different number of items in internals and local variable.');
+                done();
+            });
+        });
+
+        describe('getSerializedUids()', () => {
+            it('Should return a properly serialized UID Array', (done) => {
+                const dummyLogger = new DummyLogger();
+                const uidList = [ 'FirstUID', 'SecondUID', 'ThirdUID', 'TestUID' ];
+                const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', uidList);
+                const expectedString = 'FirstUID:SecondUID:ThirdUID:TestUID:' + reqLogger.getUids()[4];
+                assert.strictEqual(reqLogger.getSerializedUids(), expectedString, 'Expected serialized UID List to match expected data.');
                 done();
             });
         });
