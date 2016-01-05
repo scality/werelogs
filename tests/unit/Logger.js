@@ -69,4 +69,18 @@ describe('WereLogs Logger is usable:', () => {
         assert(reqLogger instanceof RequestLogger, 'RequestLogger');
         done();
     });
+
+    it('Can create Per-Request Loggers from a Serialized UID Array', (done) => {
+        const logger = new Logger('test');
+        assert.doesNotThrow(
+            () => {
+                logger.newRequestLogger();
+            },
+            Error,
+            'Werelogs should not throw when creating a request logger from a Serialized UID Array.');
+        const reqLogger = logger.newRequestLoggerFromSerializedUids('OneUID:SecondUID:TestUID:YouWinUID');
+        assert(reqLogger instanceof RequestLogger, 'RequestLogger');
+        assert.deepStrictEqual(reqLogger.getUids().slice(0, -1), ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID']);
+        done();
+    });
 });

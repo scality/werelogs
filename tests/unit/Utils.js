@@ -1,5 +1,8 @@
 const assert = require('assert');
-const generateUid = require('../../lib/Utils.js').generateUid;
+const Utils = require('../../lib/Utils.js');
+const generateUid = Utils.generateUid;
+const serializeUids = Utils.serializeUids;
+const unserializeUids = Utils.unserializeUids;
 
 describe('Utils: generateUid', () => {
     it('generates a string-typed ID', (done) => {
@@ -18,6 +21,22 @@ describe('Utils: generateUid', () => {
         Object.keys(generated).every((uid) => {
             assert.strictEqual(generated[uid], 1, `Uid ${uid} was generated ${generated[uid]} times: It is not even remotely unique.`);
         });
+        done();
+    });
+});
+
+describe('Utils: serializeUids', () => {
+    it('serializes to the expected string data', (done) => {
+        const uidList = [ 'FirstUID', 'SecondUID', 'ThirdUID'];
+        const serializedUIDs = serializeUids(uidList);
+        assert.strictEqual(serializedUIDs, 'FirstUID:SecondUID:ThirdUID', 'Serialized UID List should match expected value.');
+        done();
+    });
+
+    it('unserializes the expected number of UIDs', (done) => {
+        const refUidList = [ 'FirstUID', 'SecondUID', 'ThirdUID'];
+        const unserializedUIDs = unserializeUids('FirstUID:SecondUID:ThirdUID');
+        assert.deepStrictEqual(unserializedUIDs, refUidList, 'Unserialized UID List should match expected value.');
         done();
     });
 });
