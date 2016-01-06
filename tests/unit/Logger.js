@@ -17,7 +17,7 @@ describe('WereLogs Logger is usable:', () => {
     it('Cannot be instanciated with invalid log level', (done) => {
         assert.throws(
             () => {
-                return new Logger('test', 'invalidlevel');
+                return new Logger('test', {level: 'invalidlevel'});
             },
             RangeError,
             'WereLogs should not be instanciable without the proper logging levels.');
@@ -27,11 +27,31 @@ describe('WereLogs Logger is usable:', () => {
     it('Cannot be instanciated with invalid dump threshold level', (done) => {
         assert.throws(
             () => {
-                return new Logger('test', 'trace', 'invalidlevel');
+                return new Logger('test', {level: 'trace', dump: 'invalidlevel'});
             },
             RangeError,
             'WereLogs should not be instanciable without the proper dumping threshold levels.');
 
+        done();
+    });
+
+    it('Cannot be instanciated with a non-Array in config.streams', (done) => {
+        assert.throws(
+            () => {
+                return new Logger('test', {streams: process.stdout});
+            },
+            Error,
+            'Werelogs should not be instanciable with a stream option that is not an array.');
+        done();
+    });
+
+    it('Cannot be instanciated with an empty Array in config.streams', (done) => {
+        assert.throws(
+            () => {
+                return new Logger('test', {streams: []});
+            },
+            Error,
+            'Werelogs should not be instanciable with an empty array for the streams option.');
         done();
     });
 
