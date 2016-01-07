@@ -11,12 +11,13 @@ computation that is known to not be advantageous in Node.
 In order to install WereLogs, you can use NPM with github's HTTP url, and save
 it in your own package.json:
 ```
-$> npm install --save https://github.com/scality/werelogs
+$> npm i --save scality/werelogs
 ```
 
 As the repository is currently private, you will need to provide your username
 and your password, or use the git+ssh protocol with a properly configured
-environment.
+environment, or use the git+https protocol with your username and cleartext
+password in the URL (which I absolutely don't recomment for security reasons).
 
 ## Using the Library
 
@@ -28,7 +29,7 @@ logging operation related to your request, so you will have to pass it to
 any function that requires it.
 
 ```es6
-import Logger from 'WereLogs';
+import Logger from 'werelogs';
 
 /*
  * Here, configure your WereLogs Logger at a global level
@@ -68,6 +69,18 @@ const logging = new Logger(
     }
 );
 
+doSomething(reqLogger) {
+    /*
+     * Then, you can log some data, either a string or an object, using one of
+     * the logging methods: 'trace', 'debug', 'info', 'warn', 'error', or
+     * 'fatal'.
+     */
+    reqLogger.info('This is a string log entry');
+    reqLogger.info('This is a template string log entry with an included date:'
+                   + ` ${new Date().toISOString()}`);
+    reqLogger.info({ status: 200, hasStuff: false });
+}
+
 function processRequest() {
     /*
      * Now, for one specific request, we need to get a request-specific logger
@@ -78,7 +91,7 @@ function processRequest() {
      */
     const reqLogger = logging.newRequestLogger();
 
-    /* you need to give your logger instance to the code that requires it, as
+    /* you need to provide your logger instance to the code that requires it, as
      * it is not a module-wide object instance */
     doSomething(reqLogger, ...);
 
