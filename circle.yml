@@ -5,4 +5,4 @@ test:
     override:
         - npm run lint_md
         - npm run lint
-        - npm run test
+        - npm run coverage
