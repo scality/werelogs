@@ -1,100 +1,29 @@
 import assert from 'assert';
 
-import * as LogLevel from '../../lib/LogLevel.js';
+import { default as genericFilterGenerator, DummyLogger } from '../Utils.js';
+
 import RequestLogger from '../../lib/RequestLogger.js';
 
-class DummyLogger {
-
-    constructor() {
-        this.ops = [];
-        this.counts = {
-            'trace': 0,
-            'debug': 0,
-            'info': 0,
-            'warn': 0,
-            'error': 0,
-            'fatal': 0,
-        };
+/**
+ * This function is a thunk-function calling the Utils'  filterGenerator with
+ * the right createLogger function, while seemlessly passing through its
+ * arguments.
+ */
+function filterGenerator(...params) {
+    function createRequestLogger(dummyLogger, filterLevel) {
+        return new RequestLogger(dummyLogger, filterLevel, 'fatal');
     }
 
-    trace(obj, msg) {
-        this.ops.push(['trace', [obj, msg]]);
-        this.counts.trace += 1;
-    }
+    /*
+     * Array-ify the arguments object, and append the specificly-added argument
+     * to it.
+     */
+    const args = Array.prototype.splice.apply(params, [0]);
+    args.push(createRequestLogger);
 
-    debug(obj, msg) {
-        this.ops.push(['debug', [obj, msg]]);
-        this.counts.debug += 1;
-    }
-
-    info(obj, msg) {
-        this.ops.push(['info', [obj, msg]]);
-        this.counts.info += 1;
-    }
-
-    warn(obj, msg) {
-        this.ops.push(['warn', [obj, msg]]);
-        this.counts.warn += 1;
-    }
-
-    error(obj, msg) {
-        this.ops.push(['error', [obj, msg]]);
-        this.counts.error += 1;
-    }
-
-    fatal(obj, msg) {
-        this.ops.push(['fatal', [obj, msg]]);
-        this.counts.fatal += 1;
-    }
+    return genericFilterGenerator.apply({}, args);
 }
 
-function computeBehavior(filterLevel, logLevel, testLevel) {
-    let value = LogLevel.shouldLog(logLevel, filterLevel) ? 1 : 0;
-
-    if (value === 1 && logLevel !== testLevel) {
-        value = 0;
-    }
-
-    return {
-        value,
-        'msg': `Expected ${logLevel} to be called ${value} times with filter level ${filterLevel}.`,
-    };
-}
-
-function filterGenerator(filterLevel, testLevel) {
-    return function testFilter(done) {
-        let value;
-        let msg;
-        const dummyLogger = new DummyLogger();
-        const reqLogger = new RequestLogger(dummyLogger, filterLevel, 'fatal');
-
-        switch (testLevel) {
-        case 'trace': reqLogger.trace({msg: 'test'}); break;
-        case 'debug': reqLogger.debug({msg: 'test'}); break;
-        case 'info':  reqLogger.info({msg: 'test'});  break;
-        case 'warn':  reqLogger.warn({msg: 'test'});  break;
-        case 'error': reqLogger.error({msg: 'test'}); break;
-        case 'fatal': reqLogger.fatal({msg: 'test'}); break;
-        default:
-            done(new Error('Unexpected testLevel name: ', testLevel));
-        }
-
-        ({ value, msg } = computeBehavior(filterLevel, 'trace', testLevel));
-        assert.strictEqual(dummyLogger.counts.trace, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'debug', testLevel));
-        assert.strictEqual(dummyLogger.counts.debug, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'info', testLevel));
-        assert.strictEqual(dummyLogger.counts.info, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'warn', testLevel));
-        assert.strictEqual(dummyLogger.counts.warn, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'error', testLevel));
-        assert.strictEqual(dummyLogger.counts.error, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'fatal', testLevel));
-        assert.strictEqual(dummyLogger.counts.fatal, value, msg);
-
-        done();
-    };
-}
 
 function runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts, done) {
     const dummyLogger = new DummyLogger();
@@ -116,7 +45,7 @@ function runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts, don
 
     expectedHistory.every((val, index) => {
         assert.strictEqual(dummyLogger.ops[index][0], val[0], 'Expected log entry levels to match.');
-        assert.strictEqual(dummyLogger.ops[index][1][1], val[1], 'Expected log entry values to match.');
+        assert.strictEqual(dummyLogger.ops[index][1][1][0], val[1], 'Expected log entry values to match.');
         return true;
     });
     assert.deepEqual(dummyLogger.counts, expectedCounts);
