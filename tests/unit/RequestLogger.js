@@ -45,7 +45,7 @@ function runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts, don
 
     expectedHistory.every((val, index) => {
         assert.strictEqual(dummyLogger.ops[index][0], val[0], 'Expected log entry levels to match.');
-        assert.strictEqual(dummyLogger.ops[index][1][1][0], val[1], 'Expected log entry values to match.');
+        assert.strictEqual(dummyLogger.ops[index][1][1], val[1], 'Expected log entry values to match.');
         return true;
     });
     assert.deepEqual(dummyLogger.counts, expectedCounts);
@@ -257,8 +257,6 @@ describe('RequestLogger', () => {
             const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal');
             reqLogger.addDefaultFields(clientInfo);
             reqLogger.info('test message');
-            console.log(clientInfo);
-            console.log(dummyLogger.ops[0][1][0]);
             assert.strictEqual(clientInfo.clientIP, dummyLogger.ops[0][1][0].clientIP);
             done();
         });

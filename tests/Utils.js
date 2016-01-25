@@ -16,45 +16,33 @@ export class DummyLogger {
         };
     }
 
-    trace(obj, ...params) {
-        this.ops.push(['trace',
-                       [obj, Array.prototype.splice.apply(params, [0])],
-        ]);
+    trace(obj, msg) {
+        this.ops.push(['trace', [obj, msg]]);
         this.counts.trace += 1;
     }
 
-    debug(obj, ...params) {
-        this.ops.push(['debug',
-                       [obj, Array.prototype.splice.apply(params, [0])],
-        ]);
+    debug(obj, msg) {
+        this.ops.push(['debug', [obj, msg]]);
         this.counts.debug += 1;
     }
 
-    info(obj, ...params) {
-        this.ops.push(['info',
-                       [obj, Array.prototype.splice.apply(params, [0])],
-        ]);
+    info(obj, msg) {
+        this.ops.push(['info', [obj, msg]]);
         this.counts.info += 1;
     }
 
-    warn(obj, ...params) {
-        this.ops.push(['warn',
-                       [obj, Array.prototype.splice.apply(params, [0])],
-        ]);
+    warn(obj, msg) {
+        this.ops.push(['warn', [obj, msg]]);
         this.counts.warn += 1;
     }
 
-    error(obj, ...params) {
-        this.ops.push(['error',
-                       [obj, Array.prototype.splice.apply(params, [0])],
-        ]);
+    error(obj, msg) {
+        this.ops.push(['error', [obj, msg]]);
         this.counts.error += 1;
     }
 
-    fatal(obj, ...params) {
-        this.ops.push(['fatal',
-                       [obj, Array.prototype.splice.apply(params, [0])],
-        ]);
+    fatal(obj, msg) {
+        this.ops.push(['fatal', [obj, msg]]);
         this.counts.fatal += 1;
     }
 }
