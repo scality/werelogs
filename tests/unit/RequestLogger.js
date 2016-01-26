@@ -322,5 +322,18 @@ describe('RequestLogger', () => {
             runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts, done);
             done();
         });
+
+        it('Dumping multiple times does not re-dump already-dumped entries', (done) => {
+            const commandHistory = ['trace', 'info', 'debug', 'error',
+                                    'warn', 'debug', 'fatal'];
+            const expectedHistory = [['trace', 0], ['info', 1], ['debug', 2],
+                                     ['trace', 0], ['info', 1], ['debug', 2], ['error', 3],
+                                     ['warn', 4], ['debug', 5],
+                                     ['warn', 4], ['debug', 5], ['fatal', 6]];
+            const expectedCounts = { trace: 2, debug: 4, info: 2, warn: 2, error: 1, fatal: 1 };
+
+            runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts, done);
+            done();
+        });
     });
 });
