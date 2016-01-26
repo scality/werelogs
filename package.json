@@ -10,7 +10,8 @@
     "postinstall": "npm run compile",
     "prepublish": "npm run compile",
     "pretest": "npm run compile",
-    "test": "mocha target/tests/unit/"
+    "test": "mocha target/tests/unit/",
+    "coverage": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/_mocha tests/unit"
   },
   "repository": {
     "type": "git",
@@ -39,10 +40,13 @@
     "bunyan": "^1.5.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.1.21",
     "babel-eslint": "^4.1.6",
     "eslint": "^1.10.1",
     "eslint-config-airbnb": "^1.0.2",
     "eslint-plugin-react": "^3.10.0",
+    "istanbul": "^1.0.0-alpha",
+    "istanbul-api": "==1.0.0-alpha.9",
     "mdlint": "^0.1.0",
     "mocha": "^2.3.4"
   }
