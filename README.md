@@ -48,7 +48,7 @@ import Logger from 'werelogs';
  * All request loggers instanciated through this Logger will inherit its
  * configuration.
  */
-const logging = new Logger(
+const log = new Logger(
     'SampleModule',
     {
         level: 'debug',
@@ -68,6 +68,16 @@ const logging = new Logger(
         ],
     }
 );
+
+/*
+ * First, you can use the Logger as a module-level logger, logging events
+ * that happen at the module's level.
+ *
+ * The API of the module-level logger is the same as the API of the request
+ * Logger.
+ */
+log.info('Application started.');
+log.warn({'metadata': new Date()}, 'Starting RequestLogging...');
 
 doSomething(reqLogger) {
     /*
@@ -89,7 +99,7 @@ function processRequest() {
      * required) or a list of string ids (that can allow request-scoping on a
      * distributed system)
      */
-    const reqLogger = logging.newRequestLogger();
+    const reqLogger = log.newRequestLogger();
 
     /* you need to provide your logger instance to the code that requires it, as
      * it is not a module-wide object instance */
