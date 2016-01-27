@@ -28,6 +28,11 @@ request-specific logger object. That object is the one you want to use for any
 logging operation related to your request, so you will have to pass it to
 any function that requires it.
 
+The RequestLogger also provides a way to include some attributes in the JSON by
+default for all subsequent logging calls, by explicitly inputting them only
+once for the whole request's lifetime through the method
+```addDefaultFields```.
+
 ```es6
 import Logger from 'werelogs';
 
@@ -80,6 +85,13 @@ log.info('Application started.');
 log.warn({'metadata': new Date()}, 'Starting RequestLogging...');
 
 doSomething(reqLogger) {
+    /*
+     * Let's add some kind of client-related data as default attributes first
+     */
+    reqLogger.addDefaultFields({ clientIP: '127.0.0.1',
+                                 clientPort: '65535',
+                                 clientName: 'Todd'});
+
     /*
      * Then, you can log some data, either a string or an object, using one of
      * the logging methods: 'trace', 'debug', 'info', 'warn', 'error', or

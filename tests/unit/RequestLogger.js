@@ -232,6 +232,58 @@ describe('RequestLogger', () => {
         it('Fatal level does not filter fatal level out',   filterGenerator('fatal', 'fatal'));
     });
 
+    describe('Default Fields', () => {
+        it('should not modify the object passed as a parameter', (done) => {
+            const add1 = {
+                attr1: 0,
+            };
+            const add2 = {
+                attr2: 'string',
+            };
+            const dummyLogger = new DummyLogger();
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal');
+            reqLogger.addDefaultFields(add1);
+            reqLogger.addDefaultFields(add2);
+            assert.deepStrictEqual(add1, { attr1: 0 });
+            assert.deepStrictEqual(add2, { attr2: 'string' });
+            done();
+        });
+
+        it('should add one added default field to the log entries', (done) => {
+            const clientInfo = {
+                clientIP: '127.0.0.1',
+            };
+            const dummyLogger = new DummyLogger();
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal');
+            reqLogger.addDefaultFields(clientInfo);
+            reqLogger.info('test message');
+            console.log(clientInfo);
+            console.log(dummyLogger.ops[0][1][0]);
+            assert.strictEqual(clientInfo.clientIP, dummyLogger.ops[0][1][0].clientIP);
+            done();
+        });
+
+        it('should add multiple added default fields to the log entries', (done) => {
+            const clientInfo = {
+                clientIP: '127.0.0.1',
+                clientPort: '1337',
+            };
+            const requestInfo = {
+                object: '/tata/self.txt',
+                creator: 'Joddy',
+            };
+            const dummyLogger = new DummyLogger();
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal');
+            reqLogger.addDefaultFields(clientInfo);
+            reqLogger.addDefaultFields(requestInfo);
+            reqLogger.info('test message');
+            assert.strictEqual(clientInfo.clientIP, dummyLogger.ops[0][1][0].clientIP);
+            assert.strictEqual(clientInfo.clientPort, dummyLogger.ops[0][1][0].clientPort);
+            assert.strictEqual(requestInfo.object, dummyLogger.ops[0][1][0].object);
+            assert.strictEqual(requestInfo.creator, dummyLogger.ops[0][1][0].creator);
+            done();
+        });
+    });
 
     describe('Log History dumped when logging floor level reached', () => {
         it('Dumping duplicates log entries', (done) => {
