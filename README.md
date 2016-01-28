@@ -24,9 +24,18 @@ password in the URL (which I absolutely don't recomment for security reasons).
 As WereLogs is a per-request logging library and not a per-module one,
 importing the library is not enough by itself (the module itself does not
 provide logging methods). The module provides a method to instanciate a
-request-specific logger object. That object is the one you want to use for any
-logging operation related to your request, so you will have to pass it to
-any function that requires it.
+request-specific logger object, as well as a Module logger object.
+
+The module Logger object is used to log relevant events for a given module.
+
+The RequestLogger object is the one you want to use for any logging operation
+related to an ongoing request, so you will have to pass it to any function that
+requires it.
+
+All logging methods (trace, debug, info, warn, error and fatal) follow the same
+prototype and usage pattern. They can take up to two parameters, the first one,
+mandatory, being a string message, and the second one, optional, being an
+object used to provide additional information to be included in the log entry.
 
 The RequestLogger also provides a way to include some attributes in the JSON by
 default for all subsequent logging calls, by explicitly inputting them only
@@ -82,7 +91,7 @@ const log = new Logger(
  * Logger.
  */
 log.info('Application started.');
-log.warn({'metadata': new Date()}, 'Starting RequestLogging...');
+log.warn('Starting RequestLogging...', {'metadata': new Date()});
 
 doSomething(reqLogger) {
     /*
@@ -98,9 +107,12 @@ doSomething(reqLogger) {
      * 'fatal'.
      */
     reqLogger.info('This is a string log entry');
-    reqLogger.info('This is a template string log entry with an included date:'
-                   + ` ${new Date().toISOString()}`);
-    reqLogger.info({ status: 200, hasStuff: false });
+    // This example provides additional information to include into the JSON
+    reqLogger.info('Placing bet...',
+                   { date: new Date().toISOString(),
+                     odds: [1, 1000],
+                     amount: 20000,
+    });
 }
 
 function processRequest() {
