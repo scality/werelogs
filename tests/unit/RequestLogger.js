@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { default as genericFilterGenerator, DummyLogger } from '../Utils.js';
+import { DummyLogger, genericFilterGenerator, loggingMisuseGenerator } from '../Utils.js';
 
 import RequestLogger from '../../lib/RequestLogger.js';
 
@@ -186,6 +186,24 @@ describe('RequestLogger', () => {
                 done();
             });
         });
+    });
+
+    describe('Does not crash when mis-using its logging API', () => {
+        const testValues = [
+            { desc: 'a string as second argument', args: [ 'test', 'second-param-string' ] },
+            { desc: 'a function as second argument', args: [ 'test', () => { return; } ] },
+            { desc: 'a Number as second argument', args: [ 'test', 1 ] },
+            { desc: 'more than 2 arguments', args: [ 'test', 2, 3, 4 ] },
+        ];
+        function createMisusableRequestLogger(dummyLogger) {
+            return new RequestLogger(dummyLogger, 'info', 'error');
+        }
+
+        for (let i = 0; i < testValues.length; ++i) {
+            const test = testValues[i];
+            it('Does not crash with ' + test.desc,
+               loggingMisuseGenerator(test, createMisusableRequestLogger));
+        }
     });
 
     describe('Logging level dump filtering', () => {
