@@ -1,27 +1,25 @@
-import assert from 'assert';
+'use strict';
 
-import { DummyLogger, genericFilterGenerator, loggingMisuseGenerator } from '../Utils.js';
+const assert = require('assert');
 
-import RequestLogger from '../../lib/RequestLogger.js';
+const Utils = require('../Utils.js');
+const DummyLogger = Utils.DummyLogger;
+const genericFilterGenerator = Utils.genericFilterGenerator;
+const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
+
+const RequestLogger = require('../../lib/RequestLogger.js');
 
 /**
  * This function is a thunk-function calling the Utils'  filterGenerator with
  * the right createLogger function, while seemlessly passing through its
  * arguments.
  */
-function filterGenerator(...params) {
+function filterGenerator(logLevel, callLevel) {
     function createRequestLogger(dummyLogger, filterLevel) {
         return new RequestLogger(dummyLogger, filterLevel, 'fatal');
     }
 
-    /*
-     * Array-ify the arguments object, and append the specificly-added argument
-     * to it.
-     */
-    const args = Array.prototype.splice.apply(params, [0]);
-    args.push(createRequestLogger);
-
-    return genericFilterGenerator.apply({}, args);
+    return genericFilterGenerator(logLevel, callLevel, createRequestLogger);
 }
 
 

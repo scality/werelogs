@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('assert');
 const Utils = require('../../lib/Utils.js');
 const generateUid = Utils.generateUid;

@@ -4,14 +4,10 @@
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
   "main": "index.js",
   "scripts": {
-    "compile": "babel -d target/lib/ lib/ && babel -d target/tests/ tests/",
     "lint": "eslint $(git ls-files '*.js')",
     "lint_md": "mdlint $(git ls-files '*.md')",
-    "postinstall": "npm run compile",
-    "prepublish": "npm run compile",
-    "pretest": "npm run compile",
-    "test": "mocha target/tests/unit/",
-    "coverage": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/_mocha tests/unit"
+    "test": "mocha tests/unit/",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha tests/unit"
   },
   "repository": {
     "type": "git",
@@ -32,16 +28,9 @@
   },
   "homepage": "https://github.com/scality/werelogs#readme",
   "dependencies": {
-    "babel-core": "^6.1.21",
-    "babel-plugin-transform-es2015-destructuring": "^6.1.18",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.2.0",
-    "babel-plugin-transform-es2015-parameters": "^6.1.18",
-    "babel-cli": "^6.1.21",
     "bunyan": "^1.5.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.1.21",
-    "babel-eslint": "^4.1.6",
     "eslint": "^1.10.1",
     "eslint-config-airbnb": "^1.0.2",
     "eslint-plugin-react": "^3.10.0",

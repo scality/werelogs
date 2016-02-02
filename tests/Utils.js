@@ -1,8 +1,10 @@
-import assert from 'assert';
+'use strict';
 
-import * as LogLevel from '../lib/LogLevel.js';
+const assert = require('assert');
 
-export class DummyLogger {
+const LogLevel = require('../lib/LogLevel.js');
+
+class DummyLogger {
 
     constructor() {
         this.ops = [];
@@ -60,10 +62,9 @@ function computeBehavior(filterLevel, logLevel, testLevel) {
     };
 }
 
-export function genericFilterGenerator(filterLevel, testLevel, createLogger) {
+function genericFilterGenerator(filterLevel, testLevel, createLogger) {
     return function testFilter(done) {
-        let value;
-        let msg;
+        let retObj;
         const dummyLogger = new DummyLogger();
         const logger = createLogger(dummyLogger, filterLevel);
 
@@ -78,24 +79,24 @@ export function genericFilterGenerator(filterLevel, testLevel, createLogger) {
             done(new Error('Unexpected testLevel name: ', testLevel));
         }
 
-        ({ value, msg } = computeBehavior(filterLevel, 'trace', testLevel));
-        assert.strictEqual(dummyLogger.counts.trace, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'debug', testLevel));
-        assert.strictEqual(dummyLogger.counts.debug, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'info', testLevel));
-        assert.strictEqual(dummyLogger.counts.info, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'warn', testLevel));
-        assert.strictEqual(dummyLogger.counts.warn, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'error', testLevel));
-        assert.strictEqual(dummyLogger.counts.error, value, msg);
-        ({ value, msg } = computeBehavior(filterLevel, 'fatal', testLevel));
-        assert.strictEqual(dummyLogger.counts.fatal, value, msg);
+        retObj = computeBehavior(filterLevel, 'trace', testLevel);
+        assert.strictEqual(dummyLogger.counts.trace, retObj.value, retObj.msg);
+        retObj = computeBehavior(filterLevel, 'debug', testLevel);
+        assert.strictEqual(dummyLogger.counts.debug, retObj.value, retObj.msg);
+        retObj = computeBehavior(filterLevel, 'info', testLevel);
+        assert.strictEqual(dummyLogger.counts.info, retObj.value, retObj.msg);
+        retObj = computeBehavior(filterLevel, 'warn', testLevel);
+        assert.strictEqual(dummyLogger.counts.warn, retObj.value, retObj.msg);
+        retObj = computeBehavior(filterLevel, 'error', testLevel);
+        assert.strictEqual(dummyLogger.counts.error, retObj.value, retObj.msg);
+        retObj = computeBehavior(filterLevel, 'fatal', testLevel);
+        assert.strictEqual(dummyLogger.counts.fatal, retObj.value, retObj.msg);
 
         done();
     };
 }
 
-export function loggingMisuseGenerator(test, createLogger) {
+function loggingMisuseGenerator(test, createLogger) {
     return function generatedLogAPIMisuseTest(done) {
         const dummyLogger = new DummyLogger();
         const logger = createLogger(dummyLogger);
@@ -110,3 +111,9 @@ export function loggingMisuseGenerator(test, createLogger) {
         done();
     };
 }
+
+module.exports = {
+    DummyLogger,
+    genericFilterGenerator,
+    loggingMisuseGenerator,
+};
