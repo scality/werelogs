@@ -1,6 +1,8 @@
-import assert from 'assert';
+'use strict';
 
-import * as LogLevel from '../../lib/LogLevel.js';
+const assert = require('assert');
+
+const LogLevel = require('../../lib/LogLevel.js');
 
 function generateValidThrowTest(level) {
     return function validTest(done) {

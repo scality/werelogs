@@ -1,8 +1,13 @@
-import assert from 'assert';
+'use strict';
 
-import { DummyLogger, genericFilterGenerator, loggingMisuseGenerator } from '../Utils.js';
+const assert = require('assert');
 
-import RequestLogger from '../../lib/RequestLogger.js';
+const Utils = require('../Utils.js');
+const DummyLogger = Utils.DummyLogger;
+const genericFilterGenerator = Utils.genericFilterGenerator;
+const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
+
+const RequestLogger = require('../../lib/RequestLogger.js');
 
 /**
  * This function is a thunk-function calling the Utils'  filterGenerator with

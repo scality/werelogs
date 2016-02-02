@@ -1,8 +1,10 @@
-import assert from 'assert';
+'use strict';
 
-import * as LogLevel from '../lib/LogLevel.js';
+const assert = require('assert');
 
-export class DummyLogger {
+const LogLevel = require('../lib/LogLevel.js');
+
+class DummyLogger {
 
     constructor() {
         this.ops = [];
@@ -60,7 +62,7 @@ function computeBehavior(filterLevel, logLevel, testLevel) {
     };
 }
 
-export function genericFilterGenerator(filterLevel, testLevel, createLogger) {
+function genericFilterGenerator(filterLevel, testLevel, createLogger) {
     return function testFilter(done) {
         let value;
         let msg;
@@ -95,7 +97,7 @@ export function genericFilterGenerator(filterLevel, testLevel, createLogger) {
     };
 }
 
-export function loggingMisuseGenerator(test, createLogger) {
+function loggingMisuseGenerator(test, createLogger) {
     return function generatedLogAPIMisuseTest(done) {
         const dummyLogger = new DummyLogger();
         const logger = createLogger(dummyLogger);
@@ -110,3 +112,9 @@ export function loggingMisuseGenerator(test, createLogger) {
         done();
     };
 }
+
+module.exports = {
+    DummyLogger,
+    genericFilterGenerator,
+    loggingMisuseGenerator,
+};
