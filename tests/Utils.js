@@ -60,7 +60,7 @@ function computeBehavior(filterLevel, logLevel, testLevel) {
     };
 }
 
-export default function filterGenerator(filterLevel, testLevel, createLogger) {
+export function genericFilterGenerator(filterLevel, testLevel, createLogger) {
     return function testFilter(done) {
         let value;
         let msg;
@@ -91,6 +91,22 @@ export default function filterGenerator(filterLevel, testLevel, createLogger) {
         ({ value, msg } = computeBehavior(filterLevel, 'fatal', testLevel));
         assert.strictEqual(dummyLogger.counts.fatal, value, msg);
 
+        done();
+    };
+}
+
+export function loggingMisuseGenerator(test, createLogger) {
+    return function generatedLogAPIMisuseTest(done) {
+        const dummyLogger = new DummyLogger();
+        const logger = createLogger(dummyLogger);
+        assert.doesNotThrow(
+            () => {
+                logger.info.apply(logger, test.args);
+            },
+            Error,
+            'Werelogs should not throw with ' + test.desc);
+        assert(dummyLogger.ops[0][0], 'fatal',
+               'Expected the Module Logger to have logged a fatal message.');
         done();
     };
 }

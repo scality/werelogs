@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { default as genericFilterGenerator } from '../Utils.js';
+import { genericFilterGenerator, loggingMisuseGenerator } from '../Utils.js';
 
 import RequestLogger from '../../lib/RequestLogger.js';
 import Logger from '../../lib/Logger.js';
@@ -135,6 +135,26 @@ describe('WereLogs Logger is usable:', () => {
         assert(reqLogger instanceof RequestLogger, 'RequestLogger');
         assert.deepStrictEqual(reqLogger.getUids().slice(0, -1), ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID']);
         done();
+    });
+
+    describe('Does not crash and logs a fatal message when mis-using its logging API', () => {
+        const testValues = [
+            { desc: 'a string as second argument', args: [ 'test', 'second-param-string' ] },
+            { desc: 'a function as second argument', args: [ 'test', () => { return; } ] },
+            { desc: 'a Number as second argument', args: [ 'test', 1 ] },
+            { desc: 'more than 2 arguments', args: [ 'test', 2, 3, 4 ] },
+        ];
+        function createMisusableLogger(dummyLogger) {
+            const logger = new Logger('test');
+            logger.bLogger = dummyLogger;
+            return logger;
+        }
+
+        for (let i = 0; i < testValues.length; ++i) {
+            const test = testValues[i];
+            it('Does not crash with ' + test.desc,
+               loggingMisuseGenerator(test, createMisusableLogger));
+        }
     });
 });
 
