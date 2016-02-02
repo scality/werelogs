@@ -7,7 +7,7 @@ const genericFilterGenerator = Utils.genericFilterGenerator;
 const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
 
 const RequestLogger = require('../../lib/RequestLogger.js');
-const Logger = require('../../lib/Logger.js');
+const Logger = require('../../index.js');
 
 /**
  * This function is a thunk-function calling the Utils'  filterGenerator with
