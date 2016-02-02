@@ -33,7 +33,6 @@
   "homepage": "https://github.com/scality/werelogs#readme",
   "dependencies": {
     "babel-core": "^6.1.21",
-    "babel-plugin-transform-es2015-destructuring": "^6.1.18",
     "babel-plugin-transform-es2015-parameters": "^6.1.18",
     "babel-cli": "^6.1.21",
     "bunyan": "^1.5.1"
