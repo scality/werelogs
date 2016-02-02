@@ -14,19 +14,12 @@ const RequestLogger = require('../../lib/RequestLogger.js');
  * the right createLogger function, while seemlessly passing through its
  * arguments.
  */
-function filterGenerator(...params) {
+function filterGenerator(logLevel, callLevel) {
     function createRequestLogger(dummyLogger, filterLevel) {
         return new RequestLogger(dummyLogger, filterLevel, 'fatal');
     }
 
-    /*
-     * Array-ify the arguments object, and append the specificly-added argument
-     * to it.
-     */
-    const args = Array.prototype.splice.apply(params, [0]);
-    args.push(createRequestLogger);
-
-    return genericFilterGenerator.apply({}, args);
+    return genericFilterGenerator(logLevel, callLevel, createRequestLogger);
 }
 
 

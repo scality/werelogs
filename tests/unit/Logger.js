@@ -14,7 +14,7 @@ const Logger = require('../../lib/Logger.js');
  * the right createLogger function, while seemlessly passing through its
  * arguments.
  */
-function filterGenerator(...params) {
+function filterGenerator(logLevel, callLevel) {
     function createModuleLogger(dummyLogger, filterLevel) {
         const logger = new Logger('TestModuleLogger',
             {
@@ -30,14 +30,7 @@ function filterGenerator(...params) {
         return logger;
     }
 
-    /*
-     * Array-ify the arguments object, and append the specificly-added argument
-     * to it.
-     */
-    const args = Array.prototype.splice.apply(params, [0]);
-    args.push(createModuleLogger);
-
-    return genericFilterGenerator.apply({}, args);
+    return genericFilterGenerator(logLevel, callLevel, createModuleLogger);
 }
 
 describe('WereLogs Logger is usable:', () => {

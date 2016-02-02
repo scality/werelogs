@@ -1,5 +1,4 @@
 {
     "plugins": [
-        "transform-es2015-parameters"
     ]
 }
