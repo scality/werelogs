@@ -7,6 +7,7 @@
     "lint": "eslint $(git ls-files '*.js')",
     "lint_md": "mdlint $(git ls-files '*.md')",
     "test": "mocha tests/unit/",
+    "ft_test": "rm -rf tests/functional/node_modules && npm pack && cp -R node_modules werelogs-*.tgz tests/functional && cd tests/functional && npm install werelogs-*.tgz && ./node_modules/.bin/mocha . && cd -",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha tests/unit"
   },
   "repository": {

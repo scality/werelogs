@@ -9,3 +9,9 @@ test:
         - npm run lint_md
         - npm run lint
         - npm run coverage
+        # running ft_test packs werelogs and installs it + deps into
+        # tests/functional. Pack is like publishing werelogs in a local tgz
+        # archive that can be installed.
+        # This step shall ensure that no issue is encountered when installing
+        # the package, and allows to functionally test werelogs.
+        - npm run ft_test
