@@ -9,7 +9,7 @@ const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
 
 const RequestLogger = require('../../lib/RequestLogger.js');
 
-/**
+/*
  * This function is a thunk-function calling the Utils'  filterGenerator with
  * the right createLogger function, while seemlessly passing through its
  * arguments.
