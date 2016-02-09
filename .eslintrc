@@ -8,6 +8,7 @@
     "rules": {
         "indent": [2,4],
         "no-multi-spaces": [2, { exceptions: { "SwitchCase": true, "CallExpression": true } } ],
+        "valid-jsdoc": 2,
         "strict": 0
     }
 }
