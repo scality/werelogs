@@ -16,7 +16,7 @@ const RequestLogger = require('../../lib/RequestLogger.js');
  */
 function filterGenerator(logLevel, callLevel) {
     function createRequestLogger(dummyLogger, filterLevel) {
-        return new RequestLogger(dummyLogger, filterLevel, 'fatal');
+        return new RequestLogger(dummyLogger, filterLevel, 'fatal', 'info');
     }
 
     return genericFilterGenerator(logLevel, callLevel, createRequestLogger);
@@ -25,7 +25,7 @@ function filterGenerator(logLevel, callLevel) {
 
 function runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts, done) {
     const dummyLogger = new DummyLogger();
-    const reqLogger = new RequestLogger(dummyLogger, 'trace', 'error');
+    const reqLogger = new RequestLogger(dummyLogger, 'trace', 'error', 'info');
 
     commandHistory.every(function doLogWithLevel(val, index) {
         switch (val) {
@@ -56,7 +56,7 @@ describe('RequestLogger', () => {
             it('Throws if LogLevel is higher than dumpThreshold', (done) => {
                 assert.throws(
                     () => {
-                        return new RequestLogger(undefined, 'fatal', 'debug');
+                        return new RequestLogger(undefined, 'fatal', 'debug', 'info');
                     },
                     Error,
                     'Dump level "debug" should not be valid with logging level "fatal".');
@@ -66,7 +66,7 @@ describe('RequestLogger', () => {
             it('Works with LogLevel lesser or equal to DumpLevel', (done) => {
                 assert.doesNotThrow(
                     () => {
-                        return new RequestLogger(undefined, 'debug', 'fatal');
+                        return new RequestLogger(undefined, 'debug', 'fatal', 'info');
                     },
                     Error,
                     'Dump level "fatal" should be valid with logging level "debug".');
@@ -77,7 +77,7 @@ describe('RequestLogger', () => {
         describe('UID Initialization', () => {
             it('defines an UID when none provided', (done) => {
                 const dummyLogger = new DummyLogger();
-                const reqLogger = new RequestLogger(dummyLogger, 'debug', 'fatal');
+                const reqLogger = new RequestLogger(dummyLogger, 'debug', 'fatal', 'info');
                 assert.strictEqual(Array.isArray(reqLogger.uids), true, 'Expected uid list to be an Array.');
                 assert.strictEqual(reqLogger.uids.length, 1, 'Expected uid list to contain one element.');
                 done();
@@ -86,7 +86,7 @@ describe('RequestLogger', () => {
             it('creates an UID array out of the provided UID string', (done) => {
                 const dummyLogger = new DummyLogger();
                 const uids = 'BasicUid';
-                const reqLogger = new RequestLogger(dummyLogger, 'debug', 'fatal', uids);
+                const reqLogger = new RequestLogger(dummyLogger, 'debug', 'fatal', 'info', uids);
                 assert.strictEqual(Array.isArray(reqLogger.uids), true, 'Expected uid list to be an Array.');
                 assert.strictEqual(reqLogger.uids.length, 1, 'Expected uid list to contain one element.');
                 assert.strictEqual(reqLogger.uids[0], uids, 'Expected uid list to only contain the value given as argument.');
@@ -96,7 +96,7 @@ describe('RequestLogger', () => {
             it('throws when UID string provided contains a colon', (done) => {
                 assert.throws(
                     () => {
-                        return new RequestLogger(undefined, 'debug', 'fatal', 'pouet:tata');
+                        return new RequestLogger(undefined, 'debug', 'fatal', 'info', 'pouet:tata');
                     },
                     Error,
                     'UID string "pouet:tata" should be rejected by the RequestLogger constructor.');
@@ -106,7 +106,7 @@ describe('RequestLogger', () => {
             it('expands the UID array when one is provided', (done) => {
                 const dummyLogger = new DummyLogger();
                 const uids = ['oneuid', 'twouid', 'threeuids'];
-                const reqLogger = new RequestLogger(dummyLogger, 'debug', 'fatal', uids);
+                const reqLogger = new RequestLogger(dummyLogger, 'debug', 'fatal', 'info', uids);
                 assert.strictEqual(Array.isArray(reqLogger.uids), true, 'Expected uid list to be an Array.');
                 assert.strictEqual(reqLogger.uids.length, 4, 'Expected uid list to contain four elements.');
                 assert.strictEqual(uids.indexOf(reqLogger.uids[3]), -1, 'Expected the last uid of the list to be the new one.');
@@ -116,7 +116,7 @@ describe('RequestLogger', () => {
             it('throws when UID string Array provided contains an UID that contains a colon', (done) => {
                 assert.throws(
                     () => {
-                        return new RequestLogger(undefined, 'debug', 'fatal', ['OneUID', 'SecondUID', 'Test:DashUID']);
+                        return new RequestLogger(undefined, 'debug', 'fatal', 'info', ['OneUID', 'SecondUID', 'Test:DashUID']);
                     },
                     Error,
                     'UID string "Test:DashUID" should be rejected by the RequestLogger constructor.');
@@ -127,7 +127,7 @@ describe('RequestLogger', () => {
         describe('getUids() method', () => {
             it('retrieves a list of string UID', (done) => {
                 const dummyLogger = new DummyLogger();
-                const reqLogger = new RequestLogger(dummyLogger, 'info', 'error');
+                const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', 'info');
                 const uidlist = reqLogger.getUids();
                 assert.strictEqual(Array.isArray(uidlist), true, 'Expected UID List to be an Array');
                 assert.strictEqual(typeof uidlist[0], 'string', 'Expected UID items to be strings');
@@ -137,7 +137,7 @@ describe('RequestLogger', () => {
             describe('Length of the UIDs array', () => {
                 it('default constructor yields a one-item UID list', (done) => {
                     const dummyLogger = new DummyLogger();
-                    const reqLogger = new RequestLogger(dummyLogger, 'info', 'error');
+                    const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', 'info');
                     const uidlist = reqLogger.getUids();
                     assert.strictEqual(uidlist.length, 1, 'Expected only one item in UID Array');
                     done();
@@ -146,7 +146,7 @@ describe('RequestLogger', () => {
                 it('manually-set UID constructor yields a one-item UID list', (done) => {
                     const dummyLogger = new DummyLogger();
                     const myUid = 'ThisIsMyUid';
-                    const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', myUid);
+                    const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', 'info', myUid);
                     const uidlist = reqLogger.getUids();
                     assert.strictEqual(uidlist.length, 1, 'Expected only one item in UID Array');
                     assert.strictEqual(uidlist[0], myUid, 'Expected UID to match what was used to set it.');
@@ -156,7 +156,7 @@ describe('RequestLogger', () => {
                 it('manually-set parent UID List constructor yields a n+1 item UID list', (done) => {
                     const dummyLogger = new DummyLogger();
                     const myParentUidList = [ 'ThisIsMyOriginUid', 'ThisIsMySecondGenUid', 'ThisIsMyThirdGenUid' ];
-                    const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', myParentUidList);
+                    const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', 'info', myParentUidList);
                     const uidlist = reqLogger.getUids();
                     assert.strictEqual(uidlist.length, myParentUidList.length + 1, 'Expected n+1 item in UID Array compared to set UID List array');
                     assert.deepStrictEqual(uidlist.slice(0, -1), myParentUidList, 'Expected UID list[:-1] to match what was used to set it.');
@@ -166,7 +166,7 @@ describe('RequestLogger', () => {
 
             it('internal data cannot be set through returned UID List', (done) => {
                 const dummyLogger = new DummyLogger();
-                const reqLogger = new RequestLogger(dummyLogger, 'info', 'error');
+                const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', 'info');
                 const uidlist = reqLogger.getUids();
                 uidlist.push('Test');
                 assert.notStrictEqual(uidlist.length, reqLogger.getUids().length, 'Expected different number of items in internals and local variable.');
@@ -178,7 +178,7 @@ describe('RequestLogger', () => {
             it('Should return a properly serialized UID Array', (done) => {
                 const dummyLogger = new DummyLogger();
                 const uidList = [ 'FirstUID', 'SecondUID', 'ThirdUID', 'TestUID' ];
-                const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', uidList);
+                const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', 'info', uidList);
                 const expectedString = 'FirstUID:SecondUID:ThirdUID:TestUID:' + reqLogger.getUids()[4];
                 assert.strictEqual(reqLogger.getSerializedUids(), expectedString, 'Expected serialized UID List to match expected data.');
                 done();
@@ -194,7 +194,7 @@ describe('RequestLogger', () => {
             { desc: 'more than 2 arguments', args: [ 'test', 2, 3, 4 ] },
         ];
         function createMisusableRequestLogger(dummyLogger) {
-            return new RequestLogger(dummyLogger, 'info', 'error');
+            return new RequestLogger(dummyLogger, 'info', 'error', 'info');
         }
 
         for (let i = 0; i < testValues.length; ++i) {
@@ -257,7 +257,7 @@ describe('RequestLogger', () => {
                 attr2: 'string',
             };
             const dummyLogger = new DummyLogger();
-            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal');
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
             reqLogger.addDefaultFields(add1);
             reqLogger.addDefaultFields(add2);
             assert.deepStrictEqual(add1, { attr1: 0 });
@@ -270,7 +270,7 @@ describe('RequestLogger', () => {
                 clientIP: '127.0.0.1',
             };
             const dummyLogger = new DummyLogger();
-            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal');
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
             reqLogger.addDefaultFields(clientInfo);
             reqLogger.info('test message');
             assert.strictEqual(clientInfo.clientIP, dummyLogger.ops[0][1][0].clientIP);
@@ -287,7 +287,7 @@ describe('RequestLogger', () => {
                 creator: 'Joddy',
             };
             const dummyLogger = new DummyLogger();
-            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal');
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
             reqLogger.addDefaultFields(clientInfo);
             reqLogger.addDefaultFields(requestInfo);
             reqLogger.info('test message');
@@ -295,6 +295,18 @@ describe('RequestLogger', () => {
             assert.strictEqual(clientInfo.clientPort, dummyLogger.ops[0][1][0].clientPort);
             assert.strictEqual(requestInfo.object, dummyLogger.ops[0][1][0].object);
             assert.strictEqual(requestInfo.creator, dummyLogger.ops[0][1][0].creator);
+            done();
+        });
+    });
+
+    describe('Automatic Elapsed Time computation', () => {
+        it('should include an "elapsed_ms" field in the last log entry', (done) => {
+            const dummyLogger = new DummyLogger();
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
+            reqLogger.end('Last message');
+            assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message');
+            assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms, undefined);
+            assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms), 'number');
             done();
         });
     });

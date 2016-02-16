@@ -45,6 +45,14 @@ default for all subsequent logging calls, by explicitly inputting them only
 once for the whole request's lifetime through the method
 `addDefaultFields`.
 
+As the RequestLogger is a logger strongly associated to a request's processing
+operations, it provides a builtin facility to log the elapsed time in ms of the
+said processing of the request. This is done through a specific logging method,
+`end` that can be configured to act as any logging level. This specific method
+will automatically compute the elapsed time from the instantiation of the
+RequestLogger to the moment it is called, by using an internal hi-res time
+generated at the instantiation of the logger.
+
 ```javascript
 import Logger from 'werelogs';
 
@@ -70,6 +78,7 @@ const log = new Logger(
     {
         level: 'debug',
         dump: 'error',
+        end: 'info',
         streams: [
             // A simple, usual logging stream
             { stream: process.stdout},
@@ -128,11 +137,17 @@ function processRequest() {
      */
     const reqLogger = log.newRequestLogger();
 
-    /* you need to provide your logger instance to the code that requires it, as
-     * it is not a module-wide object instance */
+    /* you need to provide your logger instance to the code that requires it,
+     * as it is not a module-wide object instance */
     doSomething(reqLogger, ...);
 
     ...
+
+    /*
+     * This call will generate an 'info' log entry with an added elapsed_ms
+     * field.
+     */
+    reqLogger.end('End of request.', { method: 'GET', client: client.getIp() });
 }
 ```
 
