@@ -17,7 +17,7 @@ $> npm i --save scality/werelogs
 As the repository is currently private, you will need to provide your username
 and your password, or use the git+ssh protocol with a properly configured
 environment, or use the git+https protocol with your username and cleartext
-password in the URL (which I absolutely don't recomment for security reasons).
+password in the URL (which I absolutely don't recommend for security reasons).
 
 ## Using the Library
 
@@ -43,26 +43,26 @@ object used to provide additional information to be included in the log entry.
 The RequestLogger also provides a way to include some attributes in the JSON by
 default for all subsequent logging calls, by explicitly inputting them only
 once for the whole request's lifetime through the method
-```addDefaultFields```.
+`addDefaultFields`.
 
-```es6
+```javascript
 import Logger from 'werelogs';
 
 /*
  * Here, configure your WereLogs Logger at a global level
- * It can be instanciated with a Name (for the module), and a config options
+ * It can be instantiated with a Name (for the module), and a config options
  * Object.
  *
  * This config options object contains a log level called 'level', a log
  * dumping threshold called 'dump', and an array of stream called 'streams'.
  * The 'streams' option shall follow bunyan's configuration needs, as werelogs
  * acts almost as a passthrough for this specific option. The only unnecessary
- * field is the 'level' of each individual stream, as werelogs is managning
+ * field is the 'level' of each individual stream, as werelogs is managing
  * that on its own. For the reference about how to configure bunyan's streams,
  * please refer to its repository's readme:
  * https://github.com/trentm/node-bunyan
  *
- * All request loggers instanciated through this Logger will inherit its
+ * All request loggers instantiated through this Logger will inherit its
  * configuration.
  */
 const log = new Logger(
