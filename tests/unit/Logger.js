@@ -112,6 +112,28 @@ describe('WereLogs Logger is usable:', () => {
         done();
     });
 
+    it('Cannot set dump threshold to invalid level at runtime', (done) => {
+        const logger = new Logger('test');
+        assert.throws(
+            () => {
+                logger.setDumpThreshold('invalidLevel');
+            },
+            RangeError,
+            'WereLogs should not be able to set dump threshold to an invalid level.');
+        done();
+    });
+
+    it('Can set dump threshold at runtime', (done) => {
+        const logger = new Logger('test');
+        assert.doesNotThrow(
+            () => {
+                logger.setDumpThreshold('fatal');
+            },
+            RangeError,
+            'WereLogs should be able to set dump threshold at runtime.');
+        done();
+    });
+
     it('Can create Per-Request Loggers', (done) => {
         const logger = new Logger('test');
         assert.doesNotThrow(
