@@ -21,12 +21,15 @@ password in the URL (which I absolutely don't recomment for security reasons).
 
 ## Using the Library
 
-As WereLogs is a per-request logging library and not a per-module one,
-importing the library is not enough by itself (the module itself does not
-provide logging methods). The module provides a method to instanciate a
-request-specific logger object, as well as a Module logger object.
+Werelogs is a logging library that provides both per-request and per-module
+logging facilities, through the intermediary of the per-module Logger that
+is the default export.
 
-The module Logger object is used to log relevant events for a given module.
+Werelogs may be configured only once throughout your application's lifetime,
+through the configuration options available in the per-module logger
+constructor.
+
+The per-module Logger object is used to log relevant events for a given module.
 
 The RequestLogger object is the one you want to use for any logging operation
 related to an ongoing request, so you will have to pass it to any function that

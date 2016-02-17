@@ -6,6 +6,7 @@ const Utils = require('../Utils.js');
 const genericFilterGenerator = Utils.genericFilterGenerator;
 const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
 
+const Config = require('../../lib/Config.js');
 const RequestLogger = require('../../lib/RequestLogger.js');
 const Logger = require('../../index.js');
 
@@ -22,10 +23,10 @@ function filterGenerator(logLevel, callLevel) {
                 dump: 'fatal',
             });
         /*
-         * Here, patch the logger by setting a specificly designed dummyLogger
+         * Here, patch the Config by setting a specificly designed dummyLogger
          * for testing purposes that will help us collect runtime data.
          */
-        logger.bLogger = dummyLogger;
+        Config.bLogger = dummyLogger;
 
         return logger;
     }
@@ -34,6 +35,10 @@ function filterGenerator(logLevel, callLevel) {
 }
 
 describe('WereLogs Logger is usable:', () => {
+    beforeEach(() => {
+        Config.reset();
+    });
+
     it('Can be instanciated with only a name', (done) => {
         assert.doesNotThrow(
             () => {
@@ -143,7 +148,7 @@ describe('WereLogs Logger is usable:', () => {
         ];
         function createMisusableLogger(dummyLogger) {
             const logger = new Logger('test');
-            logger.bLogger = dummyLogger;
+            Config.bLogger = dummyLogger;
             return logger;
         }
 
