@@ -5,6 +5,7 @@ const assert = require('assert');
 const Utils = require('../Utils.js');
 const genericFilterGenerator = Utils.genericFilterGenerator;
 const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
+const DummyLogger = Utils.DummyLogger;
 
 const Config = require('../../lib/Config.js');
 const RequestLogger = require('../../lib/RequestLogger.js');
@@ -33,6 +34,15 @@ function filterGenerator(logLevel, callLevel) {
 
     return genericFilterGenerator(logLevel, callLevel, createModuleLogger);
 }
+
+function checkFields(src, result) {
+    Object.keys(src).forEach((k) => {
+        if (src.hasOwnProperty(k)) {
+            assert.deepStrictEqual(result[k], src[k]);
+        }
+    });
+}
+
 
 describe('WereLogs Logger is usable:', () => {
     beforeEach(() => {
@@ -158,6 +168,21 @@ describe('WereLogs Logger is usable:', () => {
         const reqLogger = logger.newRequestLoggerFromSerializedUids('OneUID:SecondUID:TestUID:YouWinUID');
         assert(reqLogger instanceof RequestLogger, 'RequestLogger');
         assert.deepStrictEqual(reqLogger.getUids().slice(0, -1), ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID']);
+        done();
+    });
+
+    it('Uses the additional fields as expected', (done) => {
+        const dummyLogger = new DummyLogger();
+        const logger = new Logger('test');
+        Config.bLogger = dummyLogger;
+        const fields = {
+            ip: '127.0.0.1',
+            method: 'GET',
+            count: 23,
+        };
+        logger.info('message', fields);
+        checkFields(fields, dummyLogger.ops[0][1][0]);
+        assert.strictEqual(dummyLogger.ops[0][1][1], 'message');
         done();
     });
 
