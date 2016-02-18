@@ -32,6 +32,14 @@ describe('Config', () => {
         done();
     });
 
+    it('end logging level should be updateable', (done) => {
+        const origEnd = Config.end;
+        assert.notStrictEqual(origEnd, 'trace', 'Expected original Config.end to differ from value to update.');
+        Config.update({ end: 'trace' });
+        assert.strictEqual(Config.end, 'trace', 'Expected Config\'s end log level to be updated.');
+        done();
+    });
+
     it('streams should be updateable', (done) => {
         const origStreams = Config.streams;
         const origLogger = Config.logger;
