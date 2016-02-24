@@ -309,6 +309,17 @@ describe('RequestLogger', () => {
             assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms), 'number');
             done();
         });
+
+        it('should include an "elapsed_ms" field in the last log entry and be error level', (done) => {
+            const dummyLogger = new DummyLogger();
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
+            reqLogger.errorEnd('Last message failed');
+            assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message failed');
+            assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms, undefined);
+            assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms), 'number');
+            assert.strictEqual(dummyLogger.ops[0][0], 'error');
+            done();
+        });
     });
 
     describe('Log History dumped when logging floor level reached', () => {
