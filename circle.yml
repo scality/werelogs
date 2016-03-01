@@ -1,7 +1,11 @@
 general:
+    branches:
+        ignore:
+            - /^ultron\/.*/ # Ignore ultron/* branches
     artifacts:
         - coverage/
         - doc/
+
 machine:
     node:
         version: 4.1.0
