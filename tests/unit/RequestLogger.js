@@ -300,24 +300,61 @@ describe('RequestLogger', () => {
     });
 
     describe('Automatic Elapsed Time computation', () => {
-        it('should include an "elapsed_ms" field in the last log entry', (done) => {
-            const dummyLogger = new DummyLogger();
-            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
-            reqLogger.end('Last message');
-            assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message');
-            assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms, undefined);
-            assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms), 'number');
-            done();
+        describe('Deprecated API:', () => {
+            it('should include an "elapsed_ms" field in the last log entry', (done) => {
+                const dummyLogger = new DummyLogger();
+                const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
+                reqLogger.end('Last message');
+                assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message');
+                assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms, undefined);
+                assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms), 'number');
+                done();
+            });
+
+            it('should include an "elapsed_ms" field in the last log entry and be error level', () => {
+                const dummyLogger = new DummyLogger();
+                const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
+                reqLogger.errorEnd('Last message failed');
+                assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message failed');
+                assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms, undefined);
+                assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms), 'number');
+                assert.strictEqual(dummyLogger.ops[0][0], 'error');
+            });
         });
 
-        it('should include an "elapsed_ms" field in the last log entry and be error level', () => {
+        const endLogging = {
+            trace: (endLogger) => { return endLogger.trace.bind(endLogger); },
+            debug: (endLogger) => { return endLogger.debug.bind(endLogger); },
+            info: (endLogger) => { return endLogger.info.bind(endLogger); },
+            warn: (endLogger) => { return endLogger.warn.bind(endLogger); },
+            error: (endLogger) => { return endLogger.error.bind(endLogger); },
+            fatal: (endLogger) => { return endLogger.fatal.bind(endLogger); },
+        };
+        Object.keys(endLogging).forEach((level) => {
+            it(`should include an "elapsed_ms" field in the last log entry with level ${level}`, (done) => {
+                const dummyLogger = new DummyLogger();
+                const reqLogger = new RequestLogger(dummyLogger, 'trace', 'fatal');
+                endLogging[level](reqLogger.end())('Last message');
+                assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message');
+                assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms, undefined);
+                assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms), 'number');
+                assert.strictEqual(dummyLogger.ops[0][0], level);
+                done();
+            });
+        });
+
+        it('should be augmentable through addDefaultFields', (done) => {
             const dummyLogger = new DummyLogger();
-            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
-            reqLogger.errorEnd('Last message failed');
-            assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message failed');
-            assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms, undefined);
+            const reqLogger = new RequestLogger(dummyLogger, 'trace', 'fatal');
+            reqLogger.end().addDefaultFields({endFlag: true});
+            // Someone could do multiple operations in the meantime before
+            // end() logging
+            reqLogger.end().error('Test Augmented END', {endValue: 42});
+            assert.strictEqual(dummyLogger.ops[0][1][1], 'Test Augmented END');
             assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms), 'number');
-            assert.strictEqual(dummyLogger.ops[0][0], 'error');
+            assert.strictEqual(dummyLogger.ops[0][1][0].endFlag, true);
+            assert.strictEqual(dummyLogger.ops[0][1][0].endValue, 42);
+            done();
         });
     });
 
