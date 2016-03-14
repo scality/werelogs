@@ -1,6 +1,6 @@
 {
   "name": "werelogs",
-  "version": "0.0.1",
+  "version": "1.0.0-beta",
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
   "main": "index.js",
   "scripts": {
