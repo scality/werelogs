@@ -48,10 +48,10 @@ once for the whole request's lifetime through the method
 As the RequestLogger is a logger strongly associated to a request's processing
 operations, it provides a builtin facility to log the elapsed time in ms of the
 said processing of the request. This is done through a specific logging method,
-`end` that can be configured to act as any logging level. This specific method
-will automatically compute the elapsed time from the instantiation of the
-RequestLogger to the moment it is called, by using an internal hi-res time
-generated at the instantiation of the logger.
+`end` that returns a prepared logging object. Using this returned object with
+the usual logging methods will automatically compute the elapsed time from the
+instantiation of the RequestLogger to the moment it is called, by using an
+internal hi-res time generated at the instantiation of the logger.
 
 ```javascript
 import Logger from 'werelogs';
@@ -78,7 +78,6 @@ const log = new Logger(
     {
         level: 'debug',
         dump: 'error',
-        end: 'info',
         streams: [
             // A simple, usual logging stream
             { stream: process.stdout},
@@ -144,10 +143,19 @@ function processRequest() {
     ...
 
     /*
-     * This call will generate an 'info' log entry with an added elapsed_ms
-     * field.
+     * Planning for some specific data to be included in the last logging
+     * request, you could use the addDefaultFields of the end()'s object:
      */
-    reqLogger.end('End of request.', { method: 'GET', client: client.getIp() });
+    reqLogger.end().addDefaultFields({method: 'GET', client: client.getIP()})
+
+    /*
+     * This call will generate a log entry with an added elapsed_ms
+     * field. This object can only be used once, as it should only be used for
+     * the last log entry associated to this specific RequestLogger.
+     * This call will be reusing potential data fields previously added through
+     * end().addDefaultFields().
+     */
+    reqLogger.end().info('End of request.', { status: 200 });
 }
 ```
 
