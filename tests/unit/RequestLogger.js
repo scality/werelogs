@@ -248,6 +248,38 @@ describe('RequestLogger', () => {
         it('Fatal level does not filter fatal level out',   filterGenerator('fatal', 'fatal'));
     });
 
+    describe('Logging API regression testing', () => {
+        it('Should not alter the input fields when not actually logging', (done) => {
+            const dummyLogger = new DummyLogger();
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
+            const refFields = { 'hits': 45, 'count': 32 };
+            const usedFields = Object.assign({}, refFields);
+            reqLogger.debug('test', usedFields);
+            assert.deepStrictEqual(usedFields, refFields);
+            done();
+        });
+
+        it('Should not alter the input fields when actually logging', (done) => {
+            const dummyLogger = new DummyLogger();
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
+            const refFields = { 'hits': 45, 'count': 32 };
+            const usedFields = Object.assign({}, refFields);
+            reqLogger.info('test', usedFields);
+            assert.deepStrictEqual(usedFields, refFields);
+            done();
+        });
+
+        it('Should not alter the input fields when dumping', (done) => {
+            const dummyLogger = new DummyLogger();
+            const reqLogger = new RequestLogger(dummyLogger, 'info', 'fatal', 'info');
+            const refFields = { 'hits': 45, 'count': 32 };
+            const usedFields = Object.assign({}, refFields);
+            reqLogger.error('test', usedFields);
+            assert.deepStrictEqual(usedFields, refFields);
+            done();
+        });
+    });
+
     describe('Default Fields', () => {
         it('should not modify the object passed as a parameter', (done) => {
             const add1 = {
