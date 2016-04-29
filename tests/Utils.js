@@ -19,30 +19,30 @@ class DummyLogger {
     }
 
     trace(obj, msg) {
-        this.doLog('trace', obj, msg);
+        this._doLog('trace', obj, msg);
     }
 
     debug(obj, msg) {
-        this.doLog('debug', obj, msg);
+        this._doLog('debug', obj, msg);
     }
 
     info(obj, msg) {
-        this.doLog('info', obj, msg);
+        this._doLog('info', obj, msg);
     }
 
     warn(obj, msg) {
-        this.doLog('warn', obj, msg);
+        this._doLog('warn', obj, msg);
     }
 
     error(obj, msg) {
-        this.doLog('error', obj, msg);
+        this._doLog('error', obj, msg);
     }
 
     fatal(obj, msg) {
-        this.doLog('fatal', obj, msg);
+        this._doLog('fatal', obj, msg);
     }
 
-    doLog(level, obj, msg) {
+    _doLog(level, obj, msg) {
         const fields = Object.create(null);
         if (obj instanceof Map) {
             obj.forEach((v, k) => fields[k] = v);
