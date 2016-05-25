@@ -19,33 +19,32 @@ class DummyLogger {
     }
 
     trace(obj, msg) {
-        this.ops.push(['trace', [obj, msg]]);
-        this.counts.trace += 1;
+        this._doLog('trace', obj, msg);
     }
 
     debug(obj, msg) {
-        this.ops.push(['debug', [obj, msg]]);
-        this.counts.debug += 1;
+        this._doLog('debug', obj, msg);
     }
 
     info(obj, msg) {
-        this.ops.push(['info', [obj, msg]]);
-        this.counts.info += 1;
+        this._doLog('info', obj, msg);
     }
 
     warn(obj, msg) {
-        this.ops.push(['warn', [obj, msg]]);
-        this.counts.warn += 1;
+        this._doLog('warn', obj, msg);
     }
 
     error(obj, msg) {
-        this.ops.push(['error', [obj, msg]]);
-        this.counts.error += 1;
+        this._doLog('error', obj, msg);
     }
 
     fatal(obj, msg) {
-        this.ops.push(['fatal', [obj, msg]]);
-        this.counts.fatal += 1;
+        this._doLog('fatal', obj, msg);
+    }
+
+    _doLog(level, obj, msg) {
+        this.ops.push([ level, [ obj, msg]]);
+        this.counts[level] += 1;
     }
 }
 
