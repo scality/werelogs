@@ -5,6 +5,7 @@ const Utils = require('../../lib/Utils.js');
 const generateUid = Utils.generateUid;
 const serializeUids = Utils.serializeUids;
 const unserializeUids = Utils.unserializeUids;
+const copyFields = Utils.copyFields;
 
 describe('Utils: generateUid', () => {
     it('generates a string-typed ID', (done) => {
@@ -39,6 +40,22 @@ describe('Utils: serializeUids', () => {
         const refUidList = [ 'FirstUID', 'SecondUID', 'ThirdUID'];
         const unserializedUIDs = unserializeUids('FirstUID:SecondUID:ThirdUID');
         assert.deepStrictEqual(unserializedUIDs, refUidList, 'Unserialized UID List should match expected value.');
+        done();
+    });
+});
+
+describe('Utils: copyFields', () => {
+    it('copies all the properties from source to target object', (done) => {
+        const target = new Map();
+        target.set('foo', 'bar');
+        const source = { id: 1, name: 'demo', value: { a: 1, b: 2, c: 3 } };
+        const result = new Map();
+        result.set('foo', 'bar');
+        result.set('id', 1);
+        result.set('name', 'demo');
+        result.set('value', { a: 1, b: 2, c: 3 });
+        copyFields(target, source);
+        assert.deepStrictEqual(target, result, 'target should have the same properties as source');
         done();
     });
 });
