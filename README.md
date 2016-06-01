@@ -62,13 +62,9 @@ import Logger from 'werelogs';
  * Object.
  *
  * This config options object contains a log level called 'level', a log
- * dumping threshold called 'dump', and an array of stream called 'streams'.
- * The 'streams' option shall follow bunyan's configuration needs, as werelogs
- * acts almost as a passthrough for this specific option. The only unnecessary
+ * dumping threshold called 'dump'. The only unnecessary
  * field is the 'level' of each individual stream, as werelogs is managing
- * that on its own. For the reference about how to configure bunyan's streams,
- * please refer to its repository's readme:
- * https://github.com/trentm/node-bunyan
+ * that on its own.
  *
  * All request loggers instantiated through this Logger will inherit its
  * configuration.
@@ -78,19 +74,6 @@ const log = new Logger(
     {
         level: 'debug',
         dump: 'error',
-        streams: [
-            // A simple, usual logging stream
-            { stream: process.stdout},
-            // A more complex logging stream provided by a bunyan plugin
-            // that will upload the logs directly to an ELK's logstash service
-            {
-                type: 'raw',
-                stream: require('bunyan-logstash').createStream({
-                    host: '127.0.0.1',
-                    port: 5505,
-                }),
-            }
-        ],
     }
 );
 
