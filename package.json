@@ -29,9 +29,7 @@
     "url": "https://github.com/scality/werelogs/issues"
   },
   "homepage": "https://github.com/scality/werelogs#readme",
-  "dependencies": {
-    "bunyan": "^1.5.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^1.10.1",
     "eslint-config-airbnb": "^1.0.2",

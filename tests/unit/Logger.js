@@ -27,7 +27,7 @@ function filterGenerator(logLevel, callLevel) {
          * Here, patch the Config by setting a specificly designed dummyLogger
          * for testing purposes that will help us collect runtime data.
          */
-        Config.bLogger = dummyLogger;
+        Config.simpleLogger = dummyLogger;
 
         return logger;
     }
@@ -174,7 +174,7 @@ describe('WereLogs Logger is usable:', () => {
     it('Uses the additional fields as expected', (done) => {
         const dummyLogger = new DummyLogger();
         const logger = new Logger('test');
-        Config.bLogger = dummyLogger;
+        Config.simpleLogger = dummyLogger;
         const fields = {
             ip: '127.0.0.1',
             method: 'GET',
@@ -195,7 +195,7 @@ describe('WereLogs Logger is usable:', () => {
         ];
         function createMisusableLogger(dummyLogger) {
             const logger = new Logger('test');
-            Config.bLogger = dummyLogger;
+            Config.simpleLogger = dummyLogger;
             return logger;
         }
 
