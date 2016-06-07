@@ -47,8 +47,8 @@ describe('Utils: serializeUids', () => {
 describe('Utils: objectCopy', () => {
     it('copies all the properties from source to target object', (done) => {
         const target = { foo: 'bar' };
-        const source = { id: 1, name: 'demo', value: { a: 1, b: 2, c: 3 } };
-        const result = { foo: 'bar', id: 1, name: 'demo', value: { a: 1, b: 2, c: 3 } };
+        const source = { id: 1, prj: 'demo', value: { a: 1, b: 2, c: 3 } };
+        const result = { foo: 'bar', id: 1, prj: 'demo', value: { a: 1, b: 2, c: 3 } };
         objectCopy(target, source);
         assert.deepStrictEqual(target, result, 'target should have the same properties as source');
         done();
@@ -56,12 +56,27 @@ describe('Utils: objectCopy', () => {
 
     it('copies all the properties from multiple sources to target object', (done) => {
         const target = { foo: 'bar' };
-        const source1 = { id: 1, name: 'demo1', value: { a: 1, b: 2, c: 3 } };
-        const source2 = { req_id: 2, method: 'test', err: { code: 'error', msg: 'test' } };
-        const result = { foo: 'bar', id: 1, name: 'demo1', value: { a: 1, b: 2, c: 3 },
-            req_id: 2, method: 'test', err: { code: 'error', msg: 'test' }};
+        const source1 = { id: 1, prj: 'demo1', value: { a: 1, b: 2, c: 3 } };
+        const source2 = { uid: 2, method: 'test', err: { code: 'error', msg: 'test' } };
+        const result = { foo: 'bar', id: 1, prj: 'demo1', value: { a: 1, b: 2, c: 3 },
+            uid: 2, method: 'test', err: { code: 'error', msg: 'test' }};
         objectCopy(target, source1, source2);
         assert.deepStrictEqual(target, result, 'target should have the same properties as source');
+        done();
+    });
+
+    it('should not copy reserved fields from source to target object', done => {
+        const target = { name: 'werelogs', level: 'info', message: 'hello',
+            time: 12345, hostname: 'host', pid: 1234, elapsed_ms: 100 };
+        const source = { foo: 'bar', method: 'test', name: 'demo', pid: 41,
+            message: 'hello', hostname: 'machine', time: 7890, elapsed_ms: 200,
+        };
+        const result = { name: 'werelogs', level: 'info', message: 'hello',
+            time: 12345, hostname: 'host', pid: 1234, elapsed_ms: 100,
+            foo: 'bar', method: 'test'};
+        objectCopy(target, source);
+        assert.deepStrictEqual(target, result, 'target\'s reserved fields' +
+            ' should not be overwritten');
         done();
     });
 });
