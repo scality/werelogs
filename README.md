@@ -1,5 +1,8 @@
 # WereLogs
 
+[![CircleCI][badgepub]](https://circleci.com/gh/scality/werelogs)
+[![Scality CI][badgepriv]](http://ci.ironmann.io/gh/scality/werelogs)
+
 This repository provides a NodeJS Library that aims to be an efficient logging
 library, reducing as much as possible the need to compute anything in NodeJS,
 and focusing on a simple I/O scheme. The goal here is to make the most of
@@ -153,3 +156,6 @@ whether they're open or closed.
 
 The contributing rules for this project are defined in the associated
 CONTRIBUTING.md file.
+
+[badgepub]: https://circleci.com/gh/scality/werelogs.svg?style=svg
+[badgepriv]: http://ci.ironmann.io/gh/scality/werelogs.svg?style=svg&circle-token=a946e81ad65b99814403b5e57f017d9ecbe93f0a
