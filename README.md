@@ -9,6 +9,12 @@ and focusing on a simple I/O scheme. The goal here is to make the most of
 NodeJS's strengths, but relying on its I/O capacities, and avoiding any form of
 computation that is known to not be advantageous in Node.
 
+## Contributing
+
+In order to contribute, please follow the
+[Contributing Guidelines](
+https://github.com/scality/Guidelines/blob/master/CONTRIBUTING.md).
+
 ## Installing the Library
 
 In order to install WereLogs, you can use NPM with github's HTTP url, and save
