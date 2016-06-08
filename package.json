@@ -1,6 +1,6 @@
 {
   "name": "werelogs",
-  "version": "1.0.1-beta2",
+  "version": "1.0.0",
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
   "main": "index.js",
   "scripts": {
@@ -23,8 +23,8 @@
     "library",
     "JSON"
   ],
-  "author": "David Pineau",
-  "license": "ISC",
+  "author": "Giorgio Regni",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/scality/werelogs/issues"
   },
