@@ -5,6 +5,7 @@ const Utils = require('../../lib/Utils.js');
 const generateUid = Utils.generateUid;
 const serializeUids = Utils.serializeUids;
 const unserializeUids = Utils.unserializeUids;
+const objectCopy = Utils.objectCopy;
 
 describe('Utils: generateUid', () => {
     it('generates a string-typed ID', (done) => {
@@ -39,6 +40,28 @@ describe('Utils: serializeUids', () => {
         const refUidList = [ 'FirstUID', 'SecondUID', 'ThirdUID'];
         const unserializedUIDs = unserializeUids('FirstUID:SecondUID:ThirdUID');
         assert.deepStrictEqual(unserializedUIDs, refUidList, 'Unserialized UID List should match expected value.');
+        done();
+    });
+});
+
+describe('Utils: objectCopy', () => {
+    it('copies all the properties from source to target object', (done) => {
+        const target = { foo: 'bar' };
+        const source = { id: 1, name: 'demo', value: { a: 1, b: 2, c: 3 } };
+        const result = { foo: 'bar', id: 1, name: 'demo', value: { a: 1, b: 2, c: 3 } };
+        objectCopy(target, source);
+        assert.deepStrictEqual(target, result, 'target should have the same properties as source');
+        done();
+    });
+
+    it('copies all the properties from multiple sources to target object', (done) => {
+        const target = { foo: 'bar' };
+        const source1 = { id: 1, name: 'demo1', value: { a: 1, b: 2, c: 3 } };
+        const source2 = { req_id: 2, method: 'test', err: { code: 'error', msg: 'test' } };
+        const result = { foo: 'bar', id: 1, name: 'demo1', value: { a: 1, b: 2, c: 3 },
+            req_id: 2, method: 'test', err: { code: 'error', msg: 'test' }};
+        objectCopy(target, source1, source2);
+        assert.deepStrictEqual(target, result, 'target should have the same properties as source');
         done();
     });
 });
