@@ -9,7 +9,7 @@ const DummyLogger = Utils.DummyLogger;
 
 const Config = require('../../lib/Config.js');
 const RequestLogger = require('../../lib/RequestLogger.js');
-const Logger = require('../../index.js');
+const Logger = require('../../index.js').Logger;
 
 /*
  * This function is a thunk-function calling the Utils'  filterGenerator with

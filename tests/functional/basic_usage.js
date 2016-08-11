@@ -4,7 +4,7 @@ const assert = require('assert');
 const PassThrough = require('stream').PassThrough;
 const pass = new PassThrough;
 
-const Logger = require('werelogs');
+const Logger = require('werelogs').Logger;
 
 // With PassThrough, SimpleLogger can use it as Writeable stream and all the
 // data being written can be read into a variable
