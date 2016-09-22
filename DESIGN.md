@@ -41,9 +41,10 @@ as it means that whenever the errors happen, depending on your log level, you
 might have already lost quite a bit of priceless information about the error
 encountered, and the code path the request went through. To address this, we
 offer multiple features:
- * [Request ID namespacing](###request-id-namespacing)
- * [Request unit Logs](###request-unit-logs)
- 
+
+* [Request ID namespacing](###request-id-namespacing)
+* [Request unit Logs](###request-unit-logs)
+
 ### Request ID namespacing
 
 Usually, in networked systems, it is considered good practice to generate an
@@ -87,5 +88,3 @@ error (or higher level logging operation) is logged before the log context is
 freed, then the full set of buffered logging messages is freed, not taking
 any logging resources for the log entries not considered 'useless' by a given
 log level configuration.
-
-
