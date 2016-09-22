@@ -17,7 +17,8 @@ pass.on('data', data => {
 });
 
 describe('Config is shared and unique within one program', () => {
-    it('should find all log entries in the RingBuffer with the right module name', (done) => {
+    it('should find all log entries in the RingBuffer with the right ' +
+       'module name', done => {
         const log = new Werelogs('test-index', {
             level: 'debug',
             dump: 'fatal',
@@ -26,10 +27,11 @@ describe('Config is shared and unique within one program', () => {
                 stream: pass,
             }],
         });
-        modules.forEach((mod) => { mod(); });
+        modules.forEach(mod => { mod(); });
         log.warn('Logging as warn');
         const rLog = log.newRequestLogger();
         rLog.info('Logging request as info');
+        /* eslint-disable max-len */
         assert.deepStrictEqual(logBuffer.records.length, 5, 'Expected to see 5 log entries in the ring buffer.');
         assert.deepStrictEqual(logBuffer.records[0].message, 'Logging as info');
         assert.deepStrictEqual(logBuffer.records[0].name, 'test-mod1');
@@ -47,6 +49,7 @@ describe('Config is shared and unique within one program', () => {
         assert.deepStrictEqual(logBuffer.records[4].name, 'test-index');
         assert.deepStrictEqual(logBuffer.records[4].level, 'info');
         assert.notStrictEqual(logBuffer.records[4].req_id, undefined);
+        /* eslint-enable max-len */
         done();
     });
 });

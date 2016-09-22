@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; // eslint-disable-line strict
 
 const assert = require('assert');
 const PassThrough = require('stream').PassThrough;
@@ -19,17 +19,17 @@ function createModuleLogger() {
     return new Logger('FT-test', {
         level: 'info',
         dump: 'error',
-        streams: [ {
+        streams: [{
             stream: pass,
             type: 'raw',
-        } ],
+        }],
     });
 }
 
 
 function checkFields(fields) {
     const record = JSON.parse(logBuffer.records[0].trim());
-    Object.keys(fields).forEach((k) => {
+    Object.keys(fields).forEach(k => {
         if (fields.hasOwnProperty(k)) {
             assert.deepStrictEqual(record[k], fields[k]);
         }
@@ -45,7 +45,7 @@ describe('Werelogs is usable as a dependency', () => {
         afterEach(() => {
             logBuffer.records = [];
         });
-        it('Should be able to create a logger', (done) => {
+        it('Should be able to create a logger', done => {
             assert.doesNotThrow(
                 createModuleLogger,
                 Error,
@@ -54,7 +54,7 @@ describe('Werelogs is usable as a dependency', () => {
             done();
         });
 
-        it('Should be able to log a simple message', (done) => {
+        it('Should be able to log a simple message', done => {
             const logger = createModuleLogger();
             const msg = 'This is a simple message';
             logger.info(msg);
@@ -62,10 +62,11 @@ describe('Werelogs is usable as a dependency', () => {
             done();
         });
 
-        it('Should be able to log a message and additional fields', (done) => {
+        it('Should be able to log a message and additional fields', done => {
             const logger = createModuleLogger();
             const msg = 'This is a message with added fields';
-            const fields = { errorCode: 9, description: 'TestError', options: { dump: false } };
+            const fields = { errorCode: 9, description: 'TestError',
+                             options: { dump: false } };
             logger.info(msg, fields);
             assert.strictEqual(parseLogEntry().message, msg);
             checkFields(fields);
@@ -77,18 +78,16 @@ describe('Werelogs is usable as a dependency', () => {
         afterEach(() => {
             logBuffer.records = [];
         });
-        it('Should be able to create a logger', (done) => {
+        it('Should be able to create a logger', done => {
             assert.doesNotThrow(
-                () => {
-                    return createModuleLogger().newRequestLogger();
-                },
+                () => createModuleLogger().newRequestLogger(),
                 Error,
                 'Werelogs threw an exception trying to create a ModuleLogger.'
             );
             done();
         });
 
-        it('Should be able to log a simple message', (done) => {
+        it('Should be able to log a simple message', done => {
             const logger = createModuleLogger().newRequestLogger();
             const msg = 'This is a simple message';
             logger.info(msg);
@@ -96,10 +95,11 @@ describe('Werelogs is usable as a dependency', () => {
             done();
         });
 
-        it('Should be able to log a message and additional fields', (done) => {
+        it('Should be able to log a message and additional fields', done => {
             const logger = createModuleLogger().newRequestLogger();
             const msg = 'This is a message with added fields';
-            const fields = { errorCode: 9, description: 'TestError', options: { dump: false } };
+            const fields = { errorCode: 9, description: 'TestError',
+                             options: { dump: false } };
             logger.info(msg, fields);
             assert.strictEqual(parseLogEntry().message, msg);
             checkFields(fields);

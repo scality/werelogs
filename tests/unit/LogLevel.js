@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; // eslint-disable-line strict
 
 const assert = require('assert');
 
@@ -19,7 +19,7 @@ function generateValidThrowTest(level) {
 
 describe('LogLevel', () => {
     describe('throwIfInvalid(level)', () => {
-        it('should throw on invalid string', (done) => {
+        it('should throw on invalid string', done => {
             assert.throws(
                 () => {
                     LogLevel.throwIfInvalid('invalid');
@@ -50,7 +50,7 @@ describe('LogLevel', () => {
     });
 
     describe('shouldLog(level, floor)', () => {
-        it('should return true on "trace" parameters', (done) => {
+        it('should return true on "trace" parameters', done => {
             assert.strictEqual(
                 LogLevel.shouldLog('trace', 'trace'),
                 true,
@@ -58,7 +58,7 @@ describe('LogLevel', () => {
             done();
         });
 
-        it('should return true on "debug" parameters', (done) => {
+        it('should return true on "debug" parameters', done => {
             assert.strictEqual(
                 LogLevel.shouldLog('debug', 'debug'),
                 true,
@@ -66,7 +66,7 @@ describe('LogLevel', () => {
             done();
         });
 
-        it('should return true on "info" parameters', (done) => {
+        it('should return true on "info" parameters', done => {
             assert.strictEqual(
                 LogLevel.shouldLog('info', 'info'),
                 true,
@@ -74,7 +74,7 @@ describe('LogLevel', () => {
             done();
         });
 
-        it('should return true on "warn" parameters', (done) => {
+        it('should return true on "warn" parameters', done => {
             assert.strictEqual(
                 LogLevel.shouldLog('warn', 'warn'),
                 true,
@@ -82,7 +82,7 @@ describe('LogLevel', () => {
             done();
         });
 
-        it('should return true on "error" parameters', (done) => {
+        it('should return true on "error" parameters', done => {
             assert.strictEqual(
                 LogLevel.shouldLog('error', 'error'),
                 true,
@@ -90,7 +90,7 @@ describe('LogLevel', () => {
             done();
         });
 
-        it('should return true on "fatal" parameters', (done) => {
+        it('should return true on "fatal" parameters', done => {
             assert.strictEqual(
                 LogLevel.shouldLog('fatal', 'fatal'),
                 true,

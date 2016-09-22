@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; // eslint-disable-line strict
 
 const assert = require('assert');
 
@@ -9,12 +9,12 @@ class DummyLogger {
     constructor() {
         this.ops = [];
         this.counts = {
-            'trace': 0,
-            'debug': 0,
-            'info': 0,
-            'warn': 0,
-            'error': 0,
-            'fatal': 0,
+            trace: 0,
+            debug: 0,
+            info: 0,
+            warn: 0,
+            error: 0,
+            fatal: 0,
         };
     }
 
@@ -43,7 +43,7 @@ class DummyLogger {
     }
 
     _doLog(level, obj, msg) {
-        this.ops.push([ level, [ obj, msg]]);
+        this.ops.push([level, [obj, msg]]);
         this.counts[level] += 1;
     }
 }
@@ -57,7 +57,8 @@ function computeBehavior(filterLevel, logLevel, testLevel) {
 
     return {
         value,
-        'msg': `Expected ${logLevel} to be called ${value} times with filter level ${filterLevel}.`,
+        msg: `Expected ${logLevel} to be called ${value} times with ` +
+             `filter level ${filterLevel}.`,
     };
 }
 
@@ -68,12 +69,14 @@ function genericFilterGenerator(filterLevel, testLevel, createLogger) {
         const logger = createLogger(dummyLogger, filterLevel);
 
         switch (testLevel) {
+        /* eslint-disable no-multi-spaces */
         case 'trace': logger.trace('test trace'); break;
         case 'debug': logger.debug('test debug'); break;
         case 'info':  logger.info('test info');  break;
         case 'warn':  logger.warn('test warn');  break;
         case 'error': logger.error('test error'); break;
         case 'fatal': logger.fatal('test fatal'); break;
+        /* eslint-enable no-multi-spaces */
         default:
             done(new Error('Unexpected testLevel name: ', testLevel));
         }
@@ -104,7 +107,7 @@ function loggingMisuseGenerator(test, createLogger) {
                 logger.info.apply(logger, test.args);
             },
             Error,
-            'Werelogs should not throw with ' + test.desc);
+            `Werelogs should not throw with ${test.desc}`);
         assert(dummyLogger.ops[0][0], 'fatal',
                'Expected the Module Logger to have logged a fatal message.');
         done();

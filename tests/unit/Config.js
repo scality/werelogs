@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 const assert = require('assert');
 
 const Config = require('../../lib/Config.js');
@@ -7,7 +9,7 @@ describe('Config', () => {
         Config.reset();
     });
 
-    it('should work with default configuration', (done) => {
+    it('should work with default configuration', done => {
         assert.doesNotThrow(
             () => {
                 Config.logger.info('test message');
@@ -16,13 +18,13 @@ describe('Config', () => {
         done();
     });
 
-    it('log level should be updateable', (done) => {
+    it('log level should be updateable', done => {
         Config.update({ level: 'debug' });
         assert.strictEqual(Config.level, 'debug', 'Expected Config\'s log level to be updated.');
         done();
     });
 
-    it('dump threshold should be updateable', (done) => {
+    it('dump threshold should be updateable', done => {
         const origDump = Config.dump;
         assert.notStrictEqual(origDump, 'warn', 'Expected original Config.dump to differ from value to update.');
         Config.update({ dump: 'warn' });
@@ -30,7 +32,7 @@ describe('Config', () => {
         done();
     });
 
-    it('end logging level should be updateable', (done) => {
+    it('end logging level should be updateable', done => {
         const origEnd = Config.end;
         assert.notStrictEqual(origEnd, 'trace', 'Expected original Config.end to differ from value to update.');
         Config.update({ end: 'trace' });
@@ -38,7 +40,7 @@ describe('Config', () => {
         done();
     });
 
-    it('should not be modified by an empty config object', (done) => {
+    it('should not be modified by an empty config object', done => {
         const origLevel = Config.level;
         const origDump = Config.dump;
         const origLogger = Config.logger;
