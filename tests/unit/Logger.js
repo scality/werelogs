@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; // eslint-disable-line strict
 
 const assert = require('assert');
 
@@ -36,7 +36,7 @@ function filterGenerator(logLevel, callLevel) {
 }
 
 function checkFields(src, result) {
-    Object.keys(src).forEach((k) => {
+    Object.keys(src).forEach(k => {
         if (src.hasOwnProperty(k)) {
             assert.deepStrictEqual(result[k], src[k]);
         }
@@ -49,69 +49,64 @@ describe('WereLogs Logger is usable:', () => {
         Config.reset();
     });
 
-    it('Can be instanciated with only a name', (done) => {
+    it('Can be instanciated with only a name', done => {
         assert.doesNotThrow(
-            () => {
-                return new Logger('WereLogsTest');
-            },
+            () => new Logger('WereLogsTest'),
             Error,
             'WereLogs Instanciation should not throw any kind of error.');
         done();
     });
 
-    it('Cannot be instanciated with invalid log level', (done) => {
+    it('Cannot be instanciated with invalid log level', done => {
         assert.throws(
-            () => {
-                return new Logger('test', {level: 'invalidlevel'});
-            },
+            () => new Logger('test', { level: 'invalidlevel' }),
             RangeError,
+            // eslint-disable-next-line max-len
             'WereLogs should not be instanciable without the proper logging levels.');
         done();
     });
 
-    it('Cannot be instanciated with invalid dump threshold level', (done) => {
+    it('Cannot be instanciated with invalid dump threshold level', done => {
         assert.throws(
-            () => {
-                return new Logger('test', {level: 'trace', dump: 'invalidlevel'});
-            },
+            () => new Logger('test', { level: 'trace', dump: 'invalidlevel' }),
             RangeError,
+            // eslint-disable-next-line max-len
             'WereLogs should not be instanciable without the proper dumping threshold levels.');
 
         done();
     });
 
-    it('Cannot be instanciated with a non-Array in config.streams', (done) => {
+    it('Cannot be instanciated with a non-Array in config.streams', done => {
         assert.throws(
-            () => {
-                return new Logger('test', {streams: process.stdout});
-            },
+            () => new Logger('test', { streams: process.stdout }),
             Error,
+            // eslint-disable-next-line max-len
             'Werelogs should not be instanciable with a stream option that is not an array.');
         done();
     });
 
-    it('Cannot be instanciated with an empty Array in config.streams', (done) => {
+    it('Cannot be instanciated with an empty Array in config.streams', done => {
         assert.throws(
-            () => {
-                return new Logger('test', {streams: []});
-            },
+            () => new Logger('test', { streams: [] }),
             Error,
+            // eslint-disable-next-line max-len
             'Werelogs should not be instanciable with an empty array for the streams option.');
         done();
     });
 
-    it('Cannot set logging level to invalid level at runtime', (done) => {
+    it('Cannot set logging level to invalid level at runtime', done => {
         const logger = new Logger('test');
         assert.throws(
             () => {
                 logger.setLevel('invalidLevel');
             },
             RangeError,
+            // eslint-disable-next-line max-len
             'WereLogs should not be able to set log level to an invalid level.');
         done();
     });
 
-    it('Can set logging level at runtime', (done) => {
+    it('Can set logging level at runtime', done => {
         const logger = new Logger('test');
         assert.doesNotThrow(
             () => {
@@ -122,18 +117,19 @@ describe('WereLogs Logger is usable:', () => {
         done();
     });
 
-    it('Cannot set dump threshold to invalid level at runtime', (done) => {
+    it('Cannot set dump threshold to invalid level at runtime', done => {
         const logger = new Logger('test');
         assert.throws(
             () => {
                 logger.setDumpThreshold('invalidLevel');
             },
             RangeError,
+            // eslint-disable-next-line max-len
             'WereLogs should not be able to set dump threshold to an invalid level.');
         done();
     });
 
-    it('Can set dump threshold at runtime', (done) => {
+    it('Can set dump threshold at runtime', done => {
         const logger = new Logger('test');
         assert.doesNotThrow(
             () => {
@@ -144,7 +140,7 @@ describe('WereLogs Logger is usable:', () => {
         done();
     });
 
-    it('Can create Per-Request Loggers', (done) => {
+    it('Can create Per-Request Loggers', done => {
         const logger = new Logger('test');
         assert.doesNotThrow(
             () => {
@@ -157,21 +153,24 @@ describe('WereLogs Logger is usable:', () => {
         done();
     });
 
-    it('Can create Per-Request Loggers from a Serialized UID Array', (done) => {
+    it('Can create Per-Request Loggers from a Serialized UID Array', done => {
         const logger = new Logger('test');
         assert.doesNotThrow(
             () => {
                 logger.newRequestLogger();
             },
             Error,
+            // eslint-disable-next-line max-len
             'Werelogs should not throw when creating a request logger from a Serialized UID Array.');
-        const reqLogger = logger.newRequestLoggerFromSerializedUids('OneUID:SecondUID:TestUID:YouWinUID');
+        const reqLogger = logger.newRequestLoggerFromSerializedUids(
+            'OneUID:SecondUID:TestUID:YouWinUID');
         assert(reqLogger instanceof RequestLogger, 'RequestLogger');
-        assert.deepStrictEqual(reqLogger.getUids().slice(0, -1), ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID']);
+        assert.deepStrictEqual(reqLogger.getUids().slice(0, -1),
+                               ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID']);
         done();
     });
 
-    it('Uses the additional fields as expected', (done) => {
+    it('Uses the additional fields as expected', done => {
         const dummyLogger = new DummyLogger();
         const logger = new Logger('test');
         Config.simpleLogger = dummyLogger;
@@ -186,13 +185,15 @@ describe('WereLogs Logger is usable:', () => {
         done();
     });
 
+    /* eslint-disable max-len */
     describe('Does not crash and logs a fatal message when mis-using its logging API', () => {
         const testValues = [
-            { desc: 'a string as second argument', args: [ 'test', 'second-param-string' ] },
-            { desc: 'a function as second argument', args: [ 'test', () => { return; } ] },
-            { desc: 'a Number as second argument', args: [ 'test', 1 ] },
-            { desc: 'more than 2 arguments', args: [ 'test', 2, 3, 4 ] },
+            { desc: 'a string as second argument', args: ['test', 'second-param-string'] },
+            { desc: 'a function as second argument', args: ['test', () => { return; }] }, // eslint-disable-line arrow-body-style
+            { desc: 'a Number as second argument', args: ['test', 1] },
+            { desc: 'more than 2 arguments', args: ['test', 2, 3, 4] },
         ];
+        /* eslint-enable max-len */
         function createMisusableLogger(dummyLogger) {
             const logger = new Logger('test');
             Config.simpleLogger = dummyLogger;
@@ -201,12 +202,13 @@ describe('WereLogs Logger is usable:', () => {
 
         for (let i = 0; i < testValues.length; ++i) {
             const test = testValues[i];
-            it('Does not crash with ' + test.desc,
+            it(`Does not crash with ${test.desc}`,
                loggingMisuseGenerator(test, createMisusableLogger));
         }
     });
 });
 
+/* eslint-disable no-multi-spaces, max-len */
 describe('Werelogs Module-level Logger can log as specified by the log level', () => {
     it('Trace level does not filter trace level out',   filterGenerator('trace', 'trace'));
     it('Trace level does not filter debug level out',   filterGenerator('trace', 'debug'));
@@ -250,3 +252,4 @@ describe('Werelogs Module-level Logger can log as specified by the log level', (
     it('Fatal level filters error level out',           filterGenerator('fatal', 'error'));
     it('Fatal level does not filter fatal level out',   filterGenerator('fatal', 'fatal'));
 });
+/* eslint-enable no-multi-spaces, max-len */

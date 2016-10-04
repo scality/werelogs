@@ -12,7 +12,7 @@ machine:
 test:
     override:
         - npm run lint_md
-        - npm run lint
+        - npm run lint -- --max-warnings 0
         - npm run gendoc
         - npm run coverage
         # running ft_test packs werelogs and installs it + deps into
