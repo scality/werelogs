@@ -41,6 +41,9 @@ function checkFields(src, result) {
             assert.deepStrictEqual(result[k], src[k]);
         }
     });
+    assert.ok(result.hasOwnProperty('time'));
+    // Time field should be current give or take 1s
+    assert.ok((Date.now() - result.time) < 1000);
 }
 
 
