@@ -8,6 +8,7 @@ const genericFilterGenerator = Utils.genericFilterGenerator;
 const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
 
 const RequestLogger = require('../../lib/RequestLogger.js');
+const Logger = require('../../lib/Logger.js');
 
 /*
  * This function is a thunk-function calling the Utils'  filterGenerator with
@@ -180,6 +181,16 @@ describe('RequestLogger', () => {
                 assert.strictEqual(reqLogger.getSerializedUids(), expectedString, 'Expected serialized UID List to match expected data.');
                 done();
             });
+        });
+
+        it('Should creates a new RequestLogger with a RequestLogger and a ModuleLogger already existing', done => {
+            const rl = new Logger('test', {}, 'subModule1').newRequestLogger();
+            const ml = new Logger('test2', {}, 'subModule2');
+            const rl2 = rl.scope(ml);
+            assert.notStrictEqual(rl, rl2, 'Same loggers');
+            assert.strictEqual(rl2.fields.submodule, 'subModule2');
+            assert.strictEqual(rl2.fields.name, 'test2');
+            done();
         });
     });
 
