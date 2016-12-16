@@ -8,8 +8,8 @@ const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
 const DummyLogger = Utils.DummyLogger;
 
 const Config = require('../../lib/Config.js');
+const Logger = require('../../lib/Logger.js');
 const RequestLogger = require('../../lib/RequestLogger.js');
-const Logger = require('../../index.js').Logger;
 
 /*
  * This function is a thunk-function calling the Utils'  filterGenerator with
@@ -22,7 +22,7 @@ function filterGenerator(logLevel, callLevel) {
             {
                 level: filterLevel,
                 dump: 'fatal',
-            });
+            }, 'SubModuleTest');
         /*
          * Here, patch the Config by setting a specificly designed dummyLogger
          * for testing purposes that will help us collect runtime data.
@@ -42,6 +42,7 @@ function checkFields(src, result) {
         }
     });
     assert.ok(result.hasOwnProperty('time'));
+    assert.deepStrictEqual(result.submodule, 'SubModuleTest');
     // Time field should be current give or take 1s
     assert.ok((Date.now() - result.time) < 1000);
 }
@@ -175,7 +176,7 @@ describe('WereLogs Logger is usable:', () => {
 
     it('Uses the additional fields as expected', done => {
         const dummyLogger = new DummyLogger();
-        const logger = new Logger('test');
+        const logger = new Logger('test', {}, 'SubModuleTest');
         Config.simpleLogger = dummyLogger;
         const fields = {
             ip: '127.0.0.1',
