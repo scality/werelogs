@@ -9,6 +9,7 @@ const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
 
 const RequestLogger = require('../../lib/RequestLogger.js');
 
+const logDumpMsg = 'start dumping log entries';
 /*
  * This function is a thunk-function calling the Utils'  filterGenerator with
  * the right createLogger function, while seemlessly passing through its
@@ -43,7 +44,8 @@ function runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts,
         }
         return true;
     });
-
+    console.log('expectedHistory', expectedHistory);
+    console.log('dummyLogger.ops', dummyLogger.ops)
     expectedHistory.every((val, index) => {
         assert.strictEqual(dummyLogger.ops[index][0], val[0],
                            'Expected log entry levels to match.');
@@ -207,7 +209,7 @@ describe('RequestLogger', () => {
         it('Trace level does not filter info level out',    filterGenerator('trace', 'info'));
         it('Trace level does not filter warn level out',    filterGenerator('trace', 'warn'));
         it('Trace level does not filter error level out',   filterGenerator('trace', 'error'));
-        it('Trace level does not filter fatal level out',   filterGenerator('trace', 'fatal'));
+        it.only('Trace level does not filter fatal level out',   filterGenerator('trace', 'fatal'));
 
         it('Debug level filters trace level out',           filterGenerator('debug', 'trace'));
         it('Debug level does not filter debug level out',   filterGenerator('debug', 'debug'));
@@ -418,9 +420,10 @@ describe('RequestLogger', () => {
     describe('Log History dumped when logging floor level reached', () => {
         it('Dumping duplicates log entries', done => {
             const commandHistory = ['info', 'error'];
-            const expectedHistory = [['info', 0], ['info', 0], ['error', 1]];
+            const expectedHistory = [['info', 0], ['error', logDumpMsg],
+            ['info', 0], ['error', 1]];
             const expectedCounts = { trace: 0, debug: 0, info: 2, warn: 0,
-                                     error: 1, fatal: 0 };
+                                     error: 2, fatal: 0 };
 
             runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts,
                                done);
@@ -430,10 +433,11 @@ describe('RequestLogger', () => {
         it('Dumping Keeps logging history order', done => {
             const commandHistory = ['trace', 'info', 'debug', 'error'];
             const expectedHistory = [['trace', 0], ['info', 1], ['debug', 2],
+                                     ['error', logDumpMsg],
                                      ['trace', 0], ['info', 1], ['debug', 2],
                                      ['error', 3]];
             const expectedCounts = { trace: 2, debug: 2, info: 2, warn: 0,
-                                     error: 1, fatal: 0 };
+                                     error: 2, fatal: 0 };
 
             runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts,
                                done);
@@ -445,12 +449,15 @@ describe('RequestLogger', () => {
                const commandHistory = ['trace', 'info', 'debug', 'error',
                                        'warn', 'debug', 'fatal'];
                const expectedHistory = [['trace', 0], ['info', 1], ['debug', 2],
+                                        ['error', logDumpMsg],
                                         ['trace', 0], ['info', 1], ['debug', 2],
-                                        ['error', 3], ['warn', 4], ['debug', 5],
+                                        ['error', 3],
+                                        ['warn', 4], ['debug', 5],
+                                        ['fatal', logDumpMsg],
                                         ['warn', 4], ['debug', 5],
                                         ['fatal', 6]];
                const expectedCounts = { trace: 2, debug: 4, info: 2, warn: 2,
-                                        error: 1, fatal: 1 };
+                                        error: 2, fatal: 2 };
 
                runLoggingDumpTest(commandHistory, expectedHistory,
                                   expectedCounts, done);

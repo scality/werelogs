@@ -49,6 +49,7 @@ class DummyLogger {
 }
 
 function computeBehavior(filterLevel, logLevel, testLevel) {
+    console.log(filterLevel, logLevel, testLevel)
     let value = LogLevel.shouldLog(logLevel, filterLevel) ? 1 : 0;
 
     if (value === 1 && logLevel !== testLevel) {
