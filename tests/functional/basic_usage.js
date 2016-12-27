@@ -15,8 +15,9 @@ pass.on('data', data => {
     logBuffer.records.push(data.toString());
 });
 
-function createModuleLogger() {
-    return new Logger('FT-test', {
+function createModuleLogger(fields) {
+    const defaultFields = fields || 'FT-test';
+    return new Logger(defaultFields, {
         level: 'info',
         dump: 'error',
         streams: [{
