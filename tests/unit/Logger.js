@@ -265,6 +265,10 @@ describe('Werelogs Module-level Logger provide the DefaultFields logic', () => {
     };
 
     it('should not modify the object passed as a parameter', done => {
+        const defaultFields = {
+            name: 'TestDefaultFields1',
+            data: 0,
+        };
         const add1 = {
             attr1: 0,
         };
@@ -273,7 +277,7 @@ describe('Werelogs Module-level Logger provide the DefaultFields logic', () => {
         };
         const dummyLogger = new DummyLogger();
         Config.simpleLogger = dummyLogger;
-        const logger = new Logger('TestDefaultFields1', loggerConfig);
+        const logger = new Logger(defaultFields, loggerConfig);
         logger.addDefaultFields(add1);
         logger.addDefaultFields(add2);
         assert.deepStrictEqual(add1, { attr1: 0 });
@@ -282,12 +286,16 @@ describe('Werelogs Module-level Logger provide the DefaultFields logic', () => {
     });
 
     it('should add one added default field to the log entries', done => {
+        const defaultFields = {
+            name: 'TestDefaultFields2',
+            data: 0,
+        };
         const clientInfo = {
             clientIP: '127.0.0.1',
         };
         const dummyLogger = new DummyLogger();
         Config.simpleLogger = dummyLogger;
-        const logger = new Logger('TestDefaultFields2', loggerConfig);
+        const logger = new Logger(defaultFields, loggerConfig);
         logger.addDefaultFields(clientInfo);
         logger.info('test message');
         assert.strictEqual(dummyLogger.ops[0][1][0].clientIP,
@@ -297,6 +305,10 @@ describe('Werelogs Module-level Logger provide the DefaultFields logic', () => {
 
     it('should add multiple added default fields to the log entries',
         done => {
+            const defaultFields = {
+                name: 'TestDefaultFields3',
+                data: 0,
+            };
             const clientInfo = {
                 clientIP: '127.0.0.1',
                 clientPort: '1337',
@@ -307,7 +319,7 @@ describe('Werelogs Module-level Logger provide the DefaultFields logic', () => {
             };
             const dummyLogger = new DummyLogger();
             Config.simpleLogger = dummyLogger;
-            const logger = new Logger('TestDefaultFields3', loggerConfig);
+            const logger = new Logger(defaultFields, loggerConfig);
             logger.addDefaultFields(clientInfo);
             logger.addDefaultFields(requestInfo);
             logger.info('test message');
