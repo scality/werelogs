@@ -344,6 +344,45 @@ describe('class DefaultFields', () => {
                 assert.deepStrictEqual(ggpNode._dfGetFields(), ggpFields);
                 done();
             });
+
+        it('Destroying intermediate level breaks relationships', done => {
+            const ggpFields = { ggp: 1 };
+            const gpFields = { gp: 1 };
+            const pFields = { p: 1 };
+            const cFields = { c: 1 };
+            ggpNode.addDefaultFields(ggpFields);
+            gpNode.addDefaultFields(gpFields);
+            pNode.addDefaultFields(pFields);
+            childNode.addDefaultFields(cFields);
+            pNode._dfDestroy();
+            assert.strictEqual(gpNode.children.indexOf(pNode), -1);
+            assert.strictEqual(pNode.parent, null);
+            assert.strictEqual(pNode.children.indexOf(childNode), -1);
+            assert.strictEqual(childNode.parent, null);
+            assert.deepStrictEqual(pNode._dfGetFields(), pFields);
+            assert.deepStrictEqual(childNode._dfGetFields(), cFields);
+            done();
+        });
+
+        it('Destroying intermediate level(2) breaks relationships', done => {
+            const ggpFields = { ggp: 1 };
+            const gpFields = { gp: 1 };
+            const pFields = { p: 1 };
+            const cFields = { c: 1 };
+            const rCFields = { p: 1, c: 1 };
+            ggpNode.addDefaultFields(ggpFields);
+            gpNode.addDefaultFields(gpFields);
+            pNode.addDefaultFields(pFields);
+            childNode.addDefaultFields(cFields);
+            gpNode._dfDestroy();
+            assert.strictEqual(ggpNode.children.indexOf(gpNode), -1);
+            assert.strictEqual(gpNode.parent, null);
+            assert.strictEqual(gpNode.children.indexOf(pNode), -1);
+            assert.strictEqual(pNode.parent, null);
+            assert.deepStrictEqual(gpNode._dfGetFields(), gpFields);
+            assert.deepStrictEqual(childNode._dfGetFields(), rCFields);
+            done();
+        });
     });
 
     describe('Topology changes', () => {
