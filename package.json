@@ -1,6 +1,9 @@
 {
   "name": "werelogs",
-  "version": "1.1.0",
+  "engines": {
+     "node": "6.9.5"
+  },
+  "version": "7.0.0",
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
   "main": "index.js",
   "scripts": {
@@ -33,6 +36,7 @@
     "safe-json-stringify": "^1.0.3"
   },
   "devDependencies": {
+    "eslint-plugin-react": "^4.3.0",
     "eslint": "^2.4.0",
     "eslint-config-airbnb": "^6.0.0",
     "eslint-config-scality": "scality/Guidelines",
@@ -40,6 +44,6 @@
     "istanbul-api": "==1.0.0-alpha.9",
     "jsdoc": "^3.4.0",
     "mdlint": "^0.1.0",
-    "mocha": ""
+    "mocha": "^3.2.0"
   }
 }
