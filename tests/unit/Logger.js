@@ -9,7 +9,9 @@ const DummyLogger = Utils.DummyLogger;
 
 const Config = require('../../lib/Config.js');
 const RequestLogger = require('../../lib/RequestLogger.js');
-const Logger = require('../../index.js').Logger;
+const Logger = require('../../lib/Logger.js');
+
+const config = new Config();
 
 /*
  * This function is a thunk-function calling the Utils'  filterGenerator with
@@ -18,18 +20,14 @@ const Logger = require('../../index.js').Logger;
  */
 function filterGenerator(logLevel, callLevel) {
     function createModuleLogger(dummyLogger, filterLevel) {
-        const logger = new Logger('TestModuleLogger',
-            {
-                level: filterLevel,
-                dump: 'fatal',
-            });
         /*
-         * Here, patch the Config by setting a specificly designed dummyLogger
+         * Here, patch the config by setting a specifically designed dummyLogger
          * for testing purposes that will help us collect runtime data.
          */
-        Config.simpleLogger = dummyLogger;
+        const testConfig = new Config({ level: filterLevel, dump: 'fatal' });
+        testConfig.simpleLogger = dummyLogger;
 
-        return logger;
+        return new Logger(testConfig, 'TestModuleLogger');
     }
 
     return genericFilterGenerator(logLevel, callLevel, createModuleLogger);
@@ -47,117 +45,56 @@ function checkFields(src, result) {
 }
 
 
-describe('WereLogs Logger is usable:', () => {
+describe('Logger is usable:', () => {
     beforeEach(() => {
-        Config.reset();
+        config.reset();
     });
 
-    it('Can be instanciated with only a name', done => {
-        assert.doesNotThrow(
+    it('Cannot be instanciated without parameters', done => {
+        assert.throws(
+            () => new Logger(),
+            TypeError,
+            'Logger Instanciation should not succeed without parameter.');
+        done();
+    });
+
+    it('Cannot be instanciated with only a config', done => {
+        assert.throws(
+            () => new Logger(config),
+            TypeError,
+            'Logger Instanciation should not be succeed without a name.');
+        done();
+    });
+
+    it('Cannot be instanciated with a bad config type', done => {
+        assert.throws(
+            () => new Logger({ level: 'info' }, 'WereLogsTest'),
+            TypeError,
+            'Logger Instanciation should not succeed with a bad config type.');
+        done();
+    });
+
+    it('Cannot be instanciated with only a name', done => {
+        assert.throws(
             () => new Logger('WereLogsTest'),
-            Error,
-            'WereLogs Instanciation should not throw any kind of error.');
-        done();
-    });
-
-    it('Cannot be instanciated with invalid log level', done => {
-        assert.throws(
-            () => new Logger('test', { level: 'invalidlevel' }),
-            RangeError,
-            // eslint-disable-next-line max-len
-            'WereLogs should not be instanciable without the proper logging levels.');
-        done();
-    });
-
-    it('Cannot be instanciated with invalid dump threshold level', done => {
-        assert.throws(
-            () => new Logger('test', { level: 'trace', dump: 'invalidlevel' }),
-            RangeError,
-            // eslint-disable-next-line max-len
-            'WereLogs should not be instanciable without the proper dumping threshold levels.');
-
-        done();
-    });
-
-    it('Cannot be instanciated with a non-Array in config.streams', done => {
-        assert.throws(
-            () => new Logger('test', { streams: process.stdout }),
-            Error,
-            // eslint-disable-next-line max-len
-            'Werelogs should not be instanciable with a stream option that is not an array.');
-        done();
-    });
-
-    it('Cannot be instanciated with an empty Array in config.streams', done => {
-        assert.throws(
-            () => new Logger('test', { streams: [] }),
-            Error,
-            // eslint-disable-next-line max-len
-            'Werelogs should not be instanciable with an empty array for the streams option.');
-        done();
-    });
-
-    it('Cannot set logging level to invalid level at runtime', done => {
-        const logger = new Logger('test');
-        assert.throws(
-            () => {
-                logger.setLevel('invalidLevel');
-            },
-            RangeError,
-            // eslint-disable-next-line max-len
-            'WereLogs should not be able to set log level to an invalid level.');
-        done();
-    });
-
-    it('Can set logging level at runtime', done => {
-        const logger = new Logger('test');
-        assert.doesNotThrow(
-            () => {
-                logger.setLevel('error');
-            },
-            RangeError,
-            'WereLogs should be able to set log level at runtime.');
-        done();
-    });
-
-    it('Cannot set dump threshold to invalid level at runtime', done => {
-        const logger = new Logger('test');
-        assert.throws(
-            () => {
-                logger.setDumpThreshold('invalidLevel');
-            },
-            RangeError,
-            // eslint-disable-next-line max-len
-            'WereLogs should not be able to set dump threshold to an invalid level.');
-        done();
-    });
-
-    it('Can set dump threshold at runtime', done => {
-        const logger = new Logger('test');
-        assert.doesNotThrow(
-            () => {
-                logger.setDumpThreshold('fatal');
-            },
-            RangeError,
-            'WereLogs should be able to set dump threshold at runtime.');
+            TypeError,
+            'Logger Instanciation should not succeed with only a name.');
         done();
     });
 
     it('Can create Per-Request Loggers', done => {
-        const logger = new Logger('test');
+        const logger = new Logger(config, 'test');
         assert.doesNotThrow(
             () => {
                 logger.newRequestLogger();
             },
             Error,
             'Werelogs should not throw when creating a request logger.');
-        const reqLogger = logger.newRequestLogger();
-        assert(reqLogger instanceof RequestLogger, 'RequestLogger');
         done();
     });
 
     it('Can create Per-Request Loggers from a Serialized UID Array', done => {
-        const logger = new Logger('test');
+        const logger = new Logger(config, 'test');
         assert.doesNotThrow(
             () => {
                 logger.newRequestLogger();
@@ -175,8 +112,8 @@ describe('WereLogs Logger is usable:', () => {
 
     it('Uses the additional fields as expected', done => {
         const dummyLogger = new DummyLogger();
-        const logger = new Logger('test');
-        Config.simpleLogger = dummyLogger;
+        config.simpleLogger = dummyLogger;
+        const logger = new Logger(config, 'test');
         const fields = {
             ip: '127.0.0.1',
             method: 'GET',
@@ -198,8 +135,8 @@ describe('WereLogs Logger is usable:', () => {
         ];
         /* eslint-enable max-len */
         function createMisusableLogger(dummyLogger) {
-            const logger = new Logger('test');
-            Config.simpleLogger = dummyLogger;
+            config.simpleLogger = dummyLogger;
+            const logger = new Logger(config, 'test');
             return logger;
         }
 
@@ -212,7 +149,7 @@ describe('WereLogs Logger is usable:', () => {
 });
 
 /* eslint-disable no-multi-spaces, max-len */
-describe('Werelogs Module-level Logger can log as specified by the log level', () => {
+describe('Logger can log as specified by the log level', () => {
     it('Trace level does not filter trace level out',   filterGenerator('trace', 'trace'));
     it('Trace level does not filter debug level out',   filterGenerator('trace', 'debug'));
     it('Trace level does not filter info level out',    filterGenerator('trace', 'info'));

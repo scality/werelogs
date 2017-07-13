@@ -4,7 +4,7 @@ const assert = require('assert');
 const PassThrough = require('stream').PassThrough;
 const pass = new PassThrough;
 
-const Logger = require('werelogs').Logger;
+const werelogs = require('werelogs');
 
 // With PassThrough, SimpleLogger can use it as Writeable stream and all the
 // data being written can be read into a variable
@@ -15,8 +15,17 @@ pass.on('data', data => {
     logBuffer.records.push(data.toString());
 });
 
+werelogs.configure({
+    level: 'info',
+    dump: 'error',
+    streams: [{
+        stream: pass,
+        type: 'raw',
+    }],
+});
+
 function createModuleLogger() {
-    return new Logger('FT-test', {
+    return new werelogs.Logger('FT-test', {
         level: 'info',
         dump: 'error',
         streams: [{
