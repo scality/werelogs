@@ -1,6 +1,6 @@
-const Werelogs = require('werelogs').Logger;
+const Werelogs = require('werelogs').Werelogs;
 
-const log = new Werelogs('test-mod2');
+const log = new Werelogs('test-mod2').Logger;
 
 function test() {
     log.debug('Logging as debug');

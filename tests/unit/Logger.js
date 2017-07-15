@@ -9,7 +9,7 @@ const DummyLogger = Utils.DummyLogger;
 
 const Config = require('../../lib/Config.js');
 const RequestLogger = require('../../lib/RequestLogger.js');
-const Logger = require('../../index.js').Logger;
+const Logger = require('../../lib/Logger.js');
 
 /*
  * This function is a thunk-function calling the Utils'  filterGenerator with
@@ -27,7 +27,10 @@ function filterGenerator(logLevel, callLevel) {
          * Here, patch the Config by setting a specificly designed dummyLogger
          * for testing purposes that will help us collect runtime data.
          */
-        Config.simpleLogger = dummyLogger;
+        /*
+         * Not understanding why this line is necessary, see ~line 182
+         */
+        logger.config.simpleLogger = dummyLogger;
 
         return logger;
     }
@@ -49,7 +52,8 @@ function checkFields(src, result) {
 
 describe('WereLogs Logger is usable:', () => {
     beforeEach(() => {
-        Config.reset();
+        this.config = new Config();
+        this.config.reset();
     });
 
     it('Can be instanciated with only a name', done => {
@@ -176,7 +180,7 @@ describe('WereLogs Logger is usable:', () => {
     it('Uses the additional fields as expected', done => {
         const dummyLogger = new DummyLogger();
         const logger = new Logger('test');
-        Config.simpleLogger = dummyLogger;
+        logger.config.simpleLogger = dummyLogger;
         const fields = {
             ip: '127.0.0.1',
             method: 'GET',
@@ -199,7 +203,7 @@ describe('WereLogs Logger is usable:', () => {
         /* eslint-enable max-len */
         function createMisusableLogger(dummyLogger) {
             const logger = new Logger('test');
-            Config.simpleLogger = dummyLogger;
+            logger.config.simpleLogger = dummyLogger;
             return logger;
         }
 
