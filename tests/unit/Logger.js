@@ -113,7 +113,7 @@ describe('WereLogs Logger is usable:', () => {
         const logger = new Logger('test');
         assert.doesNotThrow(
             () => {
-                logger.setLevel('fatal');
+                logger.setLevel('error');
             },
             RangeError,
             'WereLogs should be able to set log level at runtime.');
