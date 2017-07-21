@@ -256,3 +256,85 @@ describe('Werelogs Module-level Logger can log as specified by the log level', (
     it('Fatal level does not filter fatal level out',   filterGenerator('fatal', 'fatal'));
 });
 /* eslint-enable no-multi-spaces, max-len */
+
+describe('Werelogs Module-level Logger provide the DefaultFields logic', () => {
+    const loggerConfig = {
+        level: 'info',
+        dump: 'fatal',
+        end: 'info',
+    };
+
+    it('should not modify the object passed as a parameter', done => {
+        const defaultFields = {
+            name: 'TestDefaultFields1',
+            data: 0,
+        };
+        const add1 = {
+            attr1: 0,
+        };
+        const add2 = {
+            attr2: 'string',
+        };
+        const dummyLogger = new DummyLogger();
+        Config.simpleLogger = dummyLogger;
+        const logger = new Logger(defaultFields, loggerConfig);
+        logger.addDefaultFields(add1);
+        logger.addDefaultFields(add2);
+        assert.deepStrictEqual(add1, { attr1: 0 });
+        assert.deepStrictEqual(add2, { attr2: 'string' });
+        done();
+    });
+
+    it('should add one added default field to the log entries', done => {
+        const defaultFields = {
+            name: 'TestDefaultFields2',
+            data: 0,
+        };
+        const clientInfo = {
+            clientIP: '127.0.0.1',
+        };
+        const dummyLogger = new DummyLogger();
+        Config.simpleLogger = dummyLogger;
+        const logger = new Logger(defaultFields, loggerConfig);
+        logger.addDefaultFields(clientInfo);
+        logger.info('test message');
+        assert.strictEqual(dummyLogger.ops[0][1][0].clientIP,
+                           clientInfo.clientIP);
+        done();
+    });
+
+    it('should add multiple added default fields to the log entries',
+        done => {
+            const defaultFields = {
+                name: 'TestDefaultFields3',
+                data: 0,
+            };
+            const clientInfo = {
+                clientIP: '127.0.0.1',
+                clientPort: '1337',
+            };
+            const requestInfo = {
+                object: '/tata/self.txt',
+                creator: 'Joddy',
+            };
+            const dummyLogger = new DummyLogger();
+            Config.simpleLogger = dummyLogger;
+            const logger = new Logger(defaultFields, loggerConfig);
+            logger.addDefaultFields(clientInfo);
+            logger.addDefaultFields(requestInfo);
+            logger.info('test message');
+            assert.strictEqual(dummyLogger.ops[0][1][0].clientIP,
+                               clientInfo.clientIP);
+            assert.strictEqual(dummyLogger.ops[0][1][0].clientPort,
+                               clientInfo.clientPort);
+            assert.strictEqual(dummyLogger.ops[0][1][0].object,
+                               requestInfo.object);
+            assert.strictEqual(dummyLogger.ops[0][1][0].creator,
+                               requestInfo.creator);
+            assert.strictEqual(dummyLogger.ops[0][1][0].name,
+                               defaultFields.name);
+            assert.strictEqual(dummyLogger.ops[0][1][0].data,
+                               defaultFields.data);
+            done();
+        });
+});

@@ -15,8 +15,9 @@ pass.on('data', data => {
     logBuffer.records.push(data.toString());
 });
 
-function createModuleLogger() {
-    return new Logger('FT-test', {
+function createModuleLogger(fields) {
+    const defaultFields = fields || 'FT-test';
+    return new Logger(defaultFields, {
         level: 'info',
         dump: 'error',
         streams: [{
@@ -103,6 +104,36 @@ describe('Werelogs is usable as a dependency', () => {
             logger.info(msg, fields);
             assert.strictEqual(parseLogEntry().message, msg);
             checkFields(fields);
+            done();
+        });
+
+        it('Should not log a removed field', done => {
+            const logger = createModuleLogger().newRequestLogger();
+            const msg = 'This is a message with no fields(removed)';
+            const fields = { errorCode: 0, description: 'TestNotFailing' };
+            logger.addDefaultFields(fields);
+            logger.removeDefaultFields(['errorCode', 'description']);
+            logger.info(msg);
+            assert.strictEqual(parseLogEntry().message, msg);
+            assert(!parseLogEntry().hasOwnProperty('errorCode'));
+            assert(!parseLogEntry().hasOwnProperty('description'));
+            done();
+        });
+
+        it('Should include the parent Loggers default fields', done => {
+            const mFields = {
+                name: 'TestModule',
+                submodule: 'functional',
+            };
+            const logger = createModuleLogger(mFields);
+            const rLog = logger.newRequestLogger();
+            const msg =
+                "This is a message including the module's default fields";
+            rLog.info(msg);
+            assert.strictEqual(parseLogEntry().message, msg);
+            assert.deepStrictEqual(parseLogEntry().name, mFields.name);
+            assert.deepStrictEqual(parseLogEntry().submodule,
+                                   mFields.submodule);
             done();
         });
     });
