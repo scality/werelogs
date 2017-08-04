@@ -27,14 +27,7 @@ describe('Config is shared and unique within one API', () => {
                 stream: pass,
             }],
         });
-        const log = new Werelogs.Logger('test-index', {
-            level: 'debug',
-            dump: 'fatal',
-            streams: [{
-                type: 'raw',
-                stream: pass,
-            }],
-        });
+        const log = new Werelogs.Logger('test-index');
         modules.forEach(mod => { mod(); });
         log.warn('Logging as warn');
         const rLog = log.newRequestLogger();

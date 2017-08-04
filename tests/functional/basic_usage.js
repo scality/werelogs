@@ -25,16 +25,8 @@ werelogs.configure({
 });
 
 function createModuleLogger() {
-    return new werelogs.Logger('FT-test', {
-        level: 'info',
-        dump: 'error',
-        streams: [{
-            stream: pass,
-            type: 'raw',
-        }],
-    });
+    return new werelogs.Logger('FT-test');
 }
-
 
 function checkFields(fields) {
     const record = JSON.parse(logBuffer.records[0].trim());
