@@ -1,7 +1,7 @@
 const assert = require('assert');
 const PassThrough = require('stream').PassThrough;
 
-const Werelogs = require('werelogs').Logger;
+const Werelogs = require('werelogs');
 const modules = [
     require('./module1.js'),
     require('./module2.js'),
@@ -16,10 +16,10 @@ pass.on('data', data => {
     logBuffer.records.push(JSON.parse(data.toString().trim()));
 });
 
-describe('Config is shared and unique within one program', () => {
+describe('Config is shared and unique within one API', () => {
     it('should find all log entries in the RingBuffer with the right ' +
        'module name', done => {
-        const log = new Werelogs('test-index', {
+        Werelogs.configure({
             level: 'debug',
             dump: 'fatal',
             streams: [{
@@ -27,6 +27,7 @@ describe('Config is shared and unique within one program', () => {
                 stream: pass,
             }],
         });
+        const log = new Werelogs.Logger('test-index');
         modules.forEach(mod => { mod(); });
         log.warn('Logging as warn');
         const rLog = log.newRequestLogger();
