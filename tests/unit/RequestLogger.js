@@ -354,9 +354,8 @@ describe('RequestLogger', () => {
                    assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message');
                    assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms,
                                          undefined);
-                   assert.strictEqual(typeof(dummyLogger.ops[0][1][0]
-                                                        .elapsed_ms),
-                                      'number');
+                   assert.strictEqual(typeof dummyLogger.ops[0][1][0]
+                                                        .elapsed_ms, 'number');
                    done();
                });
 
@@ -370,7 +369,7 @@ describe('RequestLogger', () => {
                                    'Last message failed');
                 assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms,
                                       undefined);
-                assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms),
+                assert.strictEqual(typeof dummyLogger.ops[0][1][0].elapsed_ms,
                                    'number');
                 assert.strictEqual(dummyLogger.ops[0][0], 'error');
             });
@@ -392,7 +391,7 @@ describe('RequestLogger', () => {
                 endLogging[level](reqLogger.end())('Last message');
                 assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message');
                 assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms, undefined);
-                assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms), 'number');
+                assert.strictEqual(typeof dummyLogger.ops[0][1][0].elapsed_ms, 'number');
                 assert.strictEqual(dummyLogger.ops[0][0], level);
                 done();
             });
@@ -407,7 +406,7 @@ describe('RequestLogger', () => {
             // end() logging
             reqLogger.end().error('Test Augmented END', { endValue: 42 });
             assert.strictEqual(dummyLogger.ops[0][1][1], 'Test Augmented END');
-            assert.strictEqual(typeof(dummyLogger.ops[0][1][0].elapsed_ms),
+            assert.strictEqual(typeof dummyLogger.ops[0][1][0].elapsed_ms,
                                'number');
             assert.strictEqual(dummyLogger.ops[0][1][0].endFlag, true);
             assert.strictEqual(dummyLogger.ops[0][1][0].endValue, 42);
@@ -420,7 +419,7 @@ describe('RequestLogger', () => {
             const commandHistory = ['info', 'error'];
             const expectedHistory = [['info', 0], ['info', 0], ['error', 1]];
             const expectedCounts = { trace: 0, debug: 0, info: 2, warn: 0,
-                                     error: 1, fatal: 0 };
+                error: 1, fatal: 0 };
 
             runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts,
                                done);
@@ -433,7 +432,7 @@ describe('RequestLogger', () => {
                                      ['trace', 0], ['info', 1], ['debug', 2],
                                      ['error', 3]];
             const expectedCounts = { trace: 2, debug: 2, info: 2, warn: 0,
-                                     error: 1, fatal: 0 };
+                error: 1, fatal: 0 };
 
             runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts,
                                done);
@@ -443,14 +442,14 @@ describe('RequestLogger', () => {
         it('Dumping multiple times does not re-dump already-dumped entries',
            done => {
                const commandHistory = ['trace', 'info', 'debug', 'error',
-                                       'warn', 'debug', 'fatal'];
+                   'warn', 'debug', 'fatal'];
                const expectedHistory = [['trace', 0], ['info', 1], ['debug', 2],
                                         ['trace', 0], ['info', 1], ['debug', 2],
                                         ['error', 3], ['warn', 4], ['debug', 5],
                                         ['warn', 4], ['debug', 5],
                                         ['fatal', 6]];
                const expectedCounts = { trace: 2, debug: 4, info: 2, warn: 2,
-                                        error: 1, fatal: 1 };
+                   error: 1, fatal: 1 };
 
                runLoggingDumpTest(commandHistory, expectedHistory,
                                   expectedCounts, done);

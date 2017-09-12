@@ -35,11 +35,11 @@ function filterGenerator(logLevel, callLevel) {
 
 function checkFields(src, result) {
     Object.keys(src).forEach(k => {
-        if (src.hasOwnProperty(k)) {
+        if (Object.prototype.hasOwnProperty.call(src, k)) {
             assert.deepStrictEqual(result[k], src[k]);
         }
     });
-    assert.ok(result.hasOwnProperty('time'));
+    assert.ok(Object.prototype.hasOwnProperty.call(result, 'time'));
     // Time field should be current give or take 1s
     assert.ok((Date.now() - result.time) < 1000);
 }

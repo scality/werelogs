@@ -1,7 +1,7 @@
 const assert = require('assert');
 const PassThrough = require('stream').PassThrough;
 
-const Werelogs = require('werelogs');
+const Werelogs = require('werelogs');  // eslint-disable-line
 const modules = [
     require('./module1.js'),
     require('./module2.js'),
