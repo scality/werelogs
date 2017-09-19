@@ -10,8 +10,8 @@ const objectCopy = Utils.objectCopy;
 describe('Utils: generateUid', () => {
     it('generates a string-typed ID', done => {
         const uid = generateUid();
-        assert.strictEqual(typeof(uid), 'string',
-                           `The generated ID is not a String (${typeof(uid)})`);
+        assert.strictEqual(typeof uid, 'string',
+                           `The generated ID is not a String (${typeof uid})`);
         done();
     });
     it('generate roughly unique IDs', done => {
@@ -55,7 +55,7 @@ describe('Utils: objectCopy', () => {
         const target = { foo: 'bar' };
         const source = { id: 1, name: 'demo', value: { a: 1, b: 2, c: 3 } };
         const result = { foo: 'bar', id: 1, name: 'demo',
-                         value: { a: 1, b: 2, c: 3 } };
+            value: { a: 1, b: 2, c: 3 } };
         objectCopy(target, source);
         assert.deepStrictEqual(target, result,
             'target should have the same properties as source');
@@ -66,15 +66,15 @@ describe('Utils: objectCopy', () => {
        done => {
            const target = { foo: 'bar' };
            const source1 = { id: 1, name: 'demo1',
-                             value: { a: 1, b: 2, c: 3 } };
+               value: { a: 1, b: 2, c: 3 } };
            // eslint-disable-next-line camelcase
            const source2 = { req_id: 2, method: 'test',
-                             err: { code: 'error', msg: 'test' } };
+               err: { code: 'error', msg: 'test' } };
            const result = { foo: 'bar', id: 1, name: 'demo1',
-                            value: { a: 1, b: 2, c: 3 },
+               value: { a: 1, b: 2, c: 3 },
                             // eslint-disable-next-line camelcase
-                            req_id: 2, method: 'test',
-                            err: { code: 'error', msg: 'test' } };
+               req_id: 2, method: 'test',
+               err: { code: 'error', msg: 'test' } };
            objectCopy(target, source1, source2);
            assert.deepStrictEqual(target, result,
                'target should have the same properties as source');

@@ -4,7 +4,7 @@ const assert = require('assert');
 const PassThrough = require('stream').PassThrough;
 const pass = new PassThrough;
 
-const werelogs = require('werelogs');
+const werelogs = require('werelogs'); // eslint-disable-line
 
 // With PassThrough, SimpleLogger can use it as Writeable stream and all the
 // data being written can be read into a variable
@@ -31,7 +31,7 @@ function createModuleLogger() {
 function checkFields(fields) {
     const record = JSON.parse(logBuffer.records[0].trim());
     Object.keys(fields).forEach(k => {
-        if (fields.hasOwnProperty(k)) {
+        if (Object.prototype.hasOwnProperty.call(fields, k)) {
             assert.deepStrictEqual(record[k], fields[k]);
         }
     });
@@ -67,7 +67,7 @@ describe('Werelogs is usable as a dependency', () => {
             const logger = createModuleLogger();
             const msg = 'This is a message with added fields';
             const fields = { errorCode: 9, description: 'TestError',
-                             options: { dump: false } };
+                options: { dump: false } };
             logger.info(msg, fields);
             assert.strictEqual(parseLogEntry().message, msg);
             checkFields(fields);
@@ -100,7 +100,7 @@ describe('Werelogs is usable as a dependency', () => {
             const logger = createModuleLogger().newRequestLogger();
             const msg = 'This is a message with added fields';
             const fields = { errorCode: 9, description: 'TestError',
-                             options: { dump: false } };
+                options: { dump: false } };
             logger.info(msg, fields);
             assert.strictEqual(parseLogEntry().message, msg);
             checkFields(fields);
