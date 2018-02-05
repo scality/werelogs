@@ -3,7 +3,7 @@
   "engines": {
      "node": ">=6.9.5"
   },
-  "version": "7.2.0",
+  "version": "7.4.0",
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
   "main": "index.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "eslint-plugin-react": "^4.3.0",
     "eslint": "^2.4.0",
     "eslint-config-airbnb": "^6.0.0",
-    "eslint-config-scality": "scality/Guidelines",
+    "eslint-config-scality": "scality/Guidelines#rel/7.4",
     "istanbul": "^1.0.0-alpha",
     "istanbul-api": "==1.0.0-alpha.9",
     "jsdoc": "^3.4.0",
