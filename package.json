@@ -1,49 +1,49 @@
 {
-  "name": "werelogs",
-  "engines": {
-     "node": ">=6.9.5"
-  },
-  "version": "7.4.0",
-  "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
-  "main": "index.js",
-  "scripts": {
-    "gendoc": "jsdoc $(git ls-files 'lib/*.js') -d doc",
-    "lint": "eslint $(git ls-files '*.js')",
-    "lint_md": "mdlint $(git ls-files '*.md')",
-    "test": "mocha tests/unit/",
-    "ft_test": "rm -rf tests/functional/node_modules && npm pack && cp -R node_modules werelogs-*.tgz tests/functional && cd tests/functional && npm install werelogs-*.tgz && ./node_modules/.bin/mocha . multi-modules/ && cd -",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha tests/unit"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/scality/werelogs.git"
-  },
-  "keywords": [
-    "log",
-    "logs",
-    "logging",
-    "micro-service",
-    "library",
-    "JSON"
-  ],
-  "author": "Giorgio Regni",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/scality/werelogs/issues"
-  },
-  "homepage": "https://github.com/scality/werelogs#readme",
-  "dependencies": {
-    "safe-json-stringify": "^1.0.3"
-  },
-  "devDependencies": {
-    "eslint-plugin-react": "^4.3.0",
-    "eslint": "^2.4.0",
-    "eslint-config-airbnb": "^6.0.0",
-    "eslint-config-scality": "scality/Guidelines#rel/7.4",
-    "istanbul": "^1.0.0-alpha",
-    "istanbul-api": "==1.0.0-alpha.9",
-    "jsdoc": "^3.4.0",
-    "mdlint": "^0.1.0",
-    "mocha": "^3.2.0"
-  }
+    "name": "werelogs",
+    "engines": {
+        "node": ">=6.9.5"
+    },
+    "version": "7.4.0.1",
+    "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
+    "main": "index.js",
+    "scripts": {
+        "gendoc": "jsdoc $(git ls-files 'lib/*.js') -d doc",
+        "lint": "eslint $(git ls-files '*.js')",
+        "lint_md": "mdlint $(git ls-files '*.md')",
+        "test": "mocha tests/unit/",
+        "ft_test": "rm -rf tests/functional/node_modules && npm pack && cp -R node_modules werelogs-*.tgz tests/functional && cd tests/functional && npm install werelogs-*.tgz && ./node_modules/.bin/mocha . multi-modules/ && cd -",
+        "coverage": "istanbul cover ./node_modules/.bin/_mocha tests/unit"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/scality/werelogs.git"
+    },
+    "keywords": [
+        "log",
+        "logs",
+        "logging",
+        "micro-service",
+        "library",
+        "JSON"
+    ],
+    "author": "Giorgio Regni",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/scality/werelogs/issues"
+    },
+    "homepage": "https://github.com/scality/werelogs#readme",
+    "dependencies": {
+        "safe-json-stringify": "^1.0.3"
+    },
+    "devDependencies": {
+        "eslint-plugin-react": "^4.3.0",
+        "eslint": "^2.4.0",
+        "eslint-config-airbnb": "^6.0.0",
+        "eslint-config-scality": "scality/Guidelines#hotfix/7.4.0",
+        "istanbul": "^1.0.0-alpha",
+        "istanbul-api": "==1.0.0-alpha.9",
+        "jsdoc": "^3.4.0",
+        "mdlint": "^0.1.0",
+        "mocha": "^3.2.0"
+    }
 }
