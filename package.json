@@ -39,7 +39,7 @@
     "eslint-plugin-react": "^4.3.0",
     "eslint": "^2.13.1",
     "eslint-config-airbnb": "^6.2.0",
-    "eslint-config-scality": "scality/Guidelines#71a059ad",
+    "eslint-config-scality": "scality/Guidelines#hotfix/7.4.2",
     "istanbul": "^1.0.0-alpha.2",
     "istanbul-api": "==1.0.0-alpha.9",
     "jsdoc": "^3.4.3",
