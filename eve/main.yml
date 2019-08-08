@@ -21,7 +21,7 @@ stages:
           haltOnFailure: 'True'
       - ShellCommand:
           name: install dependencies
-          command: yarn install
+          command: yarn install --frozen-lockfile
       - ShellCommand:
           name: run lint
           command: yarn run --silent lint -- --max-warnings 0
