@@ -33,8 +33,7 @@
   },
   "homepage": "https://github.com/scality/werelogs#readme",
   "dependencies": {
-    "safe-json-stringify": "1.0.3",
-    "yarn": "^1.17.3"
+    "safe-json-stringify": "1.0.3"
   },
   "devDependencies": {
     "eslint-plugin-react": "^4.3.0",
