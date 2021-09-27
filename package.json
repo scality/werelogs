@@ -46,7 +46,6 @@
     "istanbul": "^1.0.0-alpha.2",
     "istanbul-api": "==1.0.0-alpha.9",
     "jsdoc": "^3.4.3",
-    "mdlint": "^0.1.0",
     "mocha": "^3.2.0"
   }
 }
