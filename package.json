@@ -36,10 +36,12 @@
     "safe-json-stringify": "1.0.3"
   },
   "devDependencies": {
-    "eslint": "^2.13.1",
-    "eslint-config-airbnb": "^6.2.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
     "eslint-config-scality": "scality/Guidelines#71a059ad",
-    "eslint-plugin-react": "^4.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.26.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "istanbul": "^1.0.0-alpha.2",
     "istanbul-api": "==1.0.0-alpha.9",
