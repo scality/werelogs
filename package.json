@@ -9,7 +9,7 @@
   "scripts": {
     "gendoc": "jsdoc $(git ls-files 'lib/*.js') -d doc",
     "lint": "eslint $(git ls-files '*.js')",
-    "lint_md": "mdlint $(git ls-files '*.md')",
+    "lint_md": "markdownlint $(git ls-files '*.md')",
     "test": "mocha tests/unit/",
     "ft_test": "rm -rf tests/functional/node_modules && npm pack && cp -R node_modules werelogs-*.tgz tests/functional && cd tests/functional && npm install werelogs-*.tgz && ./node_modules/.bin/mocha . multi-modules/ && cd -",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha tests/unit"
@@ -46,6 +46,7 @@
     "istanbul": "^1.0.0-alpha.2",
     "istanbul-api": "==1.0.0-alpha.9",
     "jsdoc": "^3.4.3",
+    "markdownlint-cli": "^0.28.1",
     "mocha": "^3.2.0"
   }
 }
