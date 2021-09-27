@@ -11,7 +11,7 @@
     "lint": "eslint $(git ls-files '*.js')",
     "lint_md": "markdownlint $(git ls-files '*.md')",
     "test": "mocha tests/unit/",
-    "ft_test": "rm -rf tests/functional/node_modules && npm pack && cp -R node_modules werelogs-*.tgz tests/functional && cd tests/functional && npm install werelogs-*.tgz && ./node_modules/.bin/mocha . multi-modules/ && cd -",
+    "ft_test": "(npm pack && cp werelogs-*.tgz tests/functional && cd tests/functional && npm install werelogs-*.tgz && cp -R ../../node_modules/ node_modules/ && ./node_modules/.bin/mocha . multi-modules/ && rm -rf tests/functional/node_modules tests/functional/werelogs-*.tgz tests/functional/*lock*)",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha tests/unit"
   },
   "repository": {
