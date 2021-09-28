@@ -3,11 +3,7 @@
 
 const assert = require('assert');
 
-const Utils = require('../Utils.js');
-
-const { genericFilterGenerator } = Utils;
-const { loggingMisuseGenerator } = Utils;
-const { DummyLogger } = Utils;
+const { genericFilterGenerator, loggingMisuseGenerator, DummyLogger } = require('../Utils');
 
 const Config = require('../../lib/Config.js');
 const RequestLogger = require('../../lib/RequestLogger.js');
