@@ -1,11 +1,13 @@
-'use strict'; // eslint-disable-line strict
+
+// eslint-disable-line strict
 
 const assert = require('assert');
 
 const Utils = require('../Utils.js');
-const DummyLogger = Utils.DummyLogger;
-const genericFilterGenerator = Utils.genericFilterGenerator;
-const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
+
+const { DummyLogger } = Utils;
+const { genericFilterGenerator } = Utils;
+const { loggingMisuseGenerator } = Utils;
 
 const RequestLogger = require('../../lib/RequestLogger.js');
 
@@ -24,7 +26,7 @@ function filterGenerator(logLevel, callLevel) {
 
 
 function runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts,
-                            done) {
+    done) {
     const dummyLogger = new DummyLogger();
     const reqLogger = new RequestLogger(dummyLogger, 'trace', 'error', 'info');
 
@@ -46,9 +48,9 @@ function runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts,
 
     expectedHistory.every((val, index) => {
         assert.strictEqual(dummyLogger.ops[index][0], val[0],
-                           'Expected log entry levels to match.');
+            'Expected log entry levels to match.');
         assert.strictEqual(dummyLogger.ops[index][1][1], val[1],
-                           'Expected log entry values to match.');
+            'Expected log entry values to match.');
         return true;
     });
     assert.deepEqual(dummyLogger.counts, expectedCounts);
@@ -62,7 +64,8 @@ describe('RequestLogger', () => {
                 assert.throws(
                     () => new RequestLogger(undefined, 'fatal', 'debug', 'info'),
                     Error,
-                    'Dump level "debug" should not be valid with logging level "fatal".');
+                    'Dump level "debug" should not be valid with logging level "fatal".',
+                );
                 done();
             });
 
@@ -70,7 +73,8 @@ describe('RequestLogger', () => {
                 assert.doesNotThrow(
                     () => new RequestLogger(undefined, 'debug', 'fatal', 'info'),
                     Error,
-                    'Dump level "fatal" should be valid with logging level "debug".');
+                    'Dump level "fatal" should be valid with logging level "debug".',
+                );
                 done();
             });
         });
@@ -98,7 +102,8 @@ describe('RequestLogger', () => {
                 assert.throws(
                     () => new RequestLogger(undefined, 'debug', 'fatal', 'info', 'pouet:tata'),
                     Error,
-                    'UID string "pouet:tata" should be rejected by the RequestLogger constructor.');
+                    'UID string "pouet:tata" should be rejected by the RequestLogger constructor.',
+                );
                 done();
             });
 
@@ -116,7 +121,8 @@ describe('RequestLogger', () => {
                 assert.throws(
                     () => new RequestLogger(undefined, 'debug', 'fatal', 'info', ['OneUID', 'SecondUID', 'Test:DashUID']),
                     Error,
-                    'UID string "Test:DashUID" should be rejected by the RequestLogger constructor.');
+                    'UID string "Test:DashUID" should be rejected by the RequestLogger constructor.',
+                );
                 done();
             });
         });
@@ -186,7 +192,7 @@ describe('RequestLogger', () => {
     describe('Does not crash when mis-using its logging API', () => {
         const testValues = [
             { desc: 'a string as second argument', args: ['test', 'second-param-string'] },
-            { desc: 'a function as second argument', args: ['test', function f() { return; }] },
+            { desc: 'a function as second argument', args: ['test', function f() {  }] },
             { desc: 'a Number as second argument', args: ['test', 1] },
             { desc: 'more than 2 arguments', args: ['test', 2, 3, 4] },
         ];
@@ -197,7 +203,7 @@ describe('RequestLogger', () => {
         for (let i = 0; i < testValues.length; ++i) {
             const test = testValues[i];
             it(`Does not crash with ${test.desc}`,
-               loggingMisuseGenerator(test, createMisusableRequestLogger));
+                loggingMisuseGenerator(test, createMisusableRequestLogger));
         }
     });
 
@@ -248,35 +254,35 @@ describe('RequestLogger', () => {
 
     describe('Logging API regression testing', () => {
         it('Should not alter the input fields when not actually logging',
-           done => {
-               const dummyLogger = new DummyLogger();
-               const reqLogger = new RequestLogger(dummyLogger,
-                                                   'info', 'fatal', 'info');
-               const refFields = { hits: 45, count: 32 };
-               const usedFields = Object.assign({}, refFields);
-               reqLogger.debug('test', usedFields);
-               assert.deepStrictEqual(usedFields, refFields);
-               done();
-           });
+            done => {
+                const dummyLogger = new DummyLogger();
+                const reqLogger = new RequestLogger(dummyLogger,
+                    'info', 'fatal', 'info');
+                const refFields = { hits: 45, count: 32 };
+                const usedFields = { ...refFields };
+                reqLogger.debug('test', usedFields);
+                assert.deepStrictEqual(usedFields, refFields);
+                done();
+            });
 
         it('Should not alter the input fields when actually logging',
-           done => {
-               const dummyLogger = new DummyLogger();
-               const reqLogger = new RequestLogger(dummyLogger,
-                                                   'info', 'fatal', 'info');
-               const refFields = { hits: 45, count: 32 };
-               const usedFields = Object.assign({}, refFields);
-               reqLogger.info('test', usedFields);
-               assert.deepStrictEqual(usedFields, refFields);
-               done();
-           });
+            done => {
+                const dummyLogger = new DummyLogger();
+                const reqLogger = new RequestLogger(dummyLogger,
+                    'info', 'fatal', 'info');
+                const refFields = { hits: 45, count: 32 };
+                const usedFields = { ...refFields };
+                reqLogger.info('test', usedFields);
+                assert.deepStrictEqual(usedFields, refFields);
+                done();
+            });
 
         it('Should not alter the input fields when dumping', done => {
             const dummyLogger = new DummyLogger();
             const reqLogger = new RequestLogger(dummyLogger,
-                                                'info', 'fatal', 'info');
+                'info', 'fatal', 'info');
             const refFields = { hits: 45, count: 32 };
-            const usedFields = Object.assign({}, refFields);
+            const usedFields = { ...refFields };
             reqLogger.error('test', usedFields);
             assert.deepStrictEqual(usedFields, refFields);
             done();
@@ -293,7 +299,7 @@ describe('RequestLogger', () => {
             };
             const dummyLogger = new DummyLogger();
             const reqLogger = new RequestLogger(dummyLogger,
-                                                'info', 'fatal', 'info');
+                'info', 'fatal', 'info');
             reqLogger.addDefaultFields(add1);
             reqLogger.addDefaultFields(add2);
             assert.deepStrictEqual(add1, { attr1: 0 });
@@ -307,70 +313,70 @@ describe('RequestLogger', () => {
             };
             const dummyLogger = new DummyLogger();
             const reqLogger = new RequestLogger(dummyLogger,
-                                                'info', 'fatal', 'info');
+                'info', 'fatal', 'info');
             reqLogger.addDefaultFields(clientInfo);
             reqLogger.info('test message');
             assert.strictEqual(clientInfo.clientIP,
-                               dummyLogger.ops[0][1][0].clientIP);
+                dummyLogger.ops[0][1][0].clientIP);
             done();
         });
 
         it('should add multiple added default fields to the log entries',
-           done => {
-               const clientInfo = {
-                   clientIP: '127.0.0.1',
-                   clientPort: '1337',
-               };
-               const requestInfo = {
-                   object: '/tata/self.txt',
-                   creator: 'Joddy',
-               };
-               const dummyLogger = new DummyLogger();
-               const reqLogger = new RequestLogger(dummyLogger,
-                                                   'info', 'fatal', 'info');
-               reqLogger.addDefaultFields(clientInfo);
-               reqLogger.addDefaultFields(requestInfo);
-               reqLogger.info('test message');
-               assert.strictEqual(clientInfo.clientIP,
-                                  dummyLogger.ops[0][1][0].clientIP);
-               assert.strictEqual(clientInfo.clientPort,
-                                  dummyLogger.ops[0][1][0].clientPort);
-               assert.strictEqual(requestInfo.object,
-                                  dummyLogger.ops[0][1][0].object);
-               assert.strictEqual(requestInfo.creator,
-                                  dummyLogger.ops[0][1][0].creator);
-               done();
-           });
+            done => {
+                const clientInfo = {
+                    clientIP: '127.0.0.1',
+                    clientPort: '1337',
+                };
+                const requestInfo = {
+                    object: '/tata/self.txt',
+                    creator: 'Joddy',
+                };
+                const dummyLogger = new DummyLogger();
+                const reqLogger = new RequestLogger(dummyLogger,
+                    'info', 'fatal', 'info');
+                reqLogger.addDefaultFields(clientInfo);
+                reqLogger.addDefaultFields(requestInfo);
+                reqLogger.info('test message');
+                assert.strictEqual(clientInfo.clientIP,
+                    dummyLogger.ops[0][1][0].clientIP);
+                assert.strictEqual(clientInfo.clientPort,
+                    dummyLogger.ops[0][1][0].clientPort);
+                assert.strictEqual(requestInfo.object,
+                    dummyLogger.ops[0][1][0].object);
+                assert.strictEqual(requestInfo.creator,
+                    dummyLogger.ops[0][1][0].creator);
+                done();
+            });
     });
 
     describe('Automatic Elapsed Time computation', () => {
         describe('Deprecated API:', () => {
             it('should include an "elapsed_ms" field in the last log entry',
-               done => {
-                   const dummyLogger = new DummyLogger();
-                   const reqLogger = new RequestLogger(dummyLogger,
-                                                       'info', 'fatal', 'info');
-                   reqLogger.end('Last message');
-                   assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message');
-                   assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms,
-                                         undefined);
-                   assert.strictEqual(typeof dummyLogger.ops[0][1][0]
-                                                        .elapsed_ms, 'number');
-                   done();
-               });
+                done => {
+                    const dummyLogger = new DummyLogger();
+                    const reqLogger = new RequestLogger(dummyLogger,
+                        'info', 'fatal', 'info');
+                    reqLogger.end('Last message');
+                    assert.strictEqual(dummyLogger.ops[0][1][1], 'Last message');
+                    assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms,
+                        undefined);
+                    assert.strictEqual(typeof dummyLogger.ops[0][1][0]
+                        .elapsed_ms, 'number');
+                    done();
+                });
 
             // eslint-disable-next-line max-len
             it('should include an "elapsed_ms" field in the last log entry and be error level', () => {
                 const dummyLogger = new DummyLogger();
                 const reqLogger = new RequestLogger(dummyLogger,
-                                                    'info', 'fatal', 'info');
+                    'info', 'fatal', 'info');
                 reqLogger.errorEnd('Last message failed');
                 assert.strictEqual(dummyLogger.ops[0][1][1],
-                                   'Last message failed');
+                    'Last message failed');
                 assert.notStrictEqual(dummyLogger.ops[0][1][0].elapsed_ms,
-                                      undefined);
+                    undefined);
                 assert.strictEqual(typeof dummyLogger.ops[0][1][0].elapsed_ms,
-                                   'number');
+                    'number');
                 assert.strictEqual(dummyLogger.ops[0][0], 'error');
             });
         });
@@ -407,7 +413,7 @@ describe('RequestLogger', () => {
             reqLogger.end().error('Test Augmented END', { endValue: 42 });
             assert.strictEqual(dummyLogger.ops[0][1][1], 'Test Augmented END');
             assert.strictEqual(typeof dummyLogger.ops[0][1][0].elapsed_ms,
-                               'number');
+                'number');
             assert.strictEqual(dummyLogger.ops[0][1][0].endFlag, true);
             assert.strictEqual(dummyLogger.ops[0][1][0].endValue, 42);
             done();
@@ -418,42 +424,60 @@ describe('RequestLogger', () => {
         it('Dumping duplicates log entries', done => {
             const commandHistory = ['info', 'error'];
             const expectedHistory = [['info', 0], ['info', 0], ['error', 1]];
-            const expectedCounts = { trace: 0, debug: 0, info: 2, warn: 0,
-                error: 1, fatal: 0 };
+            const expectedCounts = {
+                trace: 0,
+                debug: 0,
+                info: 2,
+                warn: 0,
+                error: 1,
+                fatal: 0,
+            };
 
             runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts,
-                               done);
+                done);
             done();
         });
 
         it('Dumping Keeps logging history order', done => {
             const commandHistory = ['trace', 'info', 'debug', 'error'];
             const expectedHistory = [['trace', 0], ['info', 1], ['debug', 2],
-                                     ['trace', 0], ['info', 1], ['debug', 2],
-                                     ['error', 3]];
-            const expectedCounts = { trace: 2, debug: 2, info: 2, warn: 0,
-                error: 1, fatal: 0 };
+                ['trace', 0], ['info', 1], ['debug', 2],
+                ['error', 3]];
+            const expectedCounts = {
+                trace: 2,
+                debug: 2,
+                info: 2,
+                warn: 0,
+                error: 1,
+                fatal: 0,
+            };
 
             runLoggingDumpTest(commandHistory, expectedHistory, expectedCounts,
-                               done);
+                done);
             done();
         });
 
         it('Dumping multiple times does not re-dump already-dumped entries',
-           done => {
-               const commandHistory = ['trace', 'info', 'debug', 'error',
-                   'warn', 'debug', 'fatal'];
-               const expectedHistory = [['trace', 0], ['info', 1], ['debug', 2],
-                                        ['trace', 0], ['info', 1], ['debug', 2],
-                                        ['error', 3], ['warn', 4], ['debug', 5],
-                                        ['warn', 4], ['debug', 5],
-                                        ['fatal', 6]];
-               const expectedCounts = { trace: 2, debug: 4, info: 2, warn: 2,
-                   error: 1, fatal: 1 };
+            done => {
+                const commandHistory = ['trace', 'info', 'debug', 'error',
+                    'warn', 'debug', 'fatal'];
+                const expectedHistory = [['trace', 0], ['info', 1], ['debug', 2],
+                    ['trace', 0], ['info', 1], ['debug', 2],
+                    ['error', 3], ['warn', 4], ['debug', 5],
+                    ['warn', 4], ['debug', 5],
+                    ['fatal', 6]];
+                const expectedCounts = {
+                    trace: 2,
+                    debug: 4,
+                    info: 2,
+                    warn: 2,
+                    error: 1,
+                    fatal: 1,
+                };
 
-               runLoggingDumpTest(commandHistory, expectedHistory,
-                                  expectedCounts, done);
-               done();
-           });
+                runLoggingDumpTest(commandHistory, expectedHistory,
+                    expectedCounts, done);
+                done();
+            });
     });
 });

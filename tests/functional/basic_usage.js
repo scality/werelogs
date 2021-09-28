@@ -1,8 +1,10 @@
-'use strict'; // eslint-disable-line strict
+
+// eslint-disable-line strict
 
 const assert = require('assert');
-const PassThrough = require('stream').PassThrough;
-const pass = new PassThrough;
+const { PassThrough } = require('stream');
+
+const pass = new PassThrough();
 
 const werelogs = require('werelogs'); // eslint-disable-line
 
@@ -50,7 +52,7 @@ describe('Werelogs is usable as a dependency', () => {
             assert.doesNotThrow(
                 createModuleLogger,
                 Error,
-                'Werelogs threw an exception trying to create a ModuleLogger.'
+                'Werelogs threw an exception trying to create a ModuleLogger.',
             );
             done();
         });
@@ -66,8 +68,11 @@ describe('Werelogs is usable as a dependency', () => {
         it('Should be able to log a message and additional fields', done => {
             const logger = createModuleLogger();
             const msg = 'This is a message with added fields';
-            const fields = { errorCode: 9, description: 'TestError',
-                options: { dump: false } };
+            const fields = {
+                errorCode: 9,
+                description: 'TestError',
+                options: { dump: false },
+            };
             logger.info(msg, fields);
             assert.strictEqual(parseLogEntry().message, msg);
             checkFields(fields);
@@ -83,7 +88,7 @@ describe('Werelogs is usable as a dependency', () => {
             assert.doesNotThrow(
                 () => createModuleLogger().newRequestLogger(),
                 Error,
-                'Werelogs threw an exception trying to create a ModuleLogger.'
+                'Werelogs threw an exception trying to create a ModuleLogger.',
             );
             done();
         });
@@ -99,8 +104,11 @@ describe('Werelogs is usable as a dependency', () => {
         it('Should be able to log a message and additional fields', done => {
             const logger = createModuleLogger().newRequestLogger();
             const msg = 'This is a message with added fields';
-            const fields = { errorCode: 9, description: 'TestError',
-                options: { dump: false } };
+            const fields = {
+                errorCode: 9,
+                description: 'TestError',
+                options: { dump: false },
+            };
             logger.info(msg, fields);
             assert.strictEqual(parseLogEntry().message, msg);
             checkFields(fields);

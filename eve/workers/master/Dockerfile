@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM node:16
 
 #
 # Install apt packages needed by the buildchain
@@ -6,9 +6,8 @@ FROM ubuntu:trusty
 ENV LANG C.UTF-8
 COPY buildbot_worker_packages.list vaultclient_packages.list /tmp/
 RUN apt-get update -q && apt-get -qy install curl apt-transport-https \
-    && apt-get install -qy software-properties-common python-software-properties \
-    && curl --silent https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
-    && echo "deb https://deb.nodesource.com/node_10.x trusty main" > /etc/apt/sources.list.d/nodesource.list \
+    && apt-get install -qy software-properties-common \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1E9377A2BA9EF27F \
     && curl -sS http://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && add-apt-repository ppa:ubuntu-toolchain-r/test \
@@ -46,9 +45,7 @@ ENV HOME /home/eve
 # Setup nodejs environmnent
 #
 
-ENV CXX=g++-4.9
-ENV LANG C.UTF-8
-
+ENV CXX=g++-11
 
 WORKDIR /home/eve/workspace
 CMD buildbot-worker create-worker . "$BUILDMASTER:$BUILDMASTER_PORT" "$WORKERNAME" "$WORKERPASS" \
