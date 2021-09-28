@@ -20,7 +20,7 @@ https://github.com/scality/Guidelines/blob/master/CONTRIBUTING.md).
 In order to install WereLogs, you can use NPM with github's HTTP url, and save
 it in your own package.json:
 
-```shellscript
+```sh
 $> npm i --save scality/werelogs
 ```
 
