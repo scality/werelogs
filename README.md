@@ -1,6 +1,5 @@
 # WereLogs
 
-[![CircleCI][badgepub]](https://circleci.com/gh/scality/werelogs)
 [![Scality CI][badgepriv]](http://ci.ironmann.io/gh/scality/werelogs)
 
 This repository provides a NodeJS Library that aims to be an efficient logging
@@ -158,6 +157,3 @@ In order to find out the known issues, it is advised to take a look at the
 [project's github page](http://github.com/scality/werelogs). There, you should
 be able to find the issues, tagged with the releases they are impacting,
 whether they're open or closed.
-
-[badgepub]: https://circleci.com/gh/scality/werelogs.svg?style=svg
-[badgepriv]: http://ci.ironmann.io/gh/scality/werelogs.svg?style=svg&circle-token=a946e81ad65b99814403b5e57f017d9ecbe93f0a
