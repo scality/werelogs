@@ -1,0 +1,36 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'documentation/**'
+      - 'improvement/**'
+      - 'bugfix/**'
+      - 'w/**'
+      - 'q/**'
+      - 'hotfix/**'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkokut
+        uses: actions/checkout@v2
+      - name: Install deps
+        run: sudo apt-get update -q
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install Yarn
+        run: npm install -g yarn
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+      - name: run lint
+        run: echo "linter is disabled temporarily ()" || yarn run --silent lint -- --max-warnings 0      
+      - name: run lint_md
+        run: yarn --silent lint_md
+      - name: run test
+        run: yarn test
+      - name: run coverage
+        run: yarn coverage
