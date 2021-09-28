@@ -2,12 +2,10 @@
 // eslint-disable-line strict
 
 const assert = require('assert');
-const Utils = require('../../lib/Utils.js');
 
-const { generateUid } = Utils;
-const { serializeUids } = Utils;
-const { unserializeUids } = Utils;
-const { objectCopy } = Utils;
+const {
+    generateUid, serializeUids, unserializeUids, objectCopy,
+} = require('../../lib/Utils');
 
 describe('Utils: generateUid', () => {
     it('generates a string-typed ID', done => {
