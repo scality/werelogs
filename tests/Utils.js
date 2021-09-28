@@ -1,11 +1,11 @@
-'use strict'; // eslint-disable-line strict
+
+// eslint-disable-line strict
 
 const assert = require('assert');
 
 const LogLevel = require('../lib/LogLevel.js');
 
 class DummyLogger {
-
     constructor() {
         this.ops = [];
         this.counts = {
@@ -57,8 +57,8 @@ function computeBehavior(filterLevel, logLevel, testLevel) {
 
     return {
         value,
-        msg: `Expected ${logLevel} to be called ${value} times with ` +
-             `filter level ${filterLevel}.`,
+        msg: `Expected ${logLevel} to be called ${value} times with `
+             + `filter level ${filterLevel}.`,
     };
 }
 
@@ -107,9 +107,10 @@ function loggingMisuseGenerator(test, createLogger) {
                 logger.info.apply(logger, test.args);
             },
             Error,
-            `Werelogs should not throw with ${test.desc}`);
+            `Werelogs should not throw with ${test.desc}`,
+        );
         assert(dummyLogger.ops[0][0], 'fatal',
-               'Expected the Module Logger to have logged a fatal message.');
+            'Expected the Module Logger to have logged a fatal message.');
         done();
     };
 }

@@ -16,7 +16,8 @@ describe('Config', () => {
             () => {
                 config.logger.info('test message');
             },
-            Error);
+            Error,
+        );
         done();
     });
 
