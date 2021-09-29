@@ -1,7 +1,7 @@
 {
   "name": "werelogs",
   "engines": {
-    "node": ">=16"
+    "node": ">=10"
   },
   "version": "8.1.0",
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
@@ -11,7 +11,7 @@
     "lint": "eslint $(git ls-files '*.js')",
     "lint_md": "markdownlint $(git ls-files '*.md')",
     "test": "mocha tests/unit/",
-    "ft_test": "(npm pack && cp werelogs-*.tgz tests/functional && cd tests/functional && npm install werelogs-*.tgz && cp -R ../../node_modules/ node_modules/ && ./node_modules/.bin/mocha . multi-modules/ && rm -rf tests/functional/node_modules tests/functional/werelogs-*.tgz tests/functional/*lock*)",
+    "ft_test": "(npm pack && cp werelogs-*.tgz tests/functional && cd tests/functional && cp -R ../../node_modules/ node_modules/ && npm install werelogs-*.tgz && ./node_modules/.bin/mocha . multi-modules/ && rm -rf tests/functional/node_modules tests/functional/werelogs-*.tgz tests/functional/*lock*)",
     "coverage": "nyc ./node_modules/.bin/_mocha tests/unit"
   },
   "repository": {
@@ -44,8 +44,8 @@
     "eslint-plugin-react": "^7.26.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "jsdoc": "^3.4.3",
-    "markdownlint-cli": "^0.28.1",
-    "mocha": "^9.1.2",
+    "markdownlint-cli": "^0.27.1",
+    "mocha": "^8.4.0",
     "nyc": "^15.1.0"
   }
 }
