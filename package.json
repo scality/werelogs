@@ -1,7 +1,7 @@
 {
   "name": "werelogs",
   "engines": {
-    "node": ">=10"
+    "node": ">=16"
   },
   "version": "7.4.1",
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
@@ -9,10 +9,10 @@
   "scripts": {
     "gendoc": "jsdoc $(git ls-files 'lib/*.js') -d doc",
     "lint": "eslint $(git ls-files '*.js')",
-    "lint_md": "mdlint $(git ls-files '*.md')",
+    "lint_md": "markdownlint $(git ls-files '*.md')",
     "test": "mocha tests/unit/",
-    "ft_test": "rm -rf tests/functional/node_modules && npm pack && cp -R node_modules werelogs-*.tgz tests/functional && cd tests/functional && npm install werelogs-*.tgz && ./node_modules/.bin/mocha . multi-modules/ && cd -",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha tests/unit"
+    "ft_test": "(npm pack && cp werelogs-*.tgz tests/functional && cd tests/functional && npm install werelogs-*.tgz && cp -R ../../node_modules/ node_modules/ && ./node_modules/.bin/mocha . multi-modules/ && rm -rf tests/functional/node_modules tests/functional/werelogs-*.tgz tests/functional/*lock*)",
+    "coverage": "nyc ./node_modules/.bin/_mocha tests/unit"
   },
   "repository": {
     "type": "git",
@@ -33,17 +33,19 @@
   },
   "homepage": "https://github.com/scality/werelogs#readme",
   "dependencies": {
-    "safe-json-stringify": "1.0.3"
+    "safe-json-stringify": "^1.2.0"
   },
   "devDependencies": {
-    "eslint-plugin-react": "^4.3.0",
-    "eslint": "^2.13.1",
-    "eslint-config-airbnb": "^6.2.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
     "eslint-config-scality": "scality/Guidelines#71a059ad",
-    "istanbul": "^1.0.0-alpha.2",
-    "istanbul-api": "==1.0.0-alpha.9",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "jsdoc": "^3.4.3",
-    "mdlint": "^0.1.0",
-    "mocha": "^3.2.0"
+    "markdownlint-cli": "^0.28.1",
+    "mocha": "^9.1.2",
+    "nyc": "^15.1.0"
   }
 }

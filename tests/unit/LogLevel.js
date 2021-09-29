@@ -1,4 +1,5 @@
-'use strict'; // eslint-disable-line strict
+
+// eslint-disable-line strict
 
 const assert = require('assert');
 
@@ -12,7 +13,8 @@ function generateValidThrowTest(level) {
             },
             Error,
             'Expected level to be valid and '
-            + 'the function not to throw an Error.');
+            + 'the function not to throw an Error.',
+        );
         done();
     };
 }
@@ -26,27 +28,28 @@ describe('LogLevel', () => {
                 },
                 RangeError,
                 'Expected function to throw an Error instance due to '
-                + 'invalid log level.');
+                + 'invalid log level.',
+            );
             done();
         });
 
         it('should not throw on "trace" level',
-           generateValidThrowTest('trace'));
+            generateValidThrowTest('trace'));
 
         it('should not throw on "debug" level',
-           generateValidThrowTest('debug'));
+            generateValidThrowTest('debug'));
 
         it('should not throw on "info" level',
-           generateValidThrowTest('info'));
+            generateValidThrowTest('info'));
 
         it('should not throw on "warn" level',
-           generateValidThrowTest('warn'));
+            generateValidThrowTest('warn'));
 
         it('should not throw on "error" level',
-           generateValidThrowTest('error'));
+            generateValidThrowTest('error'));
 
         it('should not throw on "fatal" level',
-           generateValidThrowTest('fatal'));
+            generateValidThrowTest('fatal'));
     });
 
     describe('shouldLog(level, floor)', () => {
@@ -54,7 +57,8 @@ describe('LogLevel', () => {
             assert.strictEqual(
                 LogLevel.shouldLog('trace', 'trace'),
                 true,
-                'Expected trace floor to allow logging trace level.');
+                'Expected trace floor to allow logging trace level.',
+            );
             done();
         });
 
@@ -62,7 +66,8 @@ describe('LogLevel', () => {
             assert.strictEqual(
                 LogLevel.shouldLog('debug', 'debug'),
                 true,
-                'Expected debug floor to allow logging debug level.');
+                'Expected debug floor to allow logging debug level.',
+            );
             done();
         });
 
@@ -70,7 +75,8 @@ describe('LogLevel', () => {
             assert.strictEqual(
                 LogLevel.shouldLog('info', 'info'),
                 true,
-                'Expected info floor to allow logging info level.');
+                'Expected info floor to allow logging info level.',
+            );
             done();
         });
 
@@ -78,7 +84,8 @@ describe('LogLevel', () => {
             assert.strictEqual(
                 LogLevel.shouldLog('warn', 'warn'),
                 true,
-                'Expected warn floor to allow logging warn level.');
+                'Expected warn floor to allow logging warn level.',
+            );
             done();
         });
 
@@ -86,7 +93,8 @@ describe('LogLevel', () => {
             assert.strictEqual(
                 LogLevel.shouldLog('error', 'error'),
                 true,
-                'Expected error floor to allow logging error level.');
+                'Expected error floor to allow logging error level.',
+            );
             done();
         });
 
@@ -94,7 +102,8 @@ describe('LogLevel', () => {
             assert.strictEqual(
                 LogLevel.shouldLog('fatal', 'fatal'),
                 true,
-                'Expected fatal floor to allow logging fatal level.');
+                'Expected fatal floor to allow logging fatal level.',
+            );
             done();
         });
     });

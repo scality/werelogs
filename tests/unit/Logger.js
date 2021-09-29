@@ -1,11 +1,9 @@
-'use strict'; // eslint-disable-line strict
+
+// eslint-disable-line strict
 
 const assert = require('assert');
 
-const Utils = require('../Utils.js');
-const genericFilterGenerator = Utils.genericFilterGenerator;
-const loggingMisuseGenerator = Utils.loggingMisuseGenerator;
-const DummyLogger = Utils.DummyLogger;
+const { genericFilterGenerator, loggingMisuseGenerator, DummyLogger } = require('../Utils');
 
 const Config = require('../../lib/Config.js');
 const RequestLogger = require('../../lib/RequestLogger.js');
@@ -54,7 +52,8 @@ describe('Logger is usable:', () => {
         assert.throws(
             () => new Logger(),
             TypeError,
-            'Logger Instanciation should not succeed without parameter.');
+            'Logger Instanciation should not succeed without parameter.',
+        );
         done();
     });
 
@@ -62,7 +61,8 @@ describe('Logger is usable:', () => {
         assert.throws(
             () => new Logger(config),
             TypeError,
-            'Logger Instanciation should not be succeed without a name.');
+            'Logger Instanciation should not be succeed without a name.',
+        );
         done();
     });
 
@@ -70,7 +70,8 @@ describe('Logger is usable:', () => {
         assert.throws(
             () => new Logger({ level: 'info' }, 'WereLogsTest'),
             TypeError,
-            'Logger Instanciation should not succeed with a bad config type.');
+            'Logger Instanciation should not succeed with a bad config type.',
+        );
         done();
     });
 
@@ -78,7 +79,8 @@ describe('Logger is usable:', () => {
         assert.throws(
             () => new Logger('WereLogsTest'),
             TypeError,
-            'Logger Instanciation should not succeed with only a name.');
+            'Logger Instanciation should not succeed with only a name.',
+        );
         done();
     });
 
@@ -89,7 +91,8 @@ describe('Logger is usable:', () => {
                 logger.newRequestLogger();
             },
             Error,
-            'Werelogs should not throw when creating a request logger.');
+            'Werelogs should not throw when creating a request logger.',
+        );
         done();
     });
 
@@ -101,12 +104,14 @@ describe('Logger is usable:', () => {
             },
             Error,
             // eslint-disable-next-line max-len
-            'Werelogs should not throw when creating a request logger from a Serialized UID Array.');
+            'Werelogs should not throw when creating a request logger from a Serialized UID Array.',
+        );
         const reqLogger = logger.newRequestLoggerFromSerializedUids(
-            'OneUID:SecondUID:TestUID:YouWinUID');
+            'OneUID:SecondUID:TestUID:YouWinUID',
+        );
         assert(reqLogger instanceof RequestLogger, 'RequestLogger');
         assert.deepStrictEqual(reqLogger.getUids().slice(0, -1),
-                               ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID']);
+            ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID']);
         done();
     });
 
@@ -129,7 +134,7 @@ describe('Logger is usable:', () => {
     describe('Does not crash and logs a fatal message when mis-using its logging API', () => {
         const testValues = [
             { desc: 'a string as second argument', args: ['test', 'second-param-string'] },
-            { desc: 'a function as second argument', args: ['test', () => { return; }] }, // eslint-disable-line arrow-body-style
+            { desc: 'a function as second argument', args: ['test', () => { }] }, // eslint-disable-line arrow-body-style
             { desc: 'a Number as second argument', args: ['test', 1] },
             { desc: 'more than 2 arguments', args: ['test', 2, 3, 4] },
         ];
@@ -143,7 +148,7 @@ describe('Logger is usable:', () => {
         for (let i = 0; i < testValues.length; ++i) {
             const test = testValues[i];
             it(`Does not crash with ${test.desc}`,
-               loggingMisuseGenerator(test, createMisusableLogger));
+                loggingMisuseGenerator(test, createMisusableLogger));
         }
     });
 });
