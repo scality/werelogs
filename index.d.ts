@@ -20,28 +20,28 @@ interface LogDictionary {
     [field: string]: any;
 }
 
-declare class RequestLogger {
-    constructor(
-        logger: any,
-        logLevel: string,
-        dumpThreshold: string,
-        endLevel: string,
-        uids?: string|Array<string>
-    );
-    getUids(): Array<string>;
-    getSerializedUids(): string;
-    addDefaultFields(fields: LogDictionary): LogDictionary;
-    trace(msg: string, data?: LogDictionary): void;
-    debug(msg: string, data?: LogDictionary): void;
-    info(msg: string, data?: LogDictionary): void;
-    warn(msg: string, data?: LogDictionary): void;
-    error(msg: string, data?: LogDictionary): void;
-    fatal(msg: string, data?: LogDictionary): void;
-    end(msg: string, data?: LogDictionary): void;
-    errorEnd(msg: string, data?:LogDictionary): void;
-}
-
 declare module 'werelogs' {
+    export class RequestLogger {
+        constructor(
+            logger: any,
+            logLevel: string,
+            dumpThreshold: string,
+            endLevel: string,
+            uids?: string|Array<string>
+        );
+        getUids(): Array<string>;
+        getSerializedUids(): string;
+        addDefaultFields(fields: LogDictionary): LogDictionary;
+        trace(msg: string, data?: LogDictionary): void;
+        debug(msg: string, data?: LogDictionary): void;
+        info(msg: string, data?: LogDictionary): void;
+        warn(msg: string, data?: LogDictionary): void;
+        error(msg: string, data?: LogDictionary): void;
+        fatal(msg: string, data?: LogDictionary): void;
+        end(msg: string, data?: LogDictionary): void;
+        errorEnd(msg: string, data?:LogDictionary): void;
+    }
+
     export class Logger {
         name: string;
         constructor(name: string);
