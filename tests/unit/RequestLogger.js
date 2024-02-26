@@ -414,6 +414,21 @@ describe('RequestLogger', () => {
             assert.strictEqual(dummyLogger.ops[0][1][0].endValue, 42);
             done();
         });
+
+        it('should log an error in addition to request logs when end() called more than once',
+        done => {
+            const dummyLogger = new DummyLogger();
+            const reqLogger = new RequestLogger(dummyLogger, 'trace', 'fatal');
+            reqLogger.end().info('after first call to end()');
+            reqLogger.end().debug('after second call to end()');
+            assert.strictEqual(dummyLogger.ops.length, 3);
+            assert.strictEqual(dummyLogger.ops[0][0], 'info');
+            assert.strictEqual(dummyLogger.ops[0][1][1], 'after first call to end()');
+            assert.strictEqual(dummyLogger.ops[1][0], 'error');
+            assert.strictEqual(dummyLogger.ops[2][0], 'debug');
+            assert.strictEqual(dummyLogger.ops[2][1][1], 'after second call to end()');
+            done();
+        });
     });
 
     describe('Log History dumped when logging floor level reached', () => {
