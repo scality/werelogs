@@ -2,24 +2,19 @@ name: Tests
 
 on:
   push:
-    branches:
-      - 'feature/**'
-      - 'documentation/**'
-      - 'improvement/**'
-      - 'bugfix/**'
-      - 'w/**'
-      - 'q/**'
-      - 'hotfix/**'
+    branches-ignore:
+      - development/**
+      - q/*/**
 
 jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkokut
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install deps
         run: sudo apt-get update -q
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
           node-version: '16'
       - name: Install Yarn
