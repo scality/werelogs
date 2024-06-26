@@ -3,7 +3,7 @@
   "engines": {
     "node": ">=10"
   },
-  "version": "7.4.1",
+  "version": "7.10.5",
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
   "main": "index.js",
   "scripts": {
