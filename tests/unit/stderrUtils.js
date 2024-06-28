@@ -80,6 +80,9 @@ describe('stderrUtils', () => {
 
     // Execute in another process to notice the process exit
     // Therefore, looks more like a functional test
+    const timeoutHint = (ms, retries) =>
+        `Test fixture process timed out after ${ms}ms with ${retries} retries.\n` +
+        'Due to nyc coverage first run slowing down process.\nIncrease execOptions.timeout to fix';
 
     describe('catchAndTimestampUncaughtException', () => {
         [
@@ -91,6 +94,8 @@ describe('stderrUtils', () => {
         ].forEach(({
             desc, date, exitCode, promise,
         }) => describe(desc, () => {
+            /** for before all hook that doesn't support this.retries */
+            let retries = 4;
             let err;
             let stdout;
             let stderr;
@@ -98,12 +103,20 @@ describe('stderrUtils', () => {
             let errDate;
             let errOrigin;
 
-            before('run process catchUncaughtException', done => {
+            before('run process catchUncaughtException', function beforeAllHook(done) {
                 execFile(
                     './fixtures/stderrUtils/catchUncaughtException.js',
                     [`${date}`, `${exitCode}`, `${promise}`],
                     execOptions,
                     (subErr, subStdout, subStderr) => {
+                        if (subErr?.killed) {
+                            retries--;
+                            if (retries <= 0) {
+                                assert.fail(timeoutHint(execOptions.timeout, retries));
+                            }
+                            execOptions.timeout *= 2;
+                            return beforeAllHook(done);
+                        }
                         err = subErr;
                         stdout = subStdout;
                         stderr = subStderr;
@@ -163,16 +176,26 @@ describe('stderrUtils', () => {
         ].forEach(({
             desc, date, name, code, detail,
         }) => describe(desc, () => {
+            /** for before all hook that doesn't support this.retries */
+            let retries = 4;
             let err;
             let stdout;
             let stderr;
 
-            before('run process catchWarning', done => {
+            before('run process catchWarning', function beforeAllHook(done) {
                 execFile(
                     './fixtures/stderrUtils/catchWarning.js',
                     [`${date}`, `${name}`, `${code}`, `${detail}`],
                     execOptions,
                     (subErr, subStdout, subStderr) => {
+                        if (subErr?.killed) {
+                            retries--;
+                            if (retries <= 0) {
+                                assert.fail(timeoutHint(execOptions.timeout, retries));
+                            }
+                            execOptions.timeout *= 2;
+                            return beforeAllHook(done);
+                        }
                         err = subErr;
                         stdout = subStdout;
                         stderr = subStderr;
@@ -223,16 +246,26 @@ describe('stderrUtils', () => {
         ].forEach(({
             desc, date, exitCode,
         }) => describe(desc, () => {
+            /** for before all hook that doesn't support this.retries */
+            let retries = 4;
             let err;
             let stdout;
             let stderr;
 
-            before('run process catchStderr', done => {
+            before('run process catchStderr', function beforeAllHook(done) {
                 execFile(
                     './fixtures/stderrUtils/catchStderr.js',
                     [`${date}`, `${exitCode}`],
                     execOptions,
                     (subErr, subStdout, subStderr) => {
+                        if (subErr?.killed) {
+                            retries--;
+                            if (retries <= 0) {
+                                assert.fail(timeoutHint(execOptions.timeout, retries));
+                            }
+                            execOptions.timeout *= 2;
+                            return beforeAllHook(done);
+                        }
                         err = subErr;
                         stdout = subStdout;
                         stderr = subStderr;
