@@ -101,13 +101,16 @@ function loggingMisuseGenerator(test, createLogger) {
         const logger = createLogger(dummyLogger);
         assert.doesNotThrow(
             () => {
-                logger.info.apply(logger, test.args);
+                logger.info(...test.args);
             },
             Error,
             `Werelogs should not throw with ${test.desc}`,
         );
-        assert(dummyLogger.ops[0][0], 'fatal',
-            'Expected the Module Logger to have logged a fatal message.');
+        assert(
+            dummyLogger.ops[0][0],
+            'fatal',
+            'Expected the Module Logger to have logged a fatal message.',
+        );
         done();
     };
 }

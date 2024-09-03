@@ -107,8 +107,10 @@ describe('Logger is usable:', () => {
             'OneUID:SecondUID:TestUID:YouWinUID',
         );
         assert(reqLogger instanceof RequestLogger, 'RequestLogger');
-        assert.deepStrictEqual(reqLogger.getUids().slice(0, -1),
-            ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID']);
+        assert.deepStrictEqual(
+            reqLogger.getUids().slice(0, -1),
+            ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID'],
+        );
         done();
     });
 
@@ -142,10 +144,12 @@ describe('Logger is usable:', () => {
             return logger;
         }
 
-        for (let i = 0; i < testValues.length; ++i) {
+        for (let i = 0; i < testValues.length; i += 1) {
             const test = testValues[i];
-            it(`Does not crash with ${test.desc}`,
-                loggingMisuseGenerator(test, createMisusableLogger));
+            it(
+                `Does not crash with ${test.desc}`,
+                loggingMisuseGenerator(test, createMisusableLogger),
+            );
         }
     });
 });

@@ -30,23 +30,35 @@ describe('LogLevel', () => {
             done();
         });
 
-        it('should not throw on "trace" level',
-            generateValidThrowTest('trace'));
+        it(
+            'should not throw on "trace" level',
+            generateValidThrowTest('trace'),
+        );
 
-        it('should not throw on "debug" level',
-            generateValidThrowTest('debug'));
+        it(
+            'should not throw on "debug" level',
+            generateValidThrowTest('debug'),
+        );
 
-        it('should not throw on "info" level',
-            generateValidThrowTest('info'));
+        it(
+            'should not throw on "info" level',
+            generateValidThrowTest('info'),
+        );
 
-        it('should not throw on "warn" level',
-            generateValidThrowTest('warn'));
+        it(
+            'should not throw on "warn" level',
+            generateValidThrowTest('warn'),
+        );
 
-        it('should not throw on "error" level',
-            generateValidThrowTest('error'));
+        it(
+            'should not throw on "error" level',
+            generateValidThrowTest('error'),
+        );
 
-        it('should not throw on "fatal" level',
-            generateValidThrowTest('fatal'));
+        it(
+            'should not throw on "fatal" level',
+            generateValidThrowTest('fatal'),
+        );
     });
 
     describe('shouldLog(level, floor)', () => {

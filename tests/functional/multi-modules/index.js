@@ -1,11 +1,15 @@
 const assert = require('assert');
 const { PassThrough } = require('stream');
 
-const Werelogs = require('werelogs');  // eslint-disable-line
+const Werelogs = require('werelogs');
+const module1 = require('./module1');
+const module2 = require('./module2');
+const module3 = require('./module3');
+
 const modules = [
-    require('./module1'),
-    require('./module2'),
-    require('./module3'),
+    module1,
+    module2,
+    module3,
 ];
 
 const pass = new PassThrough();

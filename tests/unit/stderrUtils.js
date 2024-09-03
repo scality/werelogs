@@ -80,9 +80,8 @@ describe('stderrUtils', () => {
 
     // Execute in another process to notice the process exit
     // Therefore, looks more like a functional test
-    const timeoutHint = (ms, retries) =>
-        `Test fixture process timed out after ${ms}ms with ${retries} retries.\n` +
-        'Due to nyc coverage first run slowing down process.\nIncrease execOptions.timeout to fix';
+    const timeoutHint = (ms, retries) => `Test fixture process timed out after ${ms}ms with ${retries} retries.\n`
+        + 'Due to nyc coverage first run slowing down process.\nIncrease execOptions.timeout to fix';
 
     describe('catchAndTimestampUncaughtException', () => {
         [
@@ -110,7 +109,7 @@ describe('stderrUtils', () => {
                     execOptions,
                     (subErr, subStdout, subStderr) => {
                         if (subErr?.killed) {
-                            retries--;
+                            retries -= 1;
                             if (retries <= 0) {
                                 assert.fail(timeoutHint(execOptions.timeout, retries));
                             }
@@ -129,35 +128,55 @@ describe('stderrUtils', () => {
             });
 
             if (exitCode === null) {
-                it('should not be an error (or timeout)',
-                    () => assert.ifError(err));
-                it('should have stdout (printed after uncaught exception)',
-                    () => assert.match(stdout,
-                        /^.*EXECUTED AFTER UNCAUGHT EXCEPTION(?:.|\n)*$/));
+                it(
+                    'should not be an error (or timeout)',
+                    () => assert.ifError(err),
+                );
+                it(
+                    'should have stdout (printed after uncaught exception)',
+                    () => assert.match(
+                        stdout,
+                        /^.*EXECUTED AFTER UNCAUGHT EXCEPTION(?:.|\n)*$/,
+                    ),
+                );
             } else {
-                it('should be an error',
-                    () => assert.ok(err));
-                it(`should have exitCode ${exitCode || 1}`,
-                    () => assert.strictEqual(err.code, exitCode || 1));
-                it('should have empty stdout',
-                    () => assert.strictEqual(stdout, ''));
+                it(
+                    'should be an error',
+                    () => assert.ok(err),
+                );
+                it(
+                    `should have exitCode ${exitCode || 1}`,
+                    () => assert.strictEqual(err.code, exitCode || 1),
+                );
+                it(
+                    'should have empty stdout',
+                    () => assert.strictEqual(stdout, ''),
+                );
             }
 
-            it('should have stderr',
-                () => assert.ok(stderr));
-            it('should have date in stderr first line',
+            it(
+                'should have stderr',
+                () => assert.ok(stderr),
+            );
+            it(
+                'should have date in stderr first line',
                 () => (date
                     ? assert.strictEqual(errDate, date)
-                    : assert.match(errDate, defaultDateRegex)));
+                    : assert.match(errDate, defaultDateRegex)),
+            );
 
-            it('should have origin in stderr first line',
+            it(
+                'should have origin in stderr first line',
                 () => (promise === true
                     ? assert.strictEqual(errOrigin, 'unhandledRejection')
-                    : assert.strictEqual(errOrigin, 'uncaughtException')));
+                    : assert.strictEqual(errOrigin, 'uncaughtException')),
+            );
 
             if (!promise) {
-                it('should have stack trace on stderr',
-                    () => assert.match(errStack, errStackRegex));
+                it(
+                    'should have stack trace on stderr',
+                    () => assert.match(errStack, errStackRegex),
+                );
             }
         }));
     });
@@ -189,7 +208,7 @@ describe('stderrUtils', () => {
                     execOptions,
                     (subErr, subStdout, subStderr) => {
                         if (subErr?.killed) {
-                            retries--;
+                            retries -= 1;
                             if (retries <= 0) {
                                 assert.fail(timeoutHint(execOptions.timeout, retries));
                             }
@@ -204,36 +223,54 @@ describe('stderrUtils', () => {
                 );
             });
 
-            it('should not be an error (or timeout)',
-                () => assert.ifError(err));
-            it('should have empty stdout',
-                () => assert.strictEqual(stdout, ''));
-            it('should have stderr',
-                () => assert.ok(stderr));
-            it('should have message on stderr first line, then stack trace',
-                () => assert.match(stderr,
-                    /^.*TestWarningMessage\n(?:\s+at\s.*\n)+/));
+            it(
+                'should not be an error (or timeout)',
+                () => assert.ifError(err),
+            );
+            it(
+                'should have empty stdout',
+                () => assert.strictEqual(stdout, ''),
+            );
+            it(
+                'should have stderr',
+                () => assert.ok(stderr),
+            );
+            it(
+                'should have message on stderr first line, then stack trace',
+                () => assert.match(
+                    stderr,
+                    /^.*TestWarningMessage\n(?:\s+at\s.*\n)+/,
+                ),
+            );
 
             if (code) {
-                it('should have code on stderr first line',
-                    () => assert.match(stderr, new RegExp(`^.*[${code}]`)));
+                it(
+                    'should have code on stderr first line',
+                    () => assert.match(stderr, new RegExp(`^.*[${code}]`)),
+                );
             }
 
             if (name) {
-                it('should have name on stderr first line',
-                    () => assert.match(stderr, new RegExp(`^.*${name}:`)));
+                it(
+                    'should have name on stderr first line',
+                    () => assert.match(stderr, new RegExp(`^.*${name}:`)),
+                );
             }
 
             if (detail) {
-                it('should have detail on stderr',
-                    () => assert.match(stderr, new RegExp(`.*${detail}.*`)));
+                it(
+                    'should have detail on stderr',
+                    () => assert.match(stderr, new RegExp(`.*${detail}.*`)),
+                );
             }
 
-            it(`should have ${date ? 'custom' : 'default'} date on stderr`,
+            it(
+                `should have ${date ? 'custom' : 'default'} date on stderr`,
                 () => assert.match(stderr, new RegExp(
                     `\nAbove Warning Date: ${
                         date || defaultDateRegex.source}\n`,
-                )));
+                )),
+            );
         }));
     });
 
@@ -259,7 +296,7 @@ describe('stderrUtils', () => {
                     execOptions,
                     (subErr, subStdout, subStderr) => {
                         if (subErr?.killed) {
-                            retries--;
+                            retries -= 1;
                             if (retries <= 0) {
                                 assert.fail(timeoutHint(execOptions.timeout, retries));
                             }
@@ -274,24 +311,36 @@ describe('stderrUtils', () => {
                 );
             });
 
-            it('should be an error',
-                () => assert.ok(err));
-            it(`should have exitCode ${exitCode || 1}`,
-                () => assert.strictEqual(err.code, exitCode || 1));
-            it('should have empty stdout',
-                () => assert.strictEqual(stdout, ''));
+            it(
+                'should be an error',
+                () => assert.ok(err),
+            );
+            it(
+                `should have exitCode ${exitCode || 1}`,
+                () => assert.strictEqual(err.code, exitCode || 1),
+            );
+            it(
+                'should have empty stdout',
+                () => assert.strictEqual(stdout, ''),
+            );
 
-            it('should have stderr',
-                () => assert.ok(stderr));
+            it(
+                'should have stderr',
+                () => assert.ok(stderr),
+            );
 
             // 2024-06-26T15:04:55.364Z: uncaughtException:
             // Error: TestingError
             //     at Object.<anonymous> (catchStderr.js:16:7)
             //     at node:internal/main/run_main_module:22:47
-            it('should have error date, origin and stacktrace in stderr',
-                () => assert.match(stderr,
+            it(
+                'should have error date, origin and stacktrace in stderr',
+                () => assert.match(
+                    stderr,
                     new RegExp(`${date || defaultDateRegex.source
-                    }: uncaughtException:\n${errStackRegex.source}`)));
+                    }: uncaughtException:\n${errStackRegex.source}`),
+                ),
+            );
 
             // (node:171245) Warning: TestWarningMessage
             //     at Object.<anonymous> (catchStderr.js:14:9)
@@ -301,8 +350,10 @@ describe('stderrUtils', () => {
                 const trace = 'Warning: TestWarningMessage\n(?:\\s+at\\s.*\n)+';
                 const detail = `(?:.|\n)*?(?<=\n)Above Warning Date: ${
                     date || defaultDateRegex.source}\n`;
-                assert.match(stderr,
-                    new RegExp(`${trace}${detail}`));
+                assert.match(
+                    stderr,
+                    new RegExp(`${trace}${detail}`),
+                );
             });
         }));
     });
