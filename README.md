@@ -1,7 +1,5 @@
 # WereLogs
 
-[![Scality CI][badgepriv]](http://ci.ironmann.io/gh/scality/werelogs)
-
 This repository provides a NodeJS Library that aims to be an efficient logging
 library, reducing as much as possible the need to compute anything in NodeJS,
 and focusing on a simple I/O scheme. The goal here is to make the most of

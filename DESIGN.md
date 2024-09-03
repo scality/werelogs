@@ -42,8 +42,8 @@ might have already lost quite a bit of priceless information about the error
 encountered, and the code path the request went through. To address this, we
 offer multiple features:
 
-* [Request ID namespacing](###request-id-namespacing)
-* [Request unit Logs](###request-unit-logs)
+* [Request ID namespacing](###Request ID namespacing)
+* [Request unit Logs](###Request unit Logs)
 
 ### Request ID namespacing
 
