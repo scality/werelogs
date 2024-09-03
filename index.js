@@ -1,4 +1,4 @@
-const API = require('./lib/api.js');
+const API = require('./lib/api');
 const stderrUtils = require('./lib/stderrUtils');
 
 /*

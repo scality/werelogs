@@ -74,8 +74,8 @@ describe('Utils: objectCopy', () => {
                 name: 'demo1',
                 value: { a: 1, b: 2, c: 3 },
             };
-            // eslint-disable-next-line camelcase
             const source2 = {
+                // eslint-disable-next-line camelcase
                 req_id: 2,
                 method: 'test',
                 err: { code: 'error', msg: 'test' },

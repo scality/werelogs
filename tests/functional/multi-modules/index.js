@@ -3,9 +3,9 @@ const { PassThrough } = require('stream');
 
 const Werelogs = require('werelogs');  // eslint-disable-line
 const modules = [
-    require('./module1.js'),
-    require('./module2.js'),
-    require('./module3.js'),
+    require('./module1'),
+    require('./module2'),
+    require('./module3'),
 ];
 
 const pass = new PassThrough();

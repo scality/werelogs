@@ -1,8 +1,6 @@
-/* eslint-disable max-len */
-
 const assert = require('assert');
 
-const Config = require('../../lib/Config.js');
+const Config = require('../../lib/Config');
 
 describe('Config', () => {
     const config = new Config();

@@ -1,9 +1,6 @@
-
-// eslint-disable-line strict
-
 const assert = require('assert');
 
-const LogLevel = require('../lib/LogLevel.js');
+const LogLevel = require('../lib/LogLevel');
 
 class DummyLogger {
     constructor() {

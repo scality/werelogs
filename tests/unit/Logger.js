@@ -1,13 +1,10 @@
-
-// eslint-disable-line strict
-
 const assert = require('assert');
 
 const { genericFilterGenerator, loggingMisuseGenerator, DummyLogger } = require('../Utils');
 
-const Config = require('../../lib/Config.js');
-const RequestLogger = require('../../lib/RequestLogger.js');
-const Logger = require('../../lib/Logger.js');
+const Config = require('../../lib/Config');
+const RequestLogger = require('../../lib/RequestLogger');
+const Logger = require('../../lib/Logger');
 
 const config = new Config();
 

@@ -1,11 +1,8 @@
-
-// eslint-disable-line strict
-
 const assert = require('assert');
 
-const { DummyLogger, genericFilterGenerator, loggingMisuseGenerator } = require('../Utils.js');
+const { DummyLogger, genericFilterGenerator, loggingMisuseGenerator } = require('../Utils');
 
-const RequestLogger = require('../../lib/RequestLogger.js');
+const RequestLogger = require('../../lib/RequestLogger');
 
 /*
  * This function is a thunk-function calling the Utils'  filterGenerator with

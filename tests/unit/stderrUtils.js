@@ -123,7 +123,7 @@ describe('stderrUtils', () => {
                         let firstLine;
                         [firstLine, errStack] = stderr.split(':\n');
                         [errDate, errOrigin] = firstLine.split(': ');
-                        done();
+                        return done();
                     },
                 );
             });
@@ -199,7 +199,7 @@ describe('stderrUtils', () => {
                         err = subErr;
                         stdout = subStdout;
                         stderr = subStderr;
-                        done();
+                        return done();
                     },
                 );
             });
@@ -269,7 +269,7 @@ describe('stderrUtils', () => {
                         err = subErr;
                         stdout = subStdout;
                         stderr = subStderr;
-                        done();
+                        return done();
                     },
                 );
             });
