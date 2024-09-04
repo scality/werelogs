@@ -1,7 +1,7 @@
 {
   "name": "werelogs",
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "version": "8.1.5",
   "description": "An efficient raw JSON logging library aimed at micro-services architectures.",
