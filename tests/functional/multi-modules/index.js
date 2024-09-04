@@ -37,7 +37,7 @@ describe('Config is shared and unique within one API', () => {
         log.warn('Logging as warn');
         const rLog = log.newRequestLogger();
         rLog.info('Logging request as info');
-        /* eslint-disable max-len */
+         
         assert.deepStrictEqual(logBuffer.records.length, 5, 'Expected to see 5 log entries in the ring buffer.');
         assert.deepStrictEqual(logBuffer.records[0].message, 'Logging as info');
         assert.deepStrictEqual(logBuffer.records[0].name, 'test-mod1');
@@ -55,7 +55,7 @@ describe('Config is shared and unique within one API', () => {
         assert.deepStrictEqual(logBuffer.records[4].name, 'test-index');
         assert.deepStrictEqual(logBuffer.records[4].level, 'info');
         assert.notStrictEqual(logBuffer.records[4].req_id, undefined);
-        /* eslint-enable max-len */
+         
         done();
     });
 });

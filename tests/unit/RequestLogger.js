@@ -29,14 +29,12 @@ function runLoggingDumpTest(
 
     commandHistory.every((val, index) => {
         switch (val) {
-        /* eslint-disable no-multi-spaces */
         case 'trace': reqLogger.trace(index); break;
         case 'debug': reqLogger.debug(index); break;
-        case 'info': reqLogger.info(index);   break;
-        case 'warn': reqLogger.warn(index);   break;
+        case 'info': reqLogger.info(index); break;
+        case 'warn': reqLogger.warn(index); break;
         case 'error': reqLogger.error(index); break;
         case 'fatal': reqLogger.fatal(index); break;
-        /* eslint-enable no-multi-spaces */
         default:
             done(new Error('Unexpected logging level name: ', val));
         }
@@ -59,7 +57,6 @@ function runLoggingDumpTest(
     assert.deepEqual(dummyLogger.counts, expectedCounts);
 }
 
-/* eslint-disable no-multi-spaces, max-len */
 describe('RequestLogger', () => {
     describe('Object Instanciation', () => {
         describe('Logging Levels Initialization', () => {
@@ -97,7 +94,8 @@ describe('RequestLogger', () => {
                 const reqLogger = new RequestLogger(dummyLogger, 'debug', 'fatal', 'info', uids);
                 assert.strictEqual(Array.isArray(reqLogger.uids), true, 'Expected uid list to be an Array.');
                 assert.strictEqual(reqLogger.uids.length, 1, 'Expected uid list to contain one element.');
-                assert.strictEqual(reqLogger.uids[0], uids, 'Expected uid list to only contain the value given as argument.');
+                assert.strictEqual(reqLogger.uids[0], uids,
+                    'Expected uid list to only contain the value given as argument.');
                 done();
             });
 
@@ -116,13 +114,15 @@ describe('RequestLogger', () => {
                 const reqLogger = new RequestLogger(dummyLogger, 'debug', 'fatal', 'info', uids);
                 assert.strictEqual(Array.isArray(reqLogger.uids), true, 'Expected uid list to be an Array.');
                 assert.strictEqual(reqLogger.uids.length, 4, 'Expected uid list to contain four elements.');
-                assert.strictEqual(uids.indexOf(reqLogger.uids[3]), -1, 'Expected the last uid of the list to be the new one.');
+                assert.strictEqual(uids.indexOf(reqLogger.uids[3]), -1,
+                    'Expected the last uid of the list to be the new one.');
                 done();
             });
 
             it('throws when UID string Array provided contains an UID that contains a colon', done => {
                 assert.throws(
-                    () => new RequestLogger(undefined, 'debug', 'fatal', 'info', ['OneUID', 'SecondUID', 'Test:DashUID']),
+                    () => new RequestLogger(undefined, 'debug', 'fatal', 'info',
+                        ['OneUID', 'SecondUID', 'Test:DashUID']),
                     Error,
                     'UID string "Test:DashUID" should be rejected by the RequestLogger constructor.',
                 );
@@ -164,8 +164,10 @@ describe('RequestLogger', () => {
                     const myParentUidList = ['ThisIsMyOriginUid', 'ThisIsMySecondGenUid', 'ThisIsMyThirdGenUid'];
                     const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', 'info', myParentUidList);
                     const uidlist = reqLogger.getUids();
-                    assert.strictEqual(uidlist.length, myParentUidList.length + 1, 'Expected n+1 item in UID Array compared to set UID List array');
-                    assert.deepStrictEqual(uidlist.slice(0, -1), myParentUidList, 'Expected UID list[:-1] to match what was used to set it.');
+                    assert.strictEqual(uidlist.length, myParentUidList.length + 1,
+                        'Expected n+1 item in UID Array compared to set UID List array');
+                    assert.deepStrictEqual(uidlist.slice(0, -1), myParentUidList,
+                        'Expected UID list[:-1] to match what was used to set it.');
                     done();
                 });
             });
@@ -175,7 +177,8 @@ describe('RequestLogger', () => {
                 const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', 'info');
                 const uidlist = reqLogger.getUids();
                 uidlist.push('Test');
-                assert.notStrictEqual(uidlist.length, reqLogger.getUids().length, 'Expected different number of items in internals and local variable.');
+                assert.notStrictEqual(uidlist.length, reqLogger.getUids().length,
+                    'Expected different number of items in internals and local variable.');
                 done();
             });
         });
@@ -186,7 +189,8 @@ describe('RequestLogger', () => {
                 const uidList = ['FirstUID', 'SecondUID', 'ThirdUID', 'TestUID'];
                 const reqLogger = new RequestLogger(dummyLogger, 'info', 'error', 'info', uidList);
                 const expectedString = `FirstUID:SecondUID:ThirdUID:TestUID:${reqLogger.getUids()[4]}`;
-                assert.strictEqual(reqLogger.getSerializedUids(), expectedString, 'Expected serialized UID List to match expected data.');
+                assert.strictEqual(reqLogger.getSerializedUids(), expectedString,
+                    'Expected serialized UID List to match expected data.');
                 done();
             });
         });
@@ -255,7 +259,7 @@ describe('RequestLogger', () => {
         it('Fatal level filters error level out',           filterGenerator('fatal', 'error'));
         it('Fatal level does not filter fatal level out',   filterGenerator('fatal', 'fatal'));
     });
-    /* eslint-enable no-multi-spaces, max-len */
+     
 
     describe('Logging API regression testing', () => {
         it(
@@ -418,7 +422,6 @@ describe('RequestLogger', () => {
                 },
             );
 
-            // eslint-disable-next-line max-len
             it('should include an "elapsed_ms" field in the last log entry and be error level', () => {
                 const dummyLogger = new DummyLogger();
                 const reqLogger = new RequestLogger(
@@ -452,7 +455,6 @@ describe('RequestLogger', () => {
             error: endLogger => endLogger.error.bind(endLogger),
             fatal: endLogger => endLogger.fatal.bind(endLogger),
         };
-        /* eslint-disable max-len */
         Object.keys(endLogging).forEach(level => {
             it(`should include an "elapsed_ms" field in the last log entry with level ${level}`, done => {
                 const dummyLogger = new DummyLogger();
@@ -465,7 +467,7 @@ describe('RequestLogger', () => {
                 done();
             });
         });
-        /* eslint-enable max-len */
+         
 
         it('should be augmentable through addDefaultFields', done => {
             const dummyLogger = new DummyLogger();

@@ -100,7 +100,7 @@ describe('Logger is usable:', () => {
                 logger.newRequestLogger();
             },
             Error,
-            // eslint-disable-next-line max-len
+             
             'Werelogs should not throw when creating a request logger from a Serialized UID Array.',
         );
         const reqLogger = logger.newRequestLoggerFromSerializedUids(
@@ -129,15 +129,15 @@ describe('Logger is usable:', () => {
         done();
     });
 
-    /* eslint-disable max-len */
+     
     describe('Does not crash and logs a fatal message when mis-using its logging API', () => {
         const testValues = [
             { desc: 'a string as second argument', args: ['test', 'second-param-string'] },
-            { desc: 'a function as second argument', args: ['test', () => { }] }, // eslint-disable-line arrow-body-style
+            { desc: 'a function as second argument', args: ['test', () => { }] },  
             { desc: 'a Number as second argument', args: ['test', 1] },
             { desc: 'more than 2 arguments', args: ['test', 2, 3, 4] },
         ];
-        /* eslint-enable max-len */
+         
         function createMisusableLogger(dummyLogger) {
             config.simpleLogger = dummyLogger;
             const logger = new Logger(config, 'test');
@@ -154,7 +154,7 @@ describe('Logger is usable:', () => {
     });
 });
 
-/* eslint-disable no-multi-spaces, max-len */
+ 
 describe('Logger can log as specified by the log level', () => {
     it('Trace level does not filter trace level out',   filterGenerator('trace', 'trace'));
     it('Trace level does not filter debug level out',   filterGenerator('trace', 'debug'));
@@ -198,4 +198,4 @@ describe('Logger can log as specified by the log level', () => {
     it('Fatal level filters error level out',           filterGenerator('fatal', 'error'));
     it('Fatal level does not filter fatal level out',   filterGenerator('fatal', 'fatal'));
 });
-/* eslint-enable no-multi-spaces, max-len */
+ 

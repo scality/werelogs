@@ -4,10 +4,8 @@ const { execFile } = require('child_process');
 const stderrUtils = require('../../lib/stderrUtils');
 
 /** Simple regex for ISO YYYY-MM-DDThh:mm:ss.sssZ */
-// eslint-disable-next-line max-len
 const defaultDateRegex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+(?:[+-][0-2]\d:[0-5]\d|Z)/;
 
-// eslint-disable-next-line valid-jsdoc
 /** another format: Tue, 31 Dec 2024 10:20:30 GMT */
 const customDate = () => new Date('2024-12-31T10:20:30.444Z').toUTCString();
 

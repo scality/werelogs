@@ -14,9 +14,17 @@ stderrUtils.catchAndTimestampWarning(
 
 const warning = new Error('TestWarningMessage');
 
-if (name) warning.name = name;
-if (code) warning.code = code;
-if (detail) warning.detail = detail;
+if (name) {
+    warning.name = name;
+}
+
+if (code) {
+    warning.code = code;
+}
+
+if (detail) {
+    warning.detail = detail;
+}
 
 process.emitWarning(warning);
 

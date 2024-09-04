@@ -1,12 +1,11 @@
-
-// eslint-disable-line strict
+ 
 
 const assert = require('assert');
 const { PassThrough } = require('stream');
 
 const pass = new PassThrough();
 
-const werelogs = require('werelogs'); // eslint-disable-line
+const werelogs = require('werelogs');  
 
 // With PassThrough, SimpleLogger can use it as Writeable stream and all the
 // data being written can be read into a variable
