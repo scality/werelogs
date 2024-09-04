@@ -37,18 +37,11 @@
     "safe-json-stringify": "^1.2.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.25.1",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-scality": "scality/Guidelines#8.2.1",
-    "eslint-plugin-import": "^2.30.0",
-    "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-react": "^7.35.1",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "jsdoc": "^4.0.3",
-    "markdownlint-cli": "^0.37.0",
+    "eslint": "^9.9.1",
+    "eslint-config-scality": "git+https://github.com/scality/Guidelines#55744570f79c95d2b15ed3c9e47b884a5cacb98e",
+    "markdownlint-cli": "^0.41.0",
     "mocha": "^10.7.3",
-    "nyc": "^15.1.0"
+    "nyc": "^17.0.0"
   },
   "resolutions": {
     "braces": "^3.0.3",
