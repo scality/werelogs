@@ -1,4 +1,4 @@
-const Werelogs = require('werelogs').Logger;   
+const Werelogs = require('werelogs').Logger;
 
 const log = new Werelogs('test-mod2');
 

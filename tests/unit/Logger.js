@@ -129,7 +129,6 @@ describe('Logger is usable:', () => {
         done();
     });
 
-     
     describe('Does not crash and logs a fatal message when mis-using its logging API', () => {
         const testValues = [
             { desc: 'a string as second argument', args: ['test', 'second-param-string'] },
@@ -137,7 +136,7 @@ describe('Logger is usable:', () => {
             { desc: 'a Number as second argument', args: ['test', 1] },
             { desc: 'more than 2 arguments', args: ['test', 2, 3, 4] },
         ];
-         
+
         function createMisusableLogger(dummyLogger) {
             config.simpleLogger = dummyLogger;
             const logger = new Logger(config, 'test');
@@ -154,7 +153,6 @@ describe('Logger is usable:', () => {
     });
 });
 
- 
 describe('Logger can log as specified by the log level', () => {
     it('Trace level does not filter trace level out',   filterGenerator('trace', 'trace'));
     it('Trace level does not filter debug level out',   filterGenerator('trace', 'debug'));
@@ -198,4 +196,3 @@ describe('Logger can log as specified by the log level', () => {
     it('Fatal level filters error level out',           filterGenerator('fatal', 'error'));
     it('Fatal level does not filter fatal level out',   filterGenerator('fatal', 'fatal'));
 });
- 

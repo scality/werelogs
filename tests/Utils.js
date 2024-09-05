@@ -66,14 +66,12 @@ function genericFilterGenerator(filterLevel, testLevel, createLogger) {
         const logger = createLogger(dummyLogger, filterLevel);
 
         switch (testLevel) {
-         
         case 'trace': logger.trace('test trace'); break;
         case 'debug': logger.debug('test debug'); break;
         case 'info':  logger.info('test info');  break;
         case 'warn':  logger.warn('test warn');  break;
         case 'error': logger.error('test error'); break;
         case 'fatal': logger.fatal('test fatal'); break;
-         
         default:
             done(new Error('Unexpected testLevel name: ', testLevel));
         }
