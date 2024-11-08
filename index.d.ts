@@ -21,6 +21,17 @@ interface LogDictionary {
 }
 
 declare module 'werelogs' {
+
+    class EndLogger {
+        constructor(reqLogger: RequestLogger);
+        trace(msg: string, data?: LogDictionary): void;
+        debug(msg: string, data?: LogDictionary): void;
+        info(msg: string, data?: LogDictionary): void;
+        warn(msg: string, data?: LogDictionary): void;
+        error(msg: string, data?: LogDictionary): void;
+        fatal(msg: string, data?: LogDictionary): void;
+    }
+
     export class RequestLogger {
         constructor(
             logger: any,
@@ -38,6 +49,7 @@ declare module 'werelogs' {
         warn(msg: string, data?: LogDictionary): void;
         error(msg: string, data?: LogDictionary): void;
         fatal(msg: string, data?: LogDictionary): void;
+        end(): EndLogger;
         end(msg: string, data?: LogDictionary): void;
         errorEnd(msg: string, data?:LogDictionary): void;
     }
