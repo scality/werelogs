@@ -30,6 +30,7 @@ declare module 'werelogs' {
         warn(msg: string, data?: LogDictionary): void;
         error(msg: string, data?: LogDictionary): void;
         fatal(msg: string, data?: LogDictionary): void;
+        addDefaultFields(fields: LogDictionary): LogDictionary;
     }
 
     export class RequestLogger {
