@@ -16,7 +16,7 @@ jobs:
         run: sudo apt-get update -q
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
       - name: Install Yarn
         run: npm install -g yarn
       - name: install dependencies
