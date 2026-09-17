@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "eslint": "^9.39.5",
-    "eslint-config-scality": "git+https://github.com/scality/Guidelines#8.3.0",
+    "eslint-config-scality": "git+https://github.com/scality/Guidelines#8.3.3",
     "markdownlint-cli": "^0.48.0",
     "mocha": "^11.8.0",
     "nyc": "^18.0.0"
