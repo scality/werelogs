@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@scality/eslint-config-scality": "scality/Guidelines#8.4.0",
-    "eslint": "^9.39.5",
+    "eslint": "^10.14.0",
     "eslint-plugin-mocha": "^11.3.0",
     "mocha": "^11.8.0",
     "nyc": "^18.0.0",
