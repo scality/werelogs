@@ -9,7 +9,7 @@
   "scripts": {
     "gendoc": "jsdoc $(git ls-files 'lib/*.js') -d doc",
     "lint": "eslint $(git ls-files '*.js')",
-    "lint_md": "markdownlint $(git ls-files '*.md')",
+    "lint_md": "mdlint $(git ls-files '*.md')",
     "prettier:check": "prettier --check .",
     "test": "mocha tests/unit/",
     "ft_test": "(npm pack && cp werelogs-*.tgz tests/functional && cd tests/functional && cp -R ../../node_modules/ node_modules/ && npm install werelogs-*.tgz && ./node_modules/.bin/mocha . multi-modules/ && rm -rf tests/functional/node_modules tests/functional/werelogs-*.tgz tests/functional/*lock*)",
@@ -41,7 +41,6 @@
     "@scality/eslint-config-scality": "scality/Guidelines#8.4.0",
     "eslint": "^9.39.5",
     "eslint-plugin-mocha": "^11.3.0",
-    "markdownlint-cli": "^0.48.0",
     "mocha": "^11.8.0",
     "nyc": "^18.0.0",
     "prettier": "^3.10.1"
