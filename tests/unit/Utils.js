@@ -20,7 +20,7 @@ describe('Utils: generateUid', () => {
             assert.strictEqual(
                 generated[uid],
                 1,
-                `Uid ${uid} was generated ${generated[uid]} ` + 'times: It is not even remotely unique.',
+                `Uid ${uid} was generated ${generated[uid]} times: It is not even remotely unique.`,
             );
             return {};
         });

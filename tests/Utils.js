@@ -54,7 +54,7 @@ function computeBehavior(filterLevel, logLevel, testLevel) {
 
     return {
         value,
-        msg: `Expected ${logLevel} to be called ${value} times with ` + `filter level ${filterLevel}.`,
+        msg: `Expected ${logLevel} to be called ${value} times with filter level ${filterLevel}.`,
     };
 }
 
