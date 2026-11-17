@@ -17,7 +17,7 @@ describe('Utils: generateUid', () => {
     });
     it('generate roughly unique IDs', done => {
         const generated = {};
-        let count = 0;
+        let count;
         for (let i = 0; i < 10000; i += 1) {
             const uid = generateUid();
             count = generated[uid] ? generated[uid] + 1 : 1;
