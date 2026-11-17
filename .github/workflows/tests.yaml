@@ -26,7 +26,7 @@ jobs:
       - name: install dependencies
         run: yarn install --frozen-lockfile
       - name: run lint
-        run: echo "linter is disabled temporarily ()" || yarn run --silent lint -- --max-warnings 0      
+        run: yarn run --silent lint --max-warnings 0
       - name: run lint_md
         run: yarn --silent lint_md
       - name: run test
