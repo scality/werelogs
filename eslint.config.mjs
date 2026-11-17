@@ -5,11 +5,6 @@ import { mocha } from '@scality/eslint-config-scality/testing';
 export default defineConfig(
     ...scality,
     {
-        languageOptions: {
-            ecmaVersion: 2020,
-        },
-    },
-    {
         files: ['**/*.js'],
         languageOptions: {
             sourceType: 'commonjs',
