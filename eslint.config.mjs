@@ -7,7 +7,12 @@ export default defineConfig(
     {
         languageOptions: {
             ecmaVersion: 2020,
-            sourceType: 'script',
+        },
+    },
+    {
+        files: ['**/*.js'],
+        languageOptions: {
+            sourceType: 'commonjs',
         },
     },
     mocha(['tests/**/*.js']),
