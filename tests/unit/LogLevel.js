@@ -9,7 +9,7 @@ function generateValidThrowTest(level) {
                 LogLevel.throwIfInvalid(level);
             },
             Error,
-            'Expected level to be valid and ' + 'the function not to throw an Error.',
+            'Expected level to be valid and the function not to throw an Error.',
         );
         done();
     };
@@ -23,7 +23,7 @@ describe('LogLevel', () => {
                     LogLevel.throwIfInvalid('invalid');
                 },
                 RangeError,
-                'Expected function to throw an Error instance due to ' + 'invalid log level.',
+                'Expected function to throw an Error instance due to invalid log level.',
             );
             done();
         });

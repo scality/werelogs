@@ -18,7 +18,7 @@ pass.on('data', data => {
 });
 
 describe('Config is shared and unique within one API', () => {
-    it('should find all log entries in the RingBuffer with the right ' + 'module name', done => {
+    it('should find all log entries in the RingBuffer with the right module name', done => {
         Werelogs.configure({
             level: 'debug',
             dump: 'fatal',
