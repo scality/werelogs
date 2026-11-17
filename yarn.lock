@@ -162,7 +162,7 @@
     "@babel/helper-validator-identifier" "^7.24.7"
     to-fast-properties "^2.0.0"
 
-"@eslint-community/eslint-utils@^4.8.0":
+"@eslint-community/eslint-utils@^4.4.1", "@eslint-community/eslint-utils@^4.8.0":
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.10.1.tgz#8911bd72b2c3640a543609e0400b8c4d2e7e7cb6"
   integrity sha512-cuadcxVFE8sDK6iWJbs8Sn0av2Nrh2QSGQhVlBW9AaAHqHwjWsZHT8LJ4hFGPh7ASBV2deFdM7H/DPjulmh8rg==
@@ -325,6 +325,14 @@
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
+
+"@scality/eslint-config-scality@scality/Guidelines#8.4.0":
+  version "8.4.0"
+  resolved "https://codeload.github.com/scality/Guidelines/tar.gz/578c54385bb359f18043fb626b41699a43347210"
+  dependencies:
+    eslint-config-prettier "^10.1.8"
+    globals "^14.0.0"
+    markdownlint "0.38.0"
 
 "@types/debug@^4.0.0":
   version "4.1.13"
@@ -777,12 +785,18 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-"eslint-config-scality@git+https://github.com/scality/Guidelines#8.3.3":
-  version "8.3.3"
-  resolved "git+https://github.com/scality/Guidelines#4f3f39e7def07df51264bb013e0978f02d110414"
+eslint-config-prettier@^10.1.8:
+  version "10.1.8"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-10.1.8.tgz#15734ce4af8c2778cc32f0b01b37b0b5cd1ecb97"
+  integrity sha512-82GZUjRS0p/jganf6q1rEO25VSoHH0hKPCTrgillPjdI/3bgBhAE1QzHrHTizjpRvy6pGAvKjDJtk2pF9NDq8w==
+
+eslint-plugin-mocha@^11.3.0:
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-11.3.0.tgz#9c8139a9318c54dfa4bfa13afe8c231431abbf12"
+  integrity sha512-anENwrIwmdvunmmssjMn5a4nTd+mYMkqBlwjksxOECcIThLNhefWJIiTWY7pY/arMQFjNwHQjVOZb6pQ9PrLjg==
   dependencies:
-    globals "^14.0.0"
-    markdownlint "0.38.0"
+    "@eslint-community/eslint-utils" "^4.4.1"
+    globals "^15.14.0"
 
 eslint-scope@^8.4.0:
   version "8.4.0"
@@ -1062,6 +1076,11 @@ globals@^14.0.0:
   version "14.0.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-14.0.0.tgz#898d7413c29babcf6bafe56fcadded858ada724e"
   integrity sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==
+
+globals@^15.14.0:
+  version "15.15.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-15.15.0.tgz#7c4761299d41c32b075715a4ce1ede7897ff72a8"
+  integrity sha512-7ACyT3wmyp3I61S4fG682L0VA2RGD9otkqGJIwNUMF1SWUombIIk+af1unuDYgMm082aHYwD+mzJvv9Iu8dsgg==
 
 graceful-fs@^4.1.15:
   version "4.2.11"
