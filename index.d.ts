@@ -21,7 +21,6 @@ interface LogDictionary {
 }
 
 declare module 'werelogs' {
-
     class EndLogger {
         constructor(reqLogger: RequestLogger);
         trace(msg: string, data?: LogDictionary): void;
@@ -39,7 +38,7 @@ declare module 'werelogs' {
             logLevel: string,
             dumpThreshold: string,
             endLevel: string,
-            uids?: string|Array<string>
+            uids?: string | Array<string>,
         );
         getUids(): Array<string>;
         getSerializedUids(): string;
@@ -52,13 +51,13 @@ declare module 'werelogs' {
         fatal(msg: string, data?: LogDictionary): void;
         end(): EndLogger;
         end(msg: string, data?: LogDictionary): void;
-        errorEnd(msg: string, data?:LogDictionary): void;
+        errorEnd(msg: string, data?: LogDictionary): void;
     }
 
     export class Logger {
         name: string;
         constructor(name: string);
-        newRequestLogger(uids?: string|Array<string>): RequestLogger;
+        newRequestLogger(uids?: string | Array<string>): RequestLogger;
         newRequestLoggerFromSerializedUids(uids: string): RequestLogger;
         trace(msg: string, data?: LogDictionary): void;
         debug(msg: string, data?: LogDictionary): void;

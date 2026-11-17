@@ -10,18 +10,15 @@ describe('Config', () => {
     });
 
     it('should work with default configuration', done => {
-        assert.doesNotThrow(
-            () => {
-                config.logger.info('test message');
-            },
-            Error,
-        );
+        assert.doesNotThrow(() => {
+            config.logger.info('test message');
+        }, Error);
         done();
     });
 
     it('log level should be updateable', done => {
         config.update({ level: 'debug' });
-        assert.strictEqual(config.level, 'debug', 'Expected config\'s log level to be updated.');
+        assert.strictEqual(config.level, 'debug', "Expected config's log level to be updated.");
         done();
     });
 
@@ -29,7 +26,7 @@ describe('Config', () => {
         const origDump = config.dump;
         assert.notStrictEqual(origDump, 'warn', 'Expected original config.dump to differ from value to update.');
         config.update({ dump: 'warn' });
-        assert.strictEqual(config.dump, 'warn', 'Expected config\'s dump threshold to be updated.');
+        assert.strictEqual(config.dump, 'warn', "Expected config's dump threshold to be updated.");
         done();
     });
 
@@ -37,7 +34,7 @@ describe('Config', () => {
         const origEnd = config.end;
         assert.notStrictEqual(origEnd, 'trace', 'Expected original config.end to differ from value to update.');
         config.update({ end: 'trace' });
-        assert.strictEqual(config.end, 'trace', 'Expected config\'s end log level to be updated.');
+        assert.strictEqual(config.end, 'trace', "Expected config's end log level to be updated.");
         done();
     });
 

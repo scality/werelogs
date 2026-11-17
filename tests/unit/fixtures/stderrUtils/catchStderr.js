@@ -6,12 +6,8 @@ const exitCode = fromStr(fromStr(process.argv[3], null), undefined);
 
 const { stderrUtils } = require('../../../../index');
 
-stderrUtils.catchAndTimestampStderr(
-    date ? () => date : undefined,
-    exitCode,
-);
+stderrUtils.catchAndTimestampStderr(date ? () => date : undefined, exitCode);
 
 process.emitWarning('TestWarningMessage');
 // This will print warning after printing error before exit
 throw new Error('TestingError');
-

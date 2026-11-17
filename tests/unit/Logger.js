@@ -36,9 +36,8 @@ function checkFields(src, result) {
     });
     assert.ok(Object.prototype.hasOwnProperty.call(result, 'time'));
     // Time field should be current give or take 1s
-    assert.ok((Date.now() - result.time) < 1000);
+    assert.ok(Date.now() - result.time < 1000);
 }
-
 
 describe('Logger is usable:', () => {
     beforeEach(() => {
@@ -46,11 +45,7 @@ describe('Logger is usable:', () => {
     });
 
     it('Cannot be instanciated without parameters', done => {
-        assert.throws(
-            () => new Logger(),
-            TypeError,
-            'Logger Instanciation should not succeed without parameter.',
-        );
+        assert.throws(() => new Logger(), TypeError, 'Logger Instanciation should not succeed without parameter.');
         done();
     });
 
@@ -100,17 +95,12 @@ describe('Logger is usable:', () => {
                 logger.newRequestLogger();
             },
             Error,
-             
+
             'Werelogs should not throw when creating a request logger from a Serialized UID Array.',
         );
-        const reqLogger = logger.newRequestLoggerFromSerializedUids(
-            'OneUID:SecondUID:TestUID:YouWinUID',
-        );
+        const reqLogger = logger.newRequestLoggerFromSerializedUids('OneUID:SecondUID:TestUID:YouWinUID');
         assert(reqLogger instanceof RequestLogger, 'RequestLogger');
-        assert.deepStrictEqual(
-            reqLogger.getUids().slice(0, -1),
-            ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID'],
-        );
+        assert.deepStrictEqual(reqLogger.getUids().slice(0, -1), ['OneUID', 'SecondUID', 'TestUID', 'YouWinUID']);
         done();
     });
 
@@ -132,7 +122,7 @@ describe('Logger is usable:', () => {
     describe('Does not crash and logs a fatal message when mis-using its logging API', () => {
         const testValues = [
             { desc: 'a string as second argument', args: ['test', 'second-param-string'] },
-            { desc: 'a function as second argument', args: ['test', () => { }] },  
+            { desc: 'a function as second argument', args: ['test', () => {}] },
             { desc: 'a Number as second argument', args: ['test', 1] },
             { desc: 'more than 2 arguments', args: ['test', 2, 3, 4] },
         ];
@@ -145,54 +135,51 @@ describe('Logger is usable:', () => {
 
         for (let i = 0; i < testValues.length; i += 1) {
             const test = testValues[i];
-            it(
-                `Does not crash with ${test.desc}`,
-                loggingMisuseGenerator(test, createMisusableLogger),
-            );
+            it(`Does not crash with ${test.desc}`, loggingMisuseGenerator(test, createMisusableLogger));
         }
     });
 });
 
 describe('Logger can log as specified by the log level', () => {
-    it('Trace level does not filter trace level out',   filterGenerator('trace', 'trace'));
-    it('Trace level does not filter debug level out',   filterGenerator('trace', 'debug'));
-    it('Trace level does not filter info level out',    filterGenerator('trace', 'info'));
-    it('Trace level does not filter warn level out',    filterGenerator('trace', 'warn'));
-    it('Trace level does not filter error level out',   filterGenerator('trace', 'error'));
-    it('Trace level does not filter fatal level out',   filterGenerator('trace', 'fatal'));
+    it('Trace level does not filter trace level out', filterGenerator('trace', 'trace'));
+    it('Trace level does not filter debug level out', filterGenerator('trace', 'debug'));
+    it('Trace level does not filter info level out', filterGenerator('trace', 'info'));
+    it('Trace level does not filter warn level out', filterGenerator('trace', 'warn'));
+    it('Trace level does not filter error level out', filterGenerator('trace', 'error'));
+    it('Trace level does not filter fatal level out', filterGenerator('trace', 'fatal'));
 
-    it('Debug level filters trace level out',           filterGenerator('debug', 'trace'));
-    it('Debug level does not filter debug level out',   filterGenerator('debug', 'debug'));
-    it('Debug level does not filter info level out',    filterGenerator('debug', 'info'));
-    it('Debug level does not filter warn level out',    filterGenerator('debug', 'warn'));
-    it('Debug level does not filter error level out',   filterGenerator('debug', 'error'));
-    it('Debug level does not filter fatal level out',   filterGenerator('debug', 'fatal'));
+    it('Debug level filters trace level out', filterGenerator('debug', 'trace'));
+    it('Debug level does not filter debug level out', filterGenerator('debug', 'debug'));
+    it('Debug level does not filter info level out', filterGenerator('debug', 'info'));
+    it('Debug level does not filter warn level out', filterGenerator('debug', 'warn'));
+    it('Debug level does not filter error level out', filterGenerator('debug', 'error'));
+    it('Debug level does not filter fatal level out', filterGenerator('debug', 'fatal'));
 
-    it('Info level filters trace level out',            filterGenerator('info', 'trace'));
-    it('Info level filters debug level out',            filterGenerator('info', 'debug'));
-    it('Info level does not filter info level out',     filterGenerator('info', 'info'));
-    it('Info level does not filter warn level out',     filterGenerator('info', 'warn'));
-    it('Info level does not filter error level out',    filterGenerator('info', 'error'));
-    it('Info level does not filter fatal level out',    filterGenerator('info', 'fatal'));
+    it('Info level filters trace level out', filterGenerator('info', 'trace'));
+    it('Info level filters debug level out', filterGenerator('info', 'debug'));
+    it('Info level does not filter info level out', filterGenerator('info', 'info'));
+    it('Info level does not filter warn level out', filterGenerator('info', 'warn'));
+    it('Info level does not filter error level out', filterGenerator('info', 'error'));
+    it('Info level does not filter fatal level out', filterGenerator('info', 'fatal'));
 
-    it('Warning level filters trace level out',         filterGenerator('warn', 'trace'));
-    it('Warning level filters debug level out',         filterGenerator('warn', 'debug'));
-    it('Warning level filters info level out',          filterGenerator('warn', 'info'));
-    it('Warning level does not filter warn level out',  filterGenerator('warn', 'warn'));
+    it('Warning level filters trace level out', filterGenerator('warn', 'trace'));
+    it('Warning level filters debug level out', filterGenerator('warn', 'debug'));
+    it('Warning level filters info level out', filterGenerator('warn', 'info'));
+    it('Warning level does not filter warn level out', filterGenerator('warn', 'warn'));
     it('Warning level does not filter error level out', filterGenerator('warn', 'error'));
     it('Warning level does not filter fatal level out', filterGenerator('warn', 'fatal'));
 
-    it('Error level filters trace level out',           filterGenerator('error', 'trace'));
-    it('Error level filters debug level out',           filterGenerator('error', 'debug'));
-    it('Error level filters info level out',            filterGenerator('error', 'info'));
-    it('Error level filters warn level out',            filterGenerator('error', 'warn'));
-    it('Error level does not filter error level out',   filterGenerator('error', 'error'));
-    it('Error level does not filter fatal level out',   filterGenerator('error', 'fatal'));
+    it('Error level filters trace level out', filterGenerator('error', 'trace'));
+    it('Error level filters debug level out', filterGenerator('error', 'debug'));
+    it('Error level filters info level out', filterGenerator('error', 'info'));
+    it('Error level filters warn level out', filterGenerator('error', 'warn'));
+    it('Error level does not filter error level out', filterGenerator('error', 'error'));
+    it('Error level does not filter fatal level out', filterGenerator('error', 'fatal'));
 
-    it('Fatal level filters trace level out',           filterGenerator('fatal', 'trace'));
-    it('Fatal level filters debug level out',           filterGenerator('fatal', 'debug'));
-    it('Fatal level filters info level out',            filterGenerator('fatal', 'info'));
-    it('Fatal level filters warn level out',            filterGenerator('fatal', 'warn'));
-    it('Fatal level filters error level out',           filterGenerator('fatal', 'error'));
-    it('Fatal level does not filter fatal level out',   filterGenerator('fatal', 'fatal'));
+    it('Fatal level filters trace level out', filterGenerator('fatal', 'trace'));
+    it('Fatal level filters debug level out', filterGenerator('fatal', 'debug'));
+    it('Fatal level filters info level out', filterGenerator('fatal', 'info'));
+    it('Fatal level filters warn level out', filterGenerator('fatal', 'warn'));
+    it('Fatal level filters error level out', filterGenerator('fatal', 'error'));
+    it('Fatal level does not filter fatal level out', filterGenerator('fatal', 'fatal'));
 });

@@ -54,8 +54,7 @@ function computeBehavior(filterLevel, logLevel, testLevel) {
 
     return {
         value,
-        msg: `Expected ${logLevel} to be called ${value} times with `
-             + `filter level ${filterLevel}.`,
+        msg: `Expected ${logLevel} to be called ${value} times with ` + `filter level ${filterLevel}.`,
     };
 }
 
@@ -66,14 +65,26 @@ function genericFilterGenerator(filterLevel, testLevel, createLogger) {
         const logger = createLogger(dummyLogger, filterLevel);
 
         switch (testLevel) {
-        case 'trace': logger.trace('test trace'); break;
-        case 'debug': logger.debug('test debug'); break;
-        case 'info':  logger.info('test info');  break;
-        case 'warn':  logger.warn('test warn');  break;
-        case 'error': logger.error('test error'); break;
-        case 'fatal': logger.fatal('test fatal'); break;
-        default:
-            done(new Error('Unexpected testLevel name: ', testLevel));
+            case 'trace':
+                logger.trace('test trace');
+                break;
+            case 'debug':
+                logger.debug('test debug');
+                break;
+            case 'info':
+                logger.info('test info');
+                break;
+            case 'warn':
+                logger.warn('test warn');
+                break;
+            case 'error':
+                logger.error('test error');
+                break;
+            case 'fatal':
+                logger.fatal('test fatal');
+                break;
+            default:
+                done(new Error('Unexpected testLevel name: ', testLevel));
         }
 
         retObj = computeBehavior(filterLevel, 'trace', testLevel);
@@ -104,11 +115,7 @@ function loggingMisuseGenerator(test, createLogger) {
             Error,
             `Werelogs should not throw with ${test.desc}`,
         );
-        assert(
-            dummyLogger.ops[0][0],
-            'fatal',
-            'Expected the Module Logger to have logged a fatal message.',
-        );
+        assert(dummyLogger.ops[0][0], 'fatal', 'Expected the Module Logger to have logged a fatal message.');
         done();
     };
 }

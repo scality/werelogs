@@ -17,10 +17,12 @@ pass.on('data', data => {
 werelogs.configure({
     level: 'info',
     dump: 'error',
-    streams: [{
-        stream: pass,
-        type: 'raw',
-    }],
+    streams: [
+        {
+            stream: pass,
+            type: 'raw',
+        },
+    ],
 });
 
 function createModuleLogger() {

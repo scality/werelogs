@@ -42,8 +42,8 @@ might have already lost quite a bit of priceless information about the error
 encountered, and the code path the request went through. To address this, we
 offer multiple features:
 
-* [Request ID namespacing](###Request ID namespacing)
-* [Request unit Logs](###Request unit Logs)
+- [Request ID namespacing](###Request ID namespacing)
+- [Request unit Logs](###Request unit Logs)
 
 ### Request ID namespacing
 
@@ -56,7 +56,7 @@ performance impacts, etc.).
 
 Thus, instead of wielding one single request ID, WereLogs is able to manage
 a list of IDs, interpreted as a namespacing of IDs. For instance, if we assume
-that a front-end service generated the ID ```CAFEBABE2549```, any service
+that a front-end service generated the ID `CAFEBABE2549`, any service
 called upon would generate their own request IDs namespaces by this first
 unique ID that identifies the higher-level request.
 

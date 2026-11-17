@@ -7,10 +7,7 @@ const promise = fromStr(process.argv[4], true);
 
 const { stderrUtils } = require('../../../../index');
 
-stderrUtils.catchAndTimestampUncaughtException(
-    date ? () => date : undefined,
-    exitCode,
-);
+stderrUtils.catchAndTimestampUncaughtException(date ? () => date : undefined, exitCode);
 
 // Executed if process does not exit, process is in undefined behavior (bad)
 // eslint-disable-next-line no-console

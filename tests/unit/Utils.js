@@ -1,18 +1,11 @@
-
 const assert = require('assert');
 
-const {
-    generateUid, serializeUids, unserializeUids, objectCopy,
-} = require('../../lib/Utils');
+const { generateUid, serializeUids, unserializeUids, objectCopy } = require('../../lib/Utils');
 
 describe('Utils: generateUid', () => {
     it('generates a string-typed ID', done => {
         const uid = generateUid();
-        assert.strictEqual(
-            typeof uid,
-            'string',
-            `The generated ID is not a String (${typeof uid})`,
-        );
+        assert.strictEqual(typeof uid, 'string', `The generated ID is not a String (${typeof uid})`);
         done();
     });
     it('generate roughly unique IDs', done => {
@@ -27,8 +20,7 @@ describe('Utils: generateUid', () => {
             assert.strictEqual(
                 generated[uid],
                 1,
-                `Uid ${uid} was generated ${generated[uid]} `
-                               + 'times: It is not even remotely unique.',
+                `Uid ${uid} was generated ${generated[uid]} ` + 'times: It is not even remotely unique.',
             );
             return {};
         });
@@ -51,11 +43,7 @@ describe('Utils: serializeUids', () => {
     it('unserializes the expected number of UIDs', done => {
         const refUidList = ['FirstUID', 'SecondUID', 'ThirdUID'];
         const unserializedUIDs = unserializeUids('FirstUID:SecondUID:ThirdUID');
-        assert.deepStrictEqual(
-            unserializedUIDs,
-            refUidList,
-            'Unserialized UID List should match expected value.',
-        );
+        assert.deepStrictEqual(unserializedUIDs, refUidList, 'Unserialized UID List should match expected value.');
         done();
     });
 });
@@ -71,46 +59,35 @@ describe('Utils: objectCopy', () => {
             value: { a: 1, b: 2, c: 3 },
         };
         objectCopy(target, source);
-        assert.deepStrictEqual(
-            target,
-            result,
-            'target should have the same properties as source',
-        );
+        assert.deepStrictEqual(target, result, 'target should have the same properties as source');
         done();
     });
 
-    it(
-        'copies all the properties from multiple sources to target object',
-        done => {
-            const target = { foo: 'bar' };
-            const source1 = {
-                id: 1,
-                name: 'demo1',
-                value: { a: 1, b: 2, c: 3 },
-            };
-            const source2 = {
-                // eslint-disable-next-line camelcase
-                req_id: 2,
-                method: 'test',
-                err: { code: 'error', msg: 'test' },
-            };
-            const result = {
-                foo: 'bar',
-                id: 1,
-                name: 'demo1',
-                value: { a: 1, b: 2, c: 3 },
-                // eslint-disable-next-line camelcase
-                req_id: 2,
-                method: 'test',
-                err: { code: 'error', msg: 'test' },
-            };
-            objectCopy(target, source1, source2);
-            assert.deepStrictEqual(
-                target,
-                result,
-                'target should have the same properties as source',
-            );
-            done();
-        },
-    );
+    it('copies all the properties from multiple sources to target object', done => {
+        const target = { foo: 'bar' };
+        const source1 = {
+            id: 1,
+            name: 'demo1',
+            value: { a: 1, b: 2, c: 3 },
+        };
+        const source2 = {
+            // eslint-disable-next-line camelcase
+            req_id: 2,
+            method: 'test',
+            err: { code: 'error', msg: 'test' },
+        };
+        const result = {
+            foo: 'bar',
+            id: 1,
+            name: 'demo1',
+            value: { a: 1, b: 2, c: 3 },
+            // eslint-disable-next-line camelcase
+            req_id: 2,
+            method: 'test',
+            err: { code: 'error', msg: 'test' },
+        };
+        objectCopy(target, source1, source2);
+        assert.deepStrictEqual(target, result, 'target should have the same properties as source');
+        done();
+    });
 });

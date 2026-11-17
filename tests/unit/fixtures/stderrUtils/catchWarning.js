@@ -8,9 +8,7 @@ const detail = fromStr(process.argv[5], undefined);
 
 const { stderrUtils } = require('../../../../index');
 
-stderrUtils.catchAndTimestampWarning(
-    date ? () => date : undefined,
-);
+stderrUtils.catchAndTimestampWarning(date ? () => date : undefined);
 
 const warning = new Error('TestWarningMessage');
 

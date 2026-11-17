@@ -6,11 +6,7 @@ const module1 = require('./module1');
 const module2 = require('./module2');
 const module3 = require('./module3');
 
-const modules = [
-    module1,
-    module2,
-    module3,
-];
+const modules = [module1, module2, module3];
 
 const pass = new PassThrough();
 
@@ -22,18 +18,21 @@ pass.on('data', data => {
 });
 
 describe('Config is shared and unique within one API', () => {
-    it('should find all log entries in the RingBuffer with the right '
-       + 'module name', done => {
+    it('should find all log entries in the RingBuffer with the right ' + 'module name', done => {
         Werelogs.configure({
             level: 'debug',
             dump: 'fatal',
-            streams: [{
-                type: 'raw',
-                stream: pass,
-            }],
+            streams: [
+                {
+                    type: 'raw',
+                    stream: pass,
+                },
+            ],
         });
         const log = new Werelogs.Logger('test-index');
-        modules.forEach(mod => { mod(); });
+        modules.forEach(mod => {
+            mod();
+        });
         log.warn('Logging as warn');
         const rLog = log.newRequestLogger();
         rLog.info('Logging request as info');

@@ -63,10 +63,13 @@ describe('SimpleLogger Error serialization', () => {
 
     it('serializes Errors nested inside other fields', () => {
         const [entry] = captureLog(log => {
-            log.error({
-                // eslint-disable-next-line camelcase
-                healthStatus: { aws_location: { error: new Error('down') } },
-            }, 'nested');
+            log.error(
+                {
+                    // eslint-disable-next-line camelcase
+                    healthStatus: { aws_location: { error: new Error('down') } },
+                },
+                'nested',
+            );
         });
 
         assert.strictEqual(entry.healthStatus.aws_location.error.message, 'down');
